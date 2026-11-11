@@ -75,7 +75,8 @@
   <select id="selProv" title="选择省份"></select>
   <select id="selCity" title="选择城市"></select>
   <select id="selBird" title="按鸟种筛选"></select>
-  <label title="显示地名/POI"><input type="checkbox" id="showLabelChk">地名</label>
+  <label title="只显示地名标注（不含路网）"><input type="checkbox" id="showLabelChk">地名</label>
+  <label title="显示高德路网（自带地名）"><input type="checkbox" id="showRoadChk">路网</label>
   <label title="不按缩放隐藏点位"><input type="checkbox" id="showAll">全部</label>
   <button id="btnRank" type="button">推荐</button>
   <span class="info" id="pickInfo"></span>
@@ -311,12 +312,30 @@ function startMap() {
   chart.setOption(option);
 
   var amap = chart.getModel().getComponent('amap').getAMap();
-  var satellite = new AMap.TileLayer.Satellite();
-  var roadnet = new AMap.TileLayer.RoadNet();
+  var satellite = new AMap.TileLayer.Satellite({ zIndex: 100 });
+  var roadnet = new AMap.TileLayer.RoadNet({ zIndex: 210 });
   amap.add(satellite);
-  // 卫星影像本身不含地名；地名/路网来自 RoadNet 图层
-  var roadnetOn = false;
-  try { amap.setStatus({ showLabel: false }); } catch (e) {}
+
+  // 纯地名图层：高德注记瓦片（style=8），不含路网
+  var labelLayer = null;
+  (function() {
+    var opts = {
+      zIndex: 200,
+      getTileUrl: function(x, y, z) {
+        var s = ((x + y) % 4) + 1;
+        return 'https://webrd0' + s + '.is.autonavi.com/appmaptile'
+          + '?lang=zh_cn&size=1&scale=1&style=8&x=' + x + '&y=' + y + '&z=' + z;
+      }
+    };
+    // v2 推荐 Flexible，旧版本回退到 TileLayer
+    try {
+      if (AMap.TileLayer.Flexible) { labelLayer = new AMap.TileLayer.Flexible(opts); }
+    } catch (e) {}
+    if (!labelLayer) {
+      try { labelLayer = new AMap.TileLayer(opts); } catch (e) {}
+    }
+  })();
+
   amap.addControl(new AMap.Scale());
   amap.addControl(new AMap.ToolBar());
 
@@ -330,33 +349,45 @@ function startMap() {
   var pickInfo = document.getElementById('pickInfo');
   var showAll = document.getElementById('showAll');
   var showLabelChk = document.getElementById('showLabelChk');
+  var showRoadChk = document.getElementById('showRoadChk');
   var btnRank = document.getElementById('btnRank');
   var rankPanel = document.getElementById('rankPanel');
   var rankList = document.getElementById('rankList');
 
   try {
-    showAll.checked = localStorage.getItem('birdmap_show_all') === '1';
+    showAll.checked = localStorage.getItem('birdmap_show_all') !== '0';
     showLabelChk.checked = localStorage.getItem('birdmap_show_label') === '1';
+    showRoadChk.checked = localStorage.getItem('birdmap_show_road') === '1';
   } catch (e) {}
   showAll.addEventListener('change', function() {
     try { localStorage.setItem('birdmap_show_all', showAll.checked ? '1' : '0'); } catch (e) {}
     refreshSeries(amap.getZoom());
   });
 
-  function applyLabelVisibility() {
-    var show = !!showLabelChk.checked;
-    if (show !== roadnetOn) {
-      try { if (show) { amap.add(roadnet); } else { amap.remove(roadnet); } } catch (e) {}
-      roadnetOn = show;
-    }
-    try { amap.setStatus({ showLabel: show }); } catch (e) {}
-    try { amap.setFeatures(show ? ['bg', 'point', 'road', 'building'] : ['bg']); } catch (e) {}
+  var layerState = { label: false, road: false };
+  function setLayer(layer, on, key) {
+    if (!layer || layerState[key] === on) return;
+    try {
+      if (on) { amap.add(layer); } else { amap.remove(layer); }
+      layerState[key] = on;
+    } catch (e) {}
+  }
+  function applyLayerVisibility() {
+    var showLabels = !!showLabelChk.checked;
+    var showRoads = !!showRoadChk.checked;
+    // 路网自带地名：开启路网时不再叠加纯地名层，避免重复
+    setLayer(labelLayer, showLabels && !showRoads, 'label');
+    setLayer(roadnet, showRoads, 'road');
   }
   showLabelChk.addEventListener('change', function() {
     try { localStorage.setItem('birdmap_show_label', showLabelChk.checked ? '1' : '0'); } catch (e) {}
-    applyLabelVisibility();
+    applyLayerVisibility();
   });
-  applyLabelVisibility();
+  showRoadChk.addEventListener('change', function() {
+    try { localStorage.setItem('birdmap_show_road', showRoadChk.checked ? '1' : '0'); } catch (e) {}
+    applyLayerVisibility();
+  });
+  applyLayerVisibility();
 
   function zoomForSpan(span) {
     if (span <= 0) return 13;
@@ -546,6 +577,7 @@ function startMap() {
     meta += '<br/>独有鸟种：' + (d.uniqueCount || 0) + ' 种';
     if (d.coverRank) {
       meta += '<br/>市内补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
+      meta += d.coverRank === 1 ? ' · 金色描边' : ' · 深色描边';
     }
     if (d.dates) meta += '<br/>记录时间：' + d.dates;
     meta += '<br/><span style="color:' + d.groupColor + ';font-size:14px;">●</span> ' +
