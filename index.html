@@ -14,11 +14,22 @@
   #boot .tip{margin-top:22px;max-width:86vw;font-size:13px;color:#777;line-height:1.8;text-align:center;}
 
 
-  #picker{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.95);border-radius:7px;padding:6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;color:#333;max-width:calc(100vw - 24px);}
+  #picker{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,.95);border-radius:7px;padding:6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;color:#333;max-width:calc(100vw - 24px);}
   #picker select{max-width:132px;font-size:12px;padding:2px 4px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;}
   #picker .info{color:#888;font-size:11px;white-space:nowrap;}
   #picker label{display:flex;align-items:center;gap:3px;font-size:11px;color:#555;white-space:nowrap;cursor:pointer;}
   #picker label input{width:13px;height:13px;margin:0;}
+  #picker button{font-size:11px;padding:2px 8px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;cursor:pointer;}
+  #picker button:hover{border-color:#999;}
+  #rankPanel{display:none;position:fixed;right:12px;top:96px;z-index:9998;width:268px;max-height:50vh;overflow-y:auto;background:rgba(255,255,255,.97);border-radius:8px;box-shadow:0 4px 18px rgba(0,0,0,.18);padding:8px 10px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;color:#333;}
+  #rankPanel .rank-head{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:6px;}
+  #rankPanel .rank-close{cursor:pointer;color:#999;font-weight:400;padding:0 4px;font-size:16px;}
+  #rankPanel .rank-close:hover{color:#c62828;}
+  #rankPanel .item{display:flex;gap:6px;padding:4px 2px;border-bottom:1px solid #f0f0f0;cursor:pointer;align-items:center;}
+  #rankPanel .item:hover{background:#f7f7f7;}
+  #rankPanel .no{color:#c62828;font-weight:700;width:20px;flex-shrink:0;}
+  #rankPanel .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #rankPanel .gain{color:#888;white-space:nowrap;font-size:11px;}
 
   #subtitle{position:fixed;left:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.85);border-radius:6px;padding:4px 8px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11px;color:#555;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   #missing{position:fixed;right:12px;bottom:12px;z-index:9997;background:rgba(255,243,224,.92);color:#e65100;border-radius:6px;padding:4px 8px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11px;box-shadow:0 2px 8px rgba(0,0,0,.12);}
@@ -38,6 +49,7 @@
   #birdPanel .legend{margin-top:10px;color:#999;font-size:12px;}
 
   @media (max-width:600px){
+    #rankPanel{left:6px;right:6px;width:auto;top:104px;max-height:40vh;}
     #picker{left:6px;right:6px;top:6px;justify-content:center;padding:5px 6px;}
     #picker select{max-width:38vw;}
     #subtitle{left:6px;bottom:6px;max-width:40vw;}
@@ -62,8 +74,16 @@
 <div id="picker">
   <select id="selProv" title="选择省份"></select>
   <select id="selCity" title="选择城市"></select>
+  <select id="selBird" title="按鸟种筛选"></select>
+  <label title="显示地名/POI"><input type="checkbox" id="showLabelChk">地名</label>
   <label title="不按缩放隐藏点位"><input type="checkbox" id="showAll">全部</label>
+  <button id="btnRank" type="button">推荐</button>
   <span class="info" id="pickInfo"></span>
+</div>
+
+<div id="rankPanel">
+  <div class="rank-head">市内补点顺序 <span class="rank-close" id="rankClose">×</span></div>
+  <div id="rankList"></div>
 </div>
 
 <div id="subtitle">Loratadine · 近 7 天（11-05 ~ 11-12） · 广东省 · 记录时间见点位面板</div>
@@ -275,6 +295,7 @@ function startMap() {
       viewMode: '2D',
       resizeEnable: true,
       mapStyle: 'amap://styles/normal',
+      showLabel: false,
       renderOnMoving: true,
       echartsLayerZIndex: 2019
     },
@@ -291,6 +312,9 @@ function startMap() {
   var amap = chart.getModel().getComponent('amap').getAMap();
   var satellite = new AMap.TileLayer.Satellite();
   amap.add(satellite);
+  // 卫星图下隐藏地名/POI/路网，避免干扰鸟点
+  try { amap.setStatus({ showLabel: false }); } catch (e) {}
+  try { amap.setFeatures(['bg']); } catch (e) {}
   amap.addControl(new AMap.Scale());
   amap.addControl(new AMap.ToolBar());
 
@@ -300,15 +324,33 @@ function startMap() {
 
   var selProv = document.getElementById('selProv');
   var selCity = document.getElementById('selCity');
+  var selBird = document.getElementById('selBird');
   var pickInfo = document.getElementById('pickInfo');
   var showAll = document.getElementById('showAll');
+  var showLabelChk = document.getElementById('showLabelChk');
+  var btnRank = document.getElementById('btnRank');
+  var rankPanel = document.getElementById('rankPanel');
+  var rankList = document.getElementById('rankList');
+
   try {
     showAll.checked = localStorage.getItem('birdmap_show_all') === '1';
+    showLabelChk.checked = localStorage.getItem('birdmap_show_label') === '1';
   } catch (e) {}
   showAll.addEventListener('change', function() {
     try { localStorage.setItem('birdmap_show_all', showAll.checked ? '1' : '0'); } catch (e) {}
     refreshSeries(amap.getZoom());
   });
+
+  function applyLabelVisibility() {
+    var show = !!showLabelChk.checked;
+    try { amap.setStatus({ showLabel: show }); } catch (e) {}
+    try { amap.setFeatures(show ? ['bg', 'point', 'road', 'building'] : ['bg']); } catch (e) {}
+  }
+  showLabelChk.addEventListener('change', function() {
+    try { localStorage.setItem('birdmap_show_label', showLabelChk.checked ? '1' : '0'); } catch (e) {}
+    applyLabelVisibility();
+  });
+  applyLabelVisibility();
 
   function zoomForSpan(span) {
     if (span <= 0) return 13;
@@ -333,6 +375,28 @@ function startMap() {
     return 10;
   }
 
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function renderRankPanel() {
+    var ranked = currentList.filter(function(d) { return d.coverRank; })
+      .sort(function(a, b) { return a.coverRank - b.coverRank; });
+    if (!ranked.length) {
+      rankList.innerHTML = '<div style="color:#999;padding:4px 2px;">当前区域暂无推荐</div>';
+      return;
+    }
+    var html = '';
+    ranked.forEach(function(d) {
+      html += '<div class="item" data-name="' + esc(d.name) + '">' +
+              '<span class="no">#' + d.coverRank + '</span>' +
+              '<span class="nm" title="' + esc(d.name) + '">' + esc(d.name) + '</span>' +
+              '<span class="gain">' + d.value[2] + '种 / +' + d.coverGain + '</span></div>';
+    });
+    rankList.innerHTML = html;
+  }
+
   function refreshSeries(zoom) {
     if (zoom === undefined || zoom === null) zoom = amap.getZoom();
     var th = zoomThreshold(zoom);
@@ -348,15 +412,42 @@ function startMap() {
     pickInfo.textContent = count + ' · 数字=市内补点顺序';
   }
 
+  function populateBirds(region) {
+    var keep = selBird.value;
+    var counts = {};
+    region.forEach(function(d) {
+      uniqSpecies(d).forEach(function(k) { counts[k] = (counts[k] || 0) + 1; });
+    });
+    var names = Object.keys(counts).sort(function(a, b) {
+      return counts[b] - counts[a] || a.localeCompare(b);
+    });
+    selBird.innerHTML = '';
+    var all = document.createElement('option');
+    all.value = ''; all.textContent = '全部鸟种';
+    selBird.appendChild(all);
+    names.forEach(function(n) {
+      var o = document.createElement('option');
+      o.value = n; o.textContent = n + '（' + counts[n] + '）';
+      selBird.appendChild(o);
+    });
+    selBird.value = (keep && counts[keep]) ? keep : '';
+  }
+
   function applyFilter(keepView) {
     var prov = selProv.value, city = selCity.value;
-    currentList = rendered.filter(function(d) {
+    var region = rendered.filter(function(d) {
       if (prov && d.province !== prov) return false;
       if (city && d.city !== city) return false;
       return true;
     });
+    populateBirds(region);
+    var bird = selBird.value;
+    currentList = bird
+      ? region.filter(function(d) { return uniqSpecies(d).indexOf(bird) > -1; })
+      : region;
     computeComplement(currentList);
     currentStyled = styleList(currentList);
+    renderRankPanel();
 
     var opt = { series: [{ data: currentStyled }] };
     var targetZoom = amap.getZoom();
@@ -413,6 +504,7 @@ function startMap() {
     applyFilter(false);
   });
   selCity.addEventListener('change', function() { applyFilter(false); });
+  selBird.addEventListener('change', function() { applyFilter(true); });
   populateCities();
 
   var defaultHit = null;
@@ -493,6 +585,29 @@ function startMap() {
   }, { passive: false });
 
   panel.addEventListener('click', function(e) { e.stopPropagation(); });
+
+  rankList.addEventListener('click', function(e) {
+    var node = e.target;
+    while (node && node !== rankList && !(node.dataset && node.dataset.name)) {
+      node = node.parentNode;
+    }
+    if (!node || node === rankList || !node.dataset) return;
+    var target = null;
+    for (var i = 0; i < currentStyled.length; i++) {
+      if (currentStyled[i].name === node.dataset.name) { target = currentStyled[i]; break; }
+    }
+    if (!target) return;
+    chart.setOption({ amap: { center: [target.value[0], target.value[1]],
+                              zoom: Math.max(amap.getZoom(), 12) } });
+    showPanel(target);
+  });
+
+  btnRank.addEventListener('click', function() {
+    rankPanel.style.display = (rankPanel.style.display === 'block') ? 'none' : 'block';
+  });
+  document.getElementById('rankClose').addEventListener('click', function() {
+    rankPanel.style.display = 'none';
+  });
 
   window.addEventListener('resize', function() { chart.resize(); });
 }
