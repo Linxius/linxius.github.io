@@ -245,13 +245,13 @@ function startMap() {
   }
 
   function symbolSize(count) {
-    return Math.max(13, 10 + Math.sqrt(count) * 5);
+    return Math.max(17, 12 + Math.sqrt(count) * 5.5);
   }
 
   function styleList(list) {
-    var factor = list.length > 3000 ? 0.55
-               : list.length > 1500 ? 0.7
-               : list.length > 800 ? 0.85 : 1;
+    var factor = list.length > 3000 ? 0.7
+               : list.length > 1500 ? 0.8
+               : list.length > 800 ? 0.9 : 1;
     return list.map(function(d) {
       var bi = bucketIndex(d.novelty);
       var color = NOVELTY_BUCKETS[bi].color;
@@ -312,10 +312,11 @@ function startMap() {
 
   var amap = chart.getModel().getComponent('amap').getAMap();
   var satellite = new AMap.TileLayer.Satellite();
+  var roadnet = new AMap.TileLayer.RoadNet();
   amap.add(satellite);
-  // 卫星图下隐藏地名/POI/路网，避免干扰鸟点
+  // 卫星影像本身不含地名；地名/路网来自 RoadNet 图层
+  var roadnetOn = false;
   try { amap.setStatus({ showLabel: false }); } catch (e) {}
-  try { amap.setFeatures(['bg']); } catch (e) {}
   amap.addControl(new AMap.Scale());
   amap.addControl(new AMap.ToolBar());
 
@@ -344,6 +345,10 @@ function startMap() {
 
   function applyLabelVisibility() {
     var show = !!showLabelChk.checked;
+    if (show !== roadnetOn) {
+      try { if (show) { amap.add(roadnet); } else { amap.remove(roadnet); } } catch (e) {}
+      roadnetOn = show;
+    }
     try { amap.setStatus({ showLabel: show }); } catch (e) {}
     try { amap.setFeatures(show ? ['bg', 'point', 'road', 'building'] : ['bg']); } catch (e) {}
   }
