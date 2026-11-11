@@ -13,17 +13,6 @@
   #boot .err{color:#d32f2f;font-weight:600;}
   #boot .tip{margin-top:22px;max-width:86vw;font-size:13px;color:#777;line-height:1.8;text-align:center;}
 
-  #legend{position:fixed;left:12px;top:12px;z-index:9998;background:rgba(255,255,255,.95);border-radius:7px;padding:7px 9px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:10.5px;color:#333;box-shadow:0 3px 12px rgba(0,0,0,.16);line-height:1.45;max-width:210px;max-height:calc(100vh - 24px);overflow-y:auto;}
-  #legend .row{display:flex;align-items:center;gap:5px;font-size:10.5px;}
-  #legend .dot{width:9px;height:9px;border-radius:50%;background:#d32f2f;border:1.5px solid #fff;box-shadow:0 0 0 1px #d32f2f;flex-shrink:0;}
-  #legend .sep{height:1px;background:#eee;margin:4px 0;}
-  #legend .lbl{font-size:10px;color:#666;margin:1px 0 3px;}
-  #legend .sizes{display:flex;align-items:flex-end;gap:6px;margin:1px 0 3px;padding-left:1px;}
-  #legend .sz{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:9px;color:#777;}
-  #legend .sz i{display:block;border-radius:50%;background:#b0b0b0;}
-  #legend .groups{display:flex;flex-direction:column;gap:1px;}
-  #legend .grow{display:flex;align-items:center;gap:4px;font-size:10px;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  #legend .grow i{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
 
   #picker{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,.95);border-radius:7px;padding:6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;color:#333;max-width:calc(100vw - 24px);}
   #picker select{max-width:132px;font-size:12px;padding:2px 4px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;}
@@ -48,8 +37,6 @@
   #birdPanel .legend{margin-top:10px;color:#999;font-size:12px;}
 
   @media (max-width:600px){
-    #legend{left:6px;top:56px;padding:6px 8px;font-size:10px;line-height:1.4;max-width:170px;max-height:42vh;}
-    #legend .sizes{gap:5px;}
     #picker{left:6px;right:6px;top:6px;justify-content:center;padding:5px 6px;}
     #picker select{max-width:38vw;}
     #subtitle{left:6px;bottom:6px;max-width:40vw;}
@@ -75,23 +62,6 @@
   <select id="selProv" title="选择省份"></select>
   <select id="selCity" title="选择城市"></select>
   <span class="info" id="pickInfo"></span>
-</div>
-
-<div id="legend">
-  <div class="row"><span class="dot"></span> 具体点位</div>
-  <div class="sep"></div>
-  <div class="lbl">大小 = 新鸟种数</div>
-  <div class="sizes">
-    <span class="sz"><i style="width:9px;height:9px"></i>1</span>
-    <span class="sz"><i style="width:14px;height:14px"></i>7</span>
-    <span class="sz"><i style="width:19px;height:19px"></i>18</span>
-    <span class="sz"><i style="width:24px;height:24px"></i>34</span>
-    <span class="sz"><i style="width:28px;height:28px"></i>49</span>
-  </div>
-  <div class="sep"></div>
-  <div class="lbl" id="colorLbl">颜色 = 互补价值</div>
-  <div class="lbl" style="color:#999;">缩小地图自动隐藏少量鸟点</div>
-  <div class="groups" id="groupLegend"></div>
 </div>
 
 <div id="subtitle">Loratadine · 近 7 天（11-05 ~ 11-12） · 东营市 · 记录时间见点位面板</div>
@@ -257,7 +227,6 @@ function startMap() {
   }
 
   function styleList(list) {
-    var showLabels = list.length <= 200;
     var factor = list.length > 3000 ? 0.55
                : list.length > 1500 ? 0.7
                : list.length > 800 ? 0.85 : 1;
@@ -278,16 +247,7 @@ function startMap() {
         shadowBlur: 6,
         shadowColor: 'rgba(0,0,0,0.4)'
       };
-      item.label = {
-        show: showLabels,
-        formatter: d.value[2],
-        position: 'right',
-        fontSize: 10,
-        color: '#fff',
-        fontWeight: 'bold',
-        textBorderColor: '#000',
-        textBorderWidth: 2
-      };
+      item.label = { show: false };
       return item;
     });
   }
@@ -324,7 +284,6 @@ function startMap() {
   // ---- 当前状态 ----
   var currentList = [];     // 区域过滤后的原始点位
   var currentStyled = [];
-  var currentBuckets = [0, 0, 0, 0, 0, 0];
 
   var selProv = document.getElementById('selProv');
   var selCity = document.getElementById('selCity');
@@ -365,16 +324,6 @@ function startMap() {
       : (list.length + ' / ' + currentList.length + ' 点');
   }
 
-  function renderLegend() {
-    document.getElementById('colorLbl').textContent = '颜色 = 互补价值';
-    var html = '';
-    NOVELTY_BUCKETS.forEach(function(b, i) {
-      html += '<div class="grow"><i style="background:' + b.color + '"></i>' +
-              b.label + '·' + currentBuckets[i] + '点</div>';
-    });
-    document.getElementById('groupLegend').innerHTML = html;
-  }
-
   function applyFilter(keepView) {
     var prov = selProv.value, city = selCity.value;
     currentList = rendered.filter(function(d) {
@@ -383,10 +332,7 @@ function startMap() {
       return true;
     });
     computeComplement(currentList);
-    currentBuckets = [0, 0, 0, 0, 0, 0];
-    currentList.forEach(function(d) { currentBuckets[bucketIndex(d.novelty)]++; });
     currentStyled = styleList(currentList);
-    renderLegend();
 
     var opt = { series: [{ data: currentStyled }] };
     var targetZoom = amap.getZoom();
