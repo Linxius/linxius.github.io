@@ -267,9 +267,9 @@ function startMap() {
       item.itemStyle = {
         color: color,
         opacity: 1,
-        borderColor: top ? (d.coverRank === 1 ? '#ffd54f' : '#222222') : '#ffffff',
-        borderWidth: top ? (d.coverRank === 1 ? 3.5 : 2.5) : 2,
-        shadowBlur: top ? 12 : 9,
+        borderColor: '#ffffff',
+        borderWidth: 2,
+        shadowBlur: 9,
         shadowColor: 'rgba(0,0,0,0.6)'
       };
       // 只给市内推荐的前 10 个点显示顺序号（1 = 新鸟最多）
@@ -577,7 +577,6 @@ function startMap() {
     meta += '<br/>独有鸟种：' + (d.uniqueCount || 0) + ' 种';
     if (d.coverRank) {
       meta += '<br/>市内补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
-      meta += d.coverRank === 1 ? ' · 金色描边' : ' · 深色描边';
     }
     if (d.dates) meta += '<br/>记录时间：' + d.dates;
     meta += '<br/><span style="color:' + d.groupColor + ';font-size:14px;">●</span> ' +
