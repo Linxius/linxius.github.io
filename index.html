@@ -229,12 +229,12 @@ function startMap() {
 
   // 颜色 = 互补价值（novelty）；大小 = 新鸟种数
   var NOVELTY_BUCKETS = [
-    { min: 3.0,  color: '#b71c1c', label: '≥3 极独特' },
-    { min: 2.0,  color: '#e53935', label: '2 ~ 3' },
-    { min: 1.0,  color: '#fb8c00', label: '1 ~ 2' },
-    { min: 0.5,  color: '#fdd835', label: '0.5 ~ 1' },
-    { min: 0.01, color: '#66bb6a', label: '<0.5' },
-    { min: 0,    color: '#9e9e9e', label: '无独有种' }
+    { min: 3.0,  color: '#d50000', label: '≥3 极独特' },
+    { min: 2.0,  color: '#ff6d00', label: '2 ~ 3' },
+    { min: 1.0,  color: '#ffc400', label: '1 ~ 2' },
+    { min: 0.5,  color: '#64dd17', label: '0.5 ~ 1' },
+    { min: 0.01, color: '#00b0ff', label: '<0.5' },
+    { min: 0,    color: '#b0bec5', label: '无独有种' }
   ];
 
   function bucketIndex(v) {
@@ -245,7 +245,7 @@ function startMap() {
   }
 
   function symbolSize(count) {
-    return Math.max(10, 8 + Math.sqrt(count) * 4.2);
+    return Math.max(13, 10 + Math.sqrt(count) * 5);
   }
 
   function styleList(list) {
@@ -265,10 +265,11 @@ function startMap() {
       var top = d.coverRank && d.coverRank <= 10;
       item.itemStyle = {
         color: color,
-        borderColor: top ? (d.coverRank === 1 ? '#ffd54f' : '#333333') : '#fff',
-        borderWidth: top ? (d.coverRank === 1 ? 3 : 2) : 1.5,
-        shadowBlur: top ? 8 : 6,
-        shadowColor: 'rgba(0,0,0,0.45)'
+        opacity: 1,
+        borderColor: top ? (d.coverRank === 1 ? '#ffd54f' : '#222222') : '#ffffff',
+        borderWidth: top ? (d.coverRank === 1 ? 3.5 : 2.5) : 2,
+        shadowBlur: top ? 12 : 9,
+        shadowColor: 'rgba(0,0,0,0.6)'
       };
       // 只给市内推荐的前 10 个点显示顺序号（1 = 新鸟最多）
       item.label = {
