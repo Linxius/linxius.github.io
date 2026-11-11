@@ -32,6 +32,9 @@
   #rankPanel .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   #rankPanel .gain{color:#888;white-space:nowrap;font-size:11px;}
 
+  #toggles{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.95);border-radius:7px;padding:5px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11.5px;color:#333;}
+  #toggles label{display:flex;align-items:center;gap:3px;cursor:pointer;white-space:nowrap;}
+  #toggles input{width:13px;height:13px;margin:0;}
   #mapType{position:fixed;left:12px;top:12px;z-index:9998;background:rgba(255,255,255,.95);border-radius:7px;padding:5px 7px;box-shadow:0 3px 12px rgba(0,0,0,.16);}
   #mapType select{font-size:12px;padding:2px 4px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;}
   #subtitle{position:fixed;left:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.85);border-radius:6px;padding:4px 8px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11px;color:#555;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -53,6 +56,8 @@
 
   @media (max-width:600px){
     #rankPanel{left:6px;right:6px;width:auto;top:104px;max-height:40vh;}
+    #mapType{left:6px;top:6px;}
+    #toggles{left:6px;right:6px;top:56px;justify-content:center;padding:4px 6px;}
     #picker{left:6px;right:6px;top:6px;justify-content:center;padding:5px 6px;}
     #picker select{max-width:38vw;}
     #subtitle{left:6px;bottom:6px;max-width:40vw;}
@@ -78,17 +83,20 @@
   <select id="selProv" title="选择省份"></select>
   <select id="selCity" title="选择城市"></select>
   <select id="selBird" title="按鸟种筛选"></select>
-  <label title="只显示地名标注（不含路网）"><input type="checkbox" id="showLabelChk">地名</label>
-  <label title="显示高德路网（自带地名）"><input type="checkbox" id="showRoadChk">路网</label>
-  <label title="不按缩放隐藏点位"><input type="checkbox" id="showAll">全部</label>
   <button id="btnRank" type="button">推荐</button>
   <span class="info" id="pickInfo"></span>
 </div>
 
+<div id="toggles">
+  <label title="只显示地名标注（不含路网）"><input type="checkbox" id="showLabelChk">地名</label>
+  <label title="显示高德路网（自带地名）"><input type="checkbox" id="showRoadChk">路网</label>
+  <label title="不按缩放隐藏点位"><input type="checkbox" id="showAll">全部</label>
+</div>
+
 <div id="mapType">
   <select id="selMapType" title="地图类型">
+    <option value="normal" selected>标准</option>
     <option value="satellite">卫星</option>
-    <option value="normal">标准</option>
     <option value="dark">暗色</option>
     <option value="light">浅色</option>
     <option value="grey">灰白</option>
@@ -385,7 +393,7 @@ function startMap() {
     showAll.checked = localStorage.getItem('birdmap_show_all') !== '0';
     showLabelChk.checked = localStorage.getItem('birdmap_show_label') === '1';
     showRoadChk.checked = localStorage.getItem('birdmap_show_road') === '1';
-    var mt = localStorage.getItem('birdmap_map_type');
+    var mt = localStorage.getItem('birdmap_map_type2');
     if (mt) selMapType.value = mt;
   } catch (e) {}
   showAll.addEventListener('change', function() {
@@ -435,7 +443,7 @@ function startMap() {
     applyLayerVisibility();
   });
   selMapType.addEventListener('change', function() {
-    try { localStorage.setItem('birdmap_map_type', selMapType.value); } catch (e) {}
+    try { localStorage.setItem('birdmap_map_type2', selMapType.value); } catch (e) {}
     applyMapType();
   });
   applyMapType();
