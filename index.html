@@ -44,6 +44,7 @@
   #birdPanel .panel-meta{color:#666;margin:8px 0 12px;padding-bottom:8px;border-bottom:1px solid #eee;line-height:1.7;}
   #birdPanel .tag{display:inline-block;margin:0 6px 6px 0;padding:3px 8px;border-radius:5px;background:#f2f2f2;color:#333;white-space:nowrap;}
   #birdPanel .tag.focus{background:#ffebee;color:#c62828;font-weight:600;}
+  #birdPanel .tag.unique{background:#e3f2fd;color:#1565c0;border:1px solid #90caf9;}
   #birdPanel .legend{margin-top:10px;color:#999;font-size:12px;}
 
   @media (max-width:600px){
@@ -88,12 +89,12 @@
     <span class="sz"><i style="width:28px;height:28px"></i>49</span>
   </div>
   <div class="sep"></div>
-  <div class="lbl" id="colorLbl">颜色 = 鸟种相似组</div>
+  <div class="lbl" id="colorLbl">颜色 = 省份</div>
   <div class="lbl" style="color:#999;">缩小地图自动隐藏少量鸟点</div>
   <div class="groups" id="groupLegend"></div>
 </div>
 
-<div id="subtitle">Loratadine · 近 7 天（11-05 ~ 11-12） · 东营市 · 记录时间见点位面板</div>
+<div id="subtitle">Loratadine · 近 7 天（11-05 ~ 11-12） · 深圳市 · 记录时间见点位面板</div>
 <div id="missing"></div>
 
 <div id="birdPanel">
@@ -104,7 +105,7 @@
   </div>
   <div class="panel-meta" id="panelMeta"></div>
   <div id="panelBirds"></div>
-  <div class="legend">⭐ 为新鸟或关注种 · 点击地图空白处或 × 关闭</div>
+  <div class="legend">⭐ 为新鸟或关注种 · ◆ 为该范围内独有 · 点击地图空白处或 × 关闭</div>
 </div>
 
 <script>
@@ -150,27 +151,43 @@ setTimeout(function () {
 
 <script>
 function startMap() {
-  var allData = [{"name": "山东省 东营市 黄河口生态旅游区", "value": [119.164381, 37.730169, 41, 4], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大鵟⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,疣鼻天鹅⭐,白头鹀⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,纵纹腹小鸮⭐,罗纹鸭⭐,翘鼻麻鸭⭐,芦鹀⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长嘴半蹼鹬⭐,长耳鸮⭐,青头潜鸭⭐,鸿雁⭐,鹊鸭⭐,鹌鹑⭐,黄嘴白鹭⭐,黑嘴鸥⭐", "dates": "2026-11-05 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河农场中桥东北(黄河口生态旅游区西)", "value": [118.974924, 37.71935, 34, 1], "birds": "三道眉草鹀⭐,东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,小嘴乌鸦⭐,小天鹅⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白颊黑雁⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐,长嘴半蹼鹬⭐,长耳鸮⭐,雀鹰⭐,震旦鸦雀⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河三角洲保护区", "value": [119.047466, 37.808926, 43, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,大麻鳽⭐,小天鹅⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,棕头鸦雀⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,紫翅椋鸟⭐,罗纹鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,遗鸥⭐,铁爪鹀⭐,长嘴半蹼鹬⭐,长耳鸮⭐,雀鹰⭐,鸿雁⭐,黄喉鹀⭐,黄眉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 永安镇S228(东营润东生物科技有限公司)", "value": [118.860018, 37.588731, 25, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,小天鹅⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,楔尾伯劳⭐,灰雁⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胁蓝尾鸲⭐,罗纹鸭⭐,花脸鸭⭐,苇鹀⭐,长耳鸮⭐,鸿雁⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区(东营市垦利区)", "value": [119.052509, 37.764411, 49, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,北朱雀⭐,大天鹅⭐,大斑啄木鸟⭐,大鸨⭐,小嘴乌鸦⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头绿啄木鸟⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胸秋沙鸭⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长耳鸮⭐,雀鹰⭐,雪雁⭐,鸿雁⭐,鹊鸭⭐,黄喉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-05 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口湿地", "value": [118.991293, 37.760871, 29, 3], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,小云雀⭐,小天鹅⭐,松鸦⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白枕鹤⭐,白琵鹭⭐,白鹤⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,银喉长尾山雀⭐,长耳鸮⭐,震旦鸦雀⭐,鸿雁⭐,黄喉鹀⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营文旅天鹅", "value": [118.971968, 37.714161, 8, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,小天鹅⭐,灰雁⭐,白琵鹭⭐,白颊黑雁⭐,豆雁⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇", "value": [118.970134, 37.733199, 28, 1], "birds": "三道眉草鹀⭐,东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,大天鹅⭐,小嘴乌鸦⭐,小天鹅⭐,小鹀⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长嘴半蹼鹬⭐,长耳鸮⭐,鸿雁⭐,黑嘴鸥⭐", "dates": "2026-11-07 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口知青小镇", "value": [118.897916, 37.740317, 16, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,小天鹅⭐,楔尾伯劳⭐,灰背隼⭐,灰雁⭐,灰鹤⭐,白尾鹞⭐,白颊黑雁⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,豆雁⭐,长嘴半蹼鹬⭐,长耳鸮⭐,鸿雁⭐", "dates": "2026-11-05 ~ 2026-11-10", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河入海口", "value": [118.992226, 37.760891, 28, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,大天鹅⭐,大鸨⭐,小嘴乌鸦⭐,小天鹅⭐,小黑背银鸥⭐,斑鸫⭐,普通海鸥⭐,普通秋沙鸭⭐,灰背隼⭐,灰雁⭐,灰鹤⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白额雁⭐,白鹤⭐,秃鼻乌鸦⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,达乌里寒鸦⭐,铁爪鹀⭐,长嘴半蹼鹬⭐,鸿雁⭐", "dates": "2026-11-08 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口鸟类科普乐园", "value": [119.156582, 37.740319, 6, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,灰雁⭐,白枕鹤⭐,白鹤⭐,鹊鹞⭐", "dates": "2026-11-05", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营市", "value": [118.663833, 37.405931, 46, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,北朱雀⭐,大天鹅⭐,大斑啄木鸟⭐,小嘴乌鸦⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,水鹨⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,燕雀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胁蓝尾鸲⭐,红胸秋沙鸭⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长耳鸮⭐,雀鹰⭐,雪雁⭐,鸿雁⭐,鹊鸭⭐,黄喉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区西", "value": [118.971402, 37.783797, 13, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,斑头秋沙鸭⭐,燕雀⭐,疣鼻天鹅⭐,白琵鹭⭐,白腹鹞⭐,翘鼻麻鸭⭐,芦鹀⭐,花脸鸭⭐,鹊鸭⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇孤岛垦利管理区", "value": [118.867245, 37.750964, 8, 0], "birds": "东方白鹳⭐,大天鹅⭐,大斑啄木鸟⭐,灰雁⭐,疣鼻天鹅⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 中华村(东营市河口区)", "value": [118.845061, 37.907798, 16, 1], "birds": "凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,大麻鳽⭐,小天鹅⭐,普通秋沙鸭⭐,疣鼻天鹅⭐,白腹鹞⭐,白颊黑雁⭐,秃鼻乌鸦⭐,紫翅椋鸟⭐,达乌里寒鸦⭐,遗鸥⭐,长耳鸮⭐,鸿雁⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 一千二管理站", "value": [118.747809, 38.060761, 11, 0], "birds": "凤头麦鸡⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白枕鹤⭐,白鹤⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,花脸鸭⭐,赤麻鸭⭐,鸿雁⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 新发药业有限公司(纬六路北)", "value": [118.660434, 37.541341, 11, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白琵鹭⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,花脸鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 仙河镇大河屋子", "value": [118.754299, 38.026274, 13, 0], "birds": "凤头麦鸡⭐,大鸨⭐,小嘴乌鸦⭐,灰鹤⭐,白头鹤⭐,白眉鹀⭐,白鹤⭐,短耳鸮⭐,秃鼻乌鸦⭐,翘鼻麻鸭⭐,赤麻鸭⭐,达乌里寒鸦⭐,黑嘴鸥⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营黄河故道", "value": [118.726109, 38.023992, 1, 0], "birds": "白头鹤⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 天鹅湖天鹅湖蓄滞洪湿地东广场", "value": [118.761588, 37.398036, 17, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,小天鹅⭐,楔尾伯劳⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白琵鹭⭐,白腹鹞⭐,白鹤⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,鸿雁⭐,鹊鸭⭐,黑颈䴙䴘⭐", "dates": "2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区(碧海路)", "value": [118.989656, 37.723217, 16, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,灰雁⭐,灰鹤⭐,田鹀⭐,白头鹤⭐,白尾鹞⭐,白鹤⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐,长嘴半蹼鹬⭐,长耳鸮⭐,黄喉鹀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河农场中桥", "value": [118.973805, 37.717593, 5, 0], "birds": "东方白鹳⭐,灰鹤⭐,白头鹤⭐,白尾鹞⭐,花脸鸭⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区游客中心", "value": [118.987592, 37.759784, 5, 0], "birds": "大天鹅⭐,白琵鹭⭐,白鹤⭐,短嘴豆雁⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 山东黄河三角洲国家级自然保护区", "value": [119.044462, 37.831696, 11, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,白腹鹞⭐,白鹤⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营垦利区滨海大道", "value": [118.957501, 37.734596, 5, 0], "birds": "东方白鹳⭐,灰雁⭐,白鹤⭐,豆雁⭐,长嘴半蹼鹬⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河三角洲国家地质公园(Y024)", "value": [118.986751, 37.76052, 13, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,灰鹤⭐,白尾鹞⭐,白琵鹭⭐,短嘴豆雁⭐,紫翅椋鸟⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,长耳鸮⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇利林村四矿徐氏水产养殖中心东", "value": [118.868566, 37.748823, 7, 0], "birds": "凤头麦鸡⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰背隼⭐,白尾鹞⭐,白腹鹞⭐,长耳鸮⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 浩天渔港", "value": [118.93956, 37.354998, 3, 0], "birds": "小天鹅⭐,遗鸥⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 广利河入海口(东营市东营区)", "value": [118.936913, 37.353818, 11, 0], "birds": "凤头潜鸭⭐,小天鹅⭐,斑鸫⭐,棕头鸦雀⭐,楔尾伯劳⭐,白琵鹭⭐,苇鹀⭐,豆雁⭐,遗鸥⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-06 ~ 2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 滨海大道", "value": [118.99, 37.642774, 6, 0], "birds": "东方白鹳⭐,灰雁⭐,白琵鹭⭐,罗纹鸭⭐,遗鸥⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河故道中桥", "value": [118.72391, 38.020293, 7, 0], "birds": "大鸨⭐,小天鹅⭐,灰鹤⭐,白额雁⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,长嘴半蹼鹬⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东兴村", "value": [118.665721, 37.532306, 4, 0], "birds": "凤头麦鸡⭐,白颊黑雁⭐,白额雁⭐,罗纹鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 德州路(北成寨村)", "value": [118.663165, 37.514889, 7, 0], "birds": "小天鹅⭐,小青脚鹬⭐,灰雁⭐,白颊黑雁⭐,白额雁⭐,罗纹鸭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇S228", "value": [118.942466, 37.677563, 2, 0], "birds": "田鹀⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 防洪北堤", "value": [118.937908, 37.354762, 5, 0], "birds": "小白额雁⭐,灰雁⭐,白额雁⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 天鹅湖蓄滞洪湿地西广场", "value": [118.739961, 37.39539, 18, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,小天鹅⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰背鸫⭐,灰雁⭐,白琵鹭⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,银喉长尾山雀⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营天鹅湖", "value": [118.82096, 37.378446, 12, 0], "birds": "东方白鹳⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,楔尾伯劳⭐,灰雁⭐,白尾鹞⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 兴隆湿地公园", "value": [118.66116, 37.533621, 8, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大麻鳽⭐,小鹀⭐,灰雁⭐,白琵鹭⭐,红胁蓝尾鸲⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇一村屋子", "value": [118.833356, 37.736412, 2, 0], "birds": "东方白鹳⭐,小黑背银鸥⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 龙悦湖", "value": [118.800466, 37.383085, 9, 0], "birds": "凤头潜鸭⭐,凤头麦鸡⭐,小天鹅⭐,白琵鹭⭐,白腹鹞⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐,赤麻鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东八路", "value": [118.760058, 37.395411, 4, 0], "birds": "凤头麦鸡⭐,灰雁⭐,白额雁⭐,罗纹鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营汽车总站东南", "value": [118.551903, 37.439127, 2, 1], "birds": "凤头䴙䴘⭐,小天鹅⭐,黑颈䴙䴘⭐", "dates": "2026-11-05 ~ 2026-11-06", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 广北水库-1", "value": [118.828987, 37.474686, 8, 0], "birds": "凤头潜鸭⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,白尾鹞⭐,秃鼻乌鸦⭐,达乌里寒鸦⭐,鹊鸭⭐,黑鹳⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 马场林场", "value": [118.748124, 37.779539, 3, 0], "birds": "小嘴乌鸦⭐,秃鼻乌鸦⭐,达乌里寒鸦⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 耿井湿地", "value": [118.543216, 37.434596, 4, 1], "birds": "凤头䴙䴘⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,水鹨⭐", "dates": "2026-11-06 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 丁庄街道广北农场二场五队", "value": [118.651113, 37.313531, 1, 0], "birds": "楔尾伯劳⭐", "dates": "2026-11-10", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 于林村", "value": [118.806861, 37.734404, 2, 0], "birds": "楔尾伯劳⭐,燕雀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 耿井水库", "value": [118.559117, 37.435166, 2, 0], "birds": "鹊鸭⭐,黑颈䴙䴘⭐", "dates": "2026-11-06", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 宏坤公司", "value": [118.767463, 37.486973, 1, 0], "birds": "灰雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东城街道广利河北堤南", "value": [118.77534, 37.411279, 3, 0], "birds": "凤头潜鸭⭐,白琵鹭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 王屋村", "value": [118.569903, 37.277475, 3, 0], "birds": "凤头麦鸡⭐,大斑啄木鸟⭐,豆雁⭐", "dates": "2026-11-05", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 正大集团现代农业科技生态园", "value": [118.895493, 37.707983, 3, 0], "birds": "凤头麦鸡⭐,田鹀⭐,黄喉鹀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 植物园", "value": [118.622767, 37.418127, 3, 0], "birds": "斑鸫⭐,银喉长尾山雀⭐,黄喉鹀⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营植物园(东营市东营区)", "value": [118.623667, 37.418714, 7, 1], "birds": "凤头䴙䴘⭐,大斑啄木鸟⭐,斑鸫⭐,星头啄木鸟⭐,灰头绿啄木鸟⭐,红胁蓝尾鸲⭐,银喉长尾山雀⭐,黄喉鹀⭐", "dates": "2026-11-06 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}];
+  var allData = [{"name": "山东省 东营市 黄河口生态旅游区", "value": [119.164381, 37.730169, 41, 4], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大鵟⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,疣鼻天鹅⭐,白头鹀⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,纵纹腹小鸮⭐,罗纹鸭⭐,翘鼻麻鸭⭐,芦鹀⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长嘴半蹼鹬⭐,长耳鸮⭐,青头潜鸭⭐,鸿雁⭐,鹊鸭⭐,鹌鹑⭐,黄嘴白鹭⭐,黑嘴鸥⭐", "dates": "2026-11-05 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河农场中桥东北(黄河口生态旅游区西)", "value": [118.974924, 37.71935, 34, 1], "birds": "三道眉草鹀⭐,东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,小嘴乌鸦⭐,小天鹅⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白颊黑雁⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐,长嘴半蹼鹬⭐,长耳鸮⭐,雀鹰⭐,震旦鸦雀⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河三角洲保护区", "value": [119.047466, 37.808926, 43, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,大麻鳽⭐,小天鹅⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,棕头鸦雀⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,紫翅椋鸟⭐,罗纹鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,遗鸥⭐,铁爪鹀⭐,长嘴半蹼鹬⭐,长耳鸮⭐,雀鹰⭐,鸿雁⭐,黄喉鹀⭐,黄眉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 永安镇S228(东营润东生物科技有限公司)", "value": [118.860018, 37.588731, 25, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,小天鹅⭐,斑头秋沙鸭⭐,斑鸫⭐,普通秋沙鸭⭐,楔尾伯劳⭐,灰雁⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胁蓝尾鸲⭐,罗纹鸭⭐,花脸鸭⭐,苇鹀⭐,长耳鸮⭐,鸿雁⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区(东营市垦利区)", "value": [119.052509, 37.764411, 49, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,北朱雀⭐,大天鹅⭐,大斑啄木鸟⭐,大鸨⭐,小嘴乌鸦⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,小黑背银鸥⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头绿啄木鸟⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白腹鹞⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胸秋沙鸭⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长耳鸮⭐,雀鹰⭐,雪雁⭐,鸿雁⭐,鹊鸭⭐,黄喉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-05 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口湿地", "value": [118.991293, 37.760871, 29, 3], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,小云雀⭐,小天鹅⭐,松鸦⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白枕鹤⭐,白琵鹭⭐,白鹤⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,银喉长尾山雀⭐,长耳鸮⭐,震旦鸦雀⭐,鸿雁⭐,黄喉鹀⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营文旅天鹅", "value": [118.971968, 37.714161, 8, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,小天鹅⭐,灰雁⭐,白琵鹭⭐,白颊黑雁⭐,豆雁⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇", "value": [118.970134, 37.733199, 28, 1], "birds": "三道眉草鹀⭐,东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,大天鹅⭐,小嘴乌鸦⭐,小天鹅⭐,小鹀⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,燕雀⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长嘴半蹼鹬⭐,长耳鸮⭐,鸿雁⭐,黑嘴鸥⭐", "dates": "2026-11-07 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口知青小镇", "value": [118.897916, 37.740317, 16, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,小天鹅⭐,楔尾伯劳⭐,灰背隼⭐,灰雁⭐,灰鹤⭐,白尾鹞⭐,白颊黑雁⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,豆雁⭐,长嘴半蹼鹬⭐,长耳鸮⭐,鸿雁⭐", "dates": "2026-11-05 ~ 2026-11-10", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河入海口", "value": [118.992226, 37.760891, 28, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,大天鹅⭐,大鸨⭐,小嘴乌鸦⭐,小天鹅⭐,小黑背银鸥⭐,斑鸫⭐,普通海鸥⭐,普通秋沙鸭⭐,灰背隼⭐,灰雁⭐,灰鹤⭐,田鹀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白额雁⭐,白鹤⭐,秃鼻乌鸦⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,达乌里寒鸦⭐,铁爪鹀⭐,长嘴半蹼鹬⭐,鸿雁⭐", "dates": "2026-11-08 ~ 2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口鸟类科普乐园", "value": [119.156582, 37.740319, 6, 0], "birds": "东方白鹳⭐,丹顶鹤⭐,灰雁⭐,白枕鹤⭐,白鹤⭐,鹊鹞⭐", "dates": "2026-11-05", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营市", "value": [118.663833, 37.405931, 46, 1], "birds": "东方白鹳⭐,丹顶鹤⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,北朱雀⭐,大天鹅⭐,大斑啄木鸟⭐,小嘴乌鸦⭐,小天鹅⭐,小白额雁⭐,小鹀⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,楔尾伯劳⭐,水鹨⭐,灰头绿啄木鸟⭐,灰雁⭐,灰鹤⭐,燕雀⭐,疣鼻天鹅⭐,白头鹤⭐,白尾鹞⭐,白枕鹤⭐,白琵鹭⭐,白额雁⭐,白鹤⭐,短嘴豆雁⭐,秃鼻乌鸦⭐,红胁蓝尾鸲⭐,红胸秋沙鸭⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,苇鹀⭐,豆雁⭐,赤麻鸭⭐,达乌里寒鸦⭐,长耳鸮⭐,雀鹰⭐,雪雁⭐,鸿雁⭐,鹊鸭⭐,黄喉鹀⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区西", "value": [118.971402, 37.783797, 13, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,斑头秋沙鸭⭐,燕雀⭐,疣鼻天鹅⭐,白琵鹭⭐,白腹鹞⭐,翘鼻麻鸭⭐,芦鹀⭐,花脸鸭⭐,鹊鸭⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇孤岛垦利管理区", "value": [118.867245, 37.750964, 8, 0], "birds": "东方白鹳⭐,大天鹅⭐,大斑啄木鸟⭐,灰雁⭐,疣鼻天鹅⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 中华村(东营市河口区)", "value": [118.845061, 37.907798, 16, 1], "birds": "凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,大麻鳽⭐,小天鹅⭐,普通秋沙鸭⭐,疣鼻天鹅⭐,白腹鹞⭐,白颊黑雁⭐,秃鼻乌鸦⭐,紫翅椋鸟⭐,达乌里寒鸦⭐,遗鸥⭐,长耳鸮⭐,鸿雁⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 一千二管理站", "value": [118.747809, 38.060761, 11, 0], "birds": "凤头麦鸡⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白枕鹤⭐,白鹤⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,花脸鸭⭐,赤麻鸭⭐,鸿雁⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 新发药业有限公司(纬六路北)", "value": [118.660434, 37.541341, 11, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白琵鹭⭐,白鹤⭐,短嘴豆雁⭐,罗纹鸭⭐,花脸鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 仙河镇大河屋子", "value": [118.754299, 38.026274, 13, 0], "birds": "凤头麦鸡⭐,大鸨⭐,小嘴乌鸦⭐,灰鹤⭐,白头鹤⭐,白眉鹀⭐,白鹤⭐,短耳鸮⭐,秃鼻乌鸦⭐,翘鼻麻鸭⭐,赤麻鸭⭐,达乌里寒鸦⭐,黑嘴鸥⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营黄河故道", "value": [118.726109, 38.023992, 1, 0], "birds": "白头鹤⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 天鹅湖天鹅湖蓄滞洪湿地东广场", "value": [118.761588, 37.398036, 17, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,小天鹅⭐,楔尾伯劳⭐,灰雁⭐,灰鹤⭐,白头鹤⭐,白琵鹭⭐,白腹鹞⭐,白鹤⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,鸿雁⭐,鹊鸭⭐,黑颈䴙䴘⭐", "dates": "2026-11-09", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区(碧海路)", "value": [118.989656, 37.723217, 16, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,灰雁⭐,灰鹤⭐,田鹀⭐,白头鹤⭐,白尾鹞⭐,白鹤⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐,长嘴半蹼鹬⭐,长耳鸮⭐,黄喉鹀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河农场中桥", "value": [118.973805, 37.717593, 5, 0], "birds": "东方白鹳⭐,灰鹤⭐,白头鹤⭐,白尾鹞⭐,花脸鸭⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口生态旅游区游客中心", "value": [118.987592, 37.759784, 5, 0], "birds": "大天鹅⭐,白琵鹭⭐,白鹤⭐,短嘴豆雁⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 山东黄河三角洲国家级自然保护区", "value": [119.044462, 37.831696, 11, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,白腹鹞⭐,白鹤⭐,罗纹鸭⭐,翘鼻麻鸭⭐,花脸鸭⭐,豆雁⭐,赤麻鸭⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营垦利区滨海大道", "value": [118.957501, 37.734596, 5, 0], "birds": "东方白鹳⭐,灰雁⭐,白鹤⭐,豆雁⭐,长嘴半蹼鹬⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河三角洲国家地质公园(Y024)", "value": [118.986751, 37.76052, 13, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,大天鹅⭐,小天鹅⭐,灰雁⭐,灰鹤⭐,白尾鹞⭐,白琵鹭⭐,短嘴豆雁⭐,紫翅椋鸟⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,长耳鸮⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇利林村四矿徐氏水产养殖中心东", "value": [118.868566, 37.748823, 7, 0], "birds": "凤头麦鸡⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰背隼⭐,白尾鹞⭐,白腹鹞⭐,长耳鸮⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 浩天渔港", "value": [118.93956, 37.354998, 3, 0], "birds": "小天鹅⭐,遗鸥⭐,黑嘴鸥⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 广利河入海口(东营市东营区)", "value": [118.936913, 37.353818, 11, 0], "birds": "凤头潜鸭⭐,小天鹅⭐,斑鸫⭐,棕头鸦雀⭐,楔尾伯劳⭐,白琵鹭⭐,苇鹀⭐,豆雁⭐,遗鸥⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-06 ~ 2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 滨海大道", "value": [118.99, 37.642774, 6, 0], "birds": "东方白鹳⭐,灰雁⭐,白琵鹭⭐,罗纹鸭⭐,遗鸥⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河故道中桥", "value": [118.72391, 38.020293, 7, 0], "birds": "大鸨⭐,小天鹅⭐,灰鹤⭐,白额雁⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,长嘴半蹼鹬⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东兴村", "value": [118.665721, 37.532306, 4, 0], "birds": "凤头麦鸡⭐,白颊黑雁⭐,白额雁⭐,罗纹鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 德州路(北成寨村)", "value": [118.663165, 37.514889, 7, 0], "birds": "小天鹅⭐,小青脚鹬⭐,灰雁⭐,白颊黑雁⭐,白额雁⭐,罗纹鸭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇S228", "value": [118.942466, 37.677563, 2, 0], "birds": "田鹀⭐,长嘴半蹼鹬⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 防洪北堤", "value": [118.937908, 37.354762, 5, 0], "birds": "小白额雁⭐,灰雁⭐,白额雁⭐,黑嘴鸥⭐,黑鹳⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 天鹅湖蓄滞洪湿地西广场", "value": [118.739961, 37.39539, 18, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,小天鹅⭐,棕头鸦雀⭐,楔尾伯劳⭐,灰头鹀⭐,灰背鸫⭐,灰雁⭐,白琵鹭⭐,短嘴豆雁⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,银喉长尾山雀⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营天鹅湖", "value": [118.82096, 37.378446, 12, 0], "birds": "东方白鹳⭐,凤头潜鸭⭐,凤头麦鸡⭐,大天鹅⭐,大斑啄木鸟⭐,楔尾伯劳⭐,灰雁⭐,白尾鹞⭐,翘鼻麻鸭⭐,豆雁⭐,赤麻鸭⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 兴隆湿地公园", "value": [118.66116, 37.533621, 8, 1], "birds": "东方白鹳⭐,凤头䴙䴘⭐,凤头麦鸡⭐,大麻鳽⭐,小鹀⭐,灰雁⭐,白琵鹭⭐,红胁蓝尾鸲⭐,鸿雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 黄河口镇一村屋子", "value": [118.833356, 37.736412, 2, 0], "birds": "东方白鹳⭐,小黑背银鸥⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 龙悦湖", "value": [118.800466, 37.383085, 9, 0], "birds": "凤头潜鸭⭐,凤头麦鸡⭐,小天鹅⭐,白琵鹭⭐,白腹鹞⭐,短嘴豆雁⭐,罗纹鸭⭐,豆雁⭐,赤麻鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东八路", "value": [118.760058, 37.395411, 4, 0], "birds": "凤头麦鸡⭐,灰雁⭐,白额雁⭐,罗纹鸭⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营汽车总站东南", "value": [118.551903, 37.439127, 2, 1], "birds": "凤头䴙䴘⭐,小天鹅⭐,黑颈䴙䴘⭐", "dates": "2026-11-05 ~ 2026-11-06", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 广北水库-1", "value": [118.828987, 37.474686, 8, 0], "birds": "凤头潜鸭⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,白尾鹞⭐,秃鼻乌鸦⭐,达乌里寒鸦⭐,鹊鸭⭐,黑鹳⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 马场林场", "value": [118.748124, 37.779539, 3, 0], "birds": "小嘴乌鸦⭐,秃鼻乌鸦⭐,达乌里寒鸦⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 耿井湿地", "value": [118.543216, 37.434596, 4, 1], "birds": "凤头䴙䴘⭐,斑头秋沙鸭⭐,普通秋沙鸭⭐,棕头鸦雀⭐,水鹨⭐", "dates": "2026-11-06 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 丁庄街道广北农场二场五队", "value": [118.651113, 37.313531, 1, 0], "birds": "楔尾伯劳⭐", "dates": "2026-11-10", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 于林村", "value": [118.806861, 37.734404, 2, 0], "birds": "楔尾伯劳⭐,燕雀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 耿井水库", "value": [118.559117, 37.435166, 2, 0], "birds": "鹊鸭⭐,黑颈䴙䴘⭐", "dates": "2026-11-06", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 宏坤公司", "value": [118.767463, 37.486973, 1, 0], "birds": "灰雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东城街道广利河北堤南", "value": [118.77534, 37.411279, 3, 0], "birds": "凤头潜鸭⭐,白琵鹭⭐,豆雁⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 王屋村", "value": [118.569903, 37.277475, 3, 0], "birds": "凤头麦鸡⭐,大斑啄木鸟⭐,豆雁⭐", "dates": "2026-11-05", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 正大集团现代农业科技生态园", "value": [118.895493, 37.707983, 3, 0], "birds": "凤头麦鸡⭐,田鹀⭐,黄喉鹀⭐", "dates": "2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 植物园", "value": [118.622767, 37.418127, 3, 0], "birds": "斑鸫⭐,银喉长尾山雀⭐,黄喉鹀⭐", "dates": "2026-11-07", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "山东省 东营市 东营植物园(东营市东营区)", "value": [118.623667, 37.418714, 7, 1], "birds": "凤头䴙䴘⭐,大斑啄木鸟⭐,斑鸫⭐,星头啄木鸟⭐,灰头绿啄木鸟⭐,红胁蓝尾鸲⭐,银喉长尾山雀⭐,黄喉鹀⭐", "dates": "2026-11-06 ~ 2026-11-08", "province": "山东省", "city": "东营市", "isRegion": false}, {"name": "广东省 深圳市 光明小镇欢乐田园", "value": [113.961038, 22.776478, 12, 2], "birds": "小鹀⭐,山麻雀⭐,崖沙燕⭐,灰头鹀⭐,牛头伯劳⭐,矛斑蝗莺⭐,紫翅椋鸟⭐,红喉歌鸲⭐,董鸡⭐,蓝喉歌鸲⭐,蚁䴕⭐,鹊鹞⭐,鹌鹑⭐,黑头鹀⭐", "dates": "2026-11-05 ~ 2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 坝光银叶树湿地园", "value": [114.519705, 22.643561, 2, 0], "birds": "库页岛柳莺⭐,灰头鹀⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 华大万物农业基地", "value": [114.503983, 22.59708, 1, 0], "birds": "大沙锥⭐", "dates": "2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 红树林海滨生态公园", "value": [113.999856, 22.522542, 2, 0], "birds": "凤头潜鸭⭐,斑背潜鸭⭐", "dates": "2026-11-05 ~ 2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 福田红树林生态公园", "value": [114.039506, 22.509015, 2, 2], "birds": "白琵鹭⭐,红尾歌鸲⭐,鸲姬鹟⭐,黑枕王鹟⭐", "dates": "2026-11-05 ~ 2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 铁仔山公园", "value": [113.859914, 22.592597, 4, 6], "birds": "灰背鸫⭐,画眉⭐,白喉矶鸫⭐,白尾蓝地鸲⭐,白眉地鸫⭐,红胁绣眼鸟⭐,铜蓝鹟⭐,鸲姬鹟⭐,鹊鹞⭐,黑枕王鹟⭐", "dates": "2026-11-05 ~ 2026-11-10", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 仙湖植物园", "value": [114.179417, 22.577679, 1, 1], "birds": "画眉⭐,铜蓝鹟⭐", "dates": "2026-11-05 ~ 2026-11-10", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 凤凰山森林公园", "value": [113.849325, 22.672834, 4, 2], "birds": "小鹀⭐,栗鹀⭐,灰背鸫⭐,褐冠鹃隼⭐,铜蓝鹟⭐,黑枕王鹟⭐", "dates": "2026-11-10 ~ 2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 笔架山公园", "value": [114.080806, 22.562977, 1, 0], "birds": "铜蓝鹟⭐", "dates": "2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 红树林生态公园南区", "value": [114.039285, 22.506712, 3, 0], "birds": "栗鹀⭐,灰头鹀⭐,红喉歌鸲⭐", "dates": "2026-11-05 ~ 2026-11-10", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 华大万物农业基地", "value": [114.504232, 22.597124, 1, 0], "birds": "牛头伯劳⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 光明欢乐田园", "value": [113.960463, 22.782307, 4, 0], "birds": "崖沙燕⭐,牛头伯劳⭐,蚁䴕⭐,鹊鹞⭐", "dates": "2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 西湾红树林公园", "value": [113.836747, 22.587814, 1, 0], "birds": "蚁䴕⭐", "dates": "2026-11-10", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 较场尾海滩", "value": [114.509492, 22.586247, 1, 0], "birds": "巨嘴柳莺⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 深圳湾出水口", "value": [113.98367, 22.5185, 1, 0], "birds": "凤头潜鸭⭐", "dates": "2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 深圳湾公园", "value": [113.953122, 22.503824, 1, 1], "birds": "凤头潜鸭⭐,黄嘴白鹭⭐", "dates": "2026-11-05 ~ 2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 大沙河生态长廊", "value": [113.960173, 22.541001, 1, 0], "birds": "红喉姬鹟⭐", "dates": "2026-11-05", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 牛湖水库", "value": [114.080158, 22.716714, 1, 0], "birds": "红喉姬鹟⭐", "dates": "2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 西湾红树林公园大草坪", "value": [113.829715, 22.601514, 1, 0], "birds": "黑尾蜡嘴雀⭐", "dates": "2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 龙岐湾", "value": [114.504983, 22.56465, 2, 0], "birds": "小鹀⭐,灰头鹀⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 观澜湖牛湖水碧道", "value": [114.082656, 22.714754, 2, 1], "birds": "小鹀⭐,燕雀⭐,黑枕王鹟⭐", "dates": "2026-11-05 ~ 2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 恩上湿地公园", "value": [114.239069, 22.568346, 1, 0], "birds": "小鹀⭐", "dates": "2026-11-11", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 园山风景区", "value": [114.248824, 22.634135, 0, 3], "birds": "小鳞胸鹪鹛⭐,鸲姬鹟⭐,黑枕王鹟⭐", "dates": "2026-11-07 ~ 2026-11-08", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 西丽大沙河", "value": [113.959727, 22.582421, 0, 1], "birds": "黄嘴白鹭⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 梧桐山", "value": [114.202549, 22.576907, 0, 1], "birds": "灰胸竹鸡⭐", "dates": "2026-11-06", "province": "广东省", "city": "深圳市", "isRegion": false}, {"name": "广东省 深圳市 平峦山公园", "value": [113.876736, 22.608141, 0, 2], "birds": "松鸦⭐,画眉⭐", "dates": "2026-11-07", "province": "广东省", "city": "深圳市", "isRegion": false}];
   var DEFAULT_PROV = "";
   var DEFAULT_CITY = "深圳市";
-  // 点位太多时（全国页），不做 O(n²) 相似组聚类，改为按省份着色
-  var PROVINCE_MODE = allData.length > 1200;
-  // 点位多时缩小气泡，避免糊成一片
-  var SIZE_FACTOR = allData.length > 3000 ? 0.55
-                   : allData.length > 1500 ? 0.7
-                   : allData.length > 800 ? 0.85 : 1;
   var palette = ['#e6194b', '#4363d8', '#f58231', '#42d4f4', '#f032e6', '#3cb44b', '#911eb4', '#ffe119',
                  '#46f0f0', '#bcf60c', '#008080', '#9a6324', '#808000', '#800000', '#000075', '#808080'];
+
+  // 原始点位（不预设颜色，按当前选择动态着色）
+  var rendered = allData.map(function(d) {
+    return {
+      name: d.name,
+      value: d.value,
+      birds: d.birds,
+      dates: d.dates || '',
+      province: d.province || '',
+      city: d.city || '',
+      uniqueBirds: [],
+      uniqueCount: 0,
+      novelty: 0,
+      coverRank: null,
+      coverGain: null
+    };
+  });
+
+  function uniqSpecies(d) {
+    var out = [], seen = {};
+    (d.birds || '').split(',').forEach(function(b) {
+      var k = b.replace('⭐', '').trim();
+      if (k && !seen[k]) { seen[k] = 1; out.push(k); }
+    });
+    return out;
+  }
 
   function computeGroups(data, K) {
     var n = data.length;
     var sets = data.map(function(d) {
-      var arr = (d.birds || '').split(',');
       var set = {};
-      arr.forEach(function(b) {
-        var k = b.replace('⭐', '').trim();
-        if (k) set[k] = 1;
-      });
+      uniqSpecies(d).forEach(function(k) { set[k] = 1; });
       return set;
     });
 
@@ -241,61 +258,97 @@ function startMap() {
     return { clusters: clusters, clusterOf: clusterOf, labels: labels };
   }
 
-  var groups = null, colorOf = [], order = [];
-  var provList = [], provCount = {}, provColor = {};
-
-  if (PROVINCE_MODE) {
-    allData.forEach(function(d) {
-      var p = d.province || '未知';
-      if (!provCount[p]) { provCount[p] = 0; provList.push(p); }
-      provCount[p]++;
+  // 互补分析：独有种、权重新颖度、贪心补点优先级
+  function computeComplement(list) {
+    var freq = {};
+    list.forEach(function(d, i) {
+      uniqSpecies(d).forEach(function(k) { (freq[k] = freq[k] || []).push(i); });
     });
-    provList.sort();
-    provList.forEach(function(p, i) { provColor[p] = palette[i % palette.length]; });
-  } else {
-    groups = computeGroups(allData, 8);
-    order = groups.clusters.map(function(c, i) {
-      return { i: i, n: c.members.length };
-    }).sort(function(a, b) { return b.n - a.n; });
-    order.forEach(function(o, idx) { colorOf[o.i] = palette[idx % palette.length]; });
+    list.forEach(function(d) {
+      var names = uniqSpecies(d), unique = [], score = 0;
+      names.forEach(function(k) {
+        var f = (freq[k] || []).length || 1;
+        if (f === 1) unique.push(k);
+        score += 1.0 / f;
+      });
+      d.uniqueBirds = unique;
+      d.uniqueCount = unique.length;
+      d.novelty = Math.round(score * 100) / 100;
+      d.coverRank = null;
+      d.coverGain = null;
+    });
+
+    var remaining = {};
+    Object.keys(freq).forEach(function(k) { remaining[k] = 1; });
+    var pool = list.slice().sort(function(a, b) {
+      return (b.value[2] + b.value[3]) - (a.value[2] + a.value[3]);
+    });
+    for (var step = 0; step < 10; step++) {
+      var best = null, bestGain = 0;
+      for (var i = 0; i < pool.length; i++) {
+        var d = pool[i];
+        if (d.coverRank) continue;
+        var g = 0;
+        uniqSpecies(d).forEach(function(k) { if (remaining[k]) g++; });
+        if (g > bestGain) { bestGain = g; best = d; }
+      }
+      if (!best) break;
+      best.coverRank = step + 1;
+      best.coverGain = bestGain;
+      uniqSpecies(best).forEach(function(k) { delete remaining[k]; });
+    }
   }
 
   function symbolSize(count) {
     return Math.max(10, 8 + Math.sqrt(count) * 4.2);
   }
 
-  var showLabels = allData.length <= 200;
-  var rendered = allData.map(function(d, i) {
-    var color, label, ci = -1;
-    if (PROVINCE_MODE) {
-      color = provColor[d.province || '未知'] || '#888';
-      label = d.province || '未知';
+  // 按当前模式着色：选定城市 → 鸟种相似组；否则 → 省份
+  function styleList(list, groups) {
+    var colorOf = [], order = [], provColor = {}, provList = [];
+    if (groups) {
+      order = groups.clusters.map(function(c, i) {
+        return { i: i, n: c.members.length };
+      }).sort(function(a, b) { return b.n - a.n; });
+      order.forEach(function(o, idx) { colorOf[o.i] = palette[idx % palette.length]; });
     } else {
-      ci = groups.clusterOf[i];
-      color = colorOf[ci];
-      label = groups.labels[ci].join('、');
+      list.forEach(function(d) {
+        var p = d.province || '未知';
+        if (!provColor[p]) { provColor[p] = 1; provList.push(p); }
+      });
+      provList.sort();
+      provList.forEach(function(p, i) { provColor[p] = palette[i % palette.length]; });
     }
-    return {
-      name: d.name,
-      value: d.value,
-      birds: d.birds,
-      dates: d.dates || '',
-      province: d.province || '',
-      city: d.city || '',
-      isRegion: false,
-      clusterIdx: ci,
-      groupColor: color,
-      groupLabel: label,
-      symbol: 'circle',
-      symbolSize: symbolSize(d.value[2]) * SIZE_FACTOR,
-      itemStyle: {
+
+    var showLabels = list.length <= 200;
+    var factor = list.length > 3000 ? 0.55
+               : list.length > 1500 ? 0.7
+               : list.length > 800 ? 0.85 : 1;
+    var items = list.map(function(d, i) {
+      var color, label, ci = -1;
+      if (groups) {
+        ci = groups.clusterOf[i];
+        color = colorOf[ci];
+        label = groups.labels[ci].join('、');
+      } else {
+        color = provColor[d.province || '未知'] || '#888';
+        label = d.province || '未知';
+      }
+      var item = {};
+      for (var k in d) { item[k] = d[k]; }
+      item.clusterIdx = ci;
+      item.groupColor = color;
+      item.groupLabel = label;
+      item.symbol = 'circle';
+      item.symbolSize = symbolSize(d.value[2]) * factor;
+      item.itemStyle = {
         color: color,
         borderColor: '#fff',
         borderWidth: 1.5,
         shadowBlur: 6,
         shadowColor: 'rgba(0,0,0,0.4)'
-      },
-      label: {
+      };
+      item.label = {
         show: showLabels,
         formatter: d.value[2],
         position: 'right',
@@ -304,9 +357,12 @@ function startMap() {
         fontWeight: 'bold',
         textBorderColor: '#000',
         textBorderWidth: 2
-      }
-    };
-  });
+      };
+      return item;
+    });
+    return { items: items, order: order, colorOf: colorOf,
+             provColor: provColor, provList: provList };
+  }
 
   var chart = echarts.init(document.getElementById('map'));
 
@@ -324,7 +380,7 @@ function startMap() {
     series: [{
       type: 'scatter',
       coordinateSystem: 'amap',
-      data: rendered,
+      data: [],
       emphasis: { scale: 1.15 }
     }]
   };
@@ -336,32 +392,13 @@ function startMap() {
   amap.add(satellite);
   amap.addControl(new AMap.Scale());
   amap.addControl(new AMap.ToolBar());
-  // 缩放时按新鸟种数分级显示
-  amap.on('zoomend', function() { refreshSeries(amap.getZoom()); });
 
-  // ---- 图例 ----
-  var legendEl = document.getElementById('groupLegend');
-  var colorLbl = document.getElementById('colorLbl');
-  var legendHtml = '';
-  if (PROVINCE_MODE) {
-    colorLbl.textContent = '颜色 = 省份';
-    provList.forEach(function(p) {
-      legendHtml += '<div class="grow" title="' + p + ' · ' + provCount[p] + ' 点">' +
-        '<i style="background:' + provColor[p] + '"></i>' + p + '·' + provCount[p] + '点</div>';
-    });
-  } else {
-    colorLbl.textContent = '颜色 = 鸟种相似组';
-    order.forEach(function(o, idx) {
-      var c = groups.clusters[o.i];
-      var label = groups.labels[o.i].join('、');
-      legendHtml += '<div class="grow" title="组' + (idx + 1) + ' · ' + c.members.length + ' 点 · 代表：' + label + '">' +
-        '<i style="background:' + colorOf[o.i] + '"></i>组' + (idx + 1) + '·' + c.members.length + '点·' + label +
-        '</div>';
-    });
-  }
-  legendEl.innerHTML = legendHtml;
+  // ---- 当前状态 ----
+  var currentList = [];     // 区域过滤后的原始点位
+  var currentStyled = [];   // 带颜色/大小的点位
+  var currentInfo = null;
+  var currentMode = 'province';
 
-  // ---- 位置选择 ----
   var selProv = document.getElementById('selProv');
   var selCity = document.getElementById('selCity');
   var pickInfo = document.getElementById('pickInfo');
@@ -378,9 +415,6 @@ function startMap() {
     return 4;
   }
 
-  // 当前区域筛出的点位（未做缩放过滤）
-  var currentList = [];
-
   // 缩放级别 → 只显示「新鸟种数 >= 阈值」的点
   //   全国(<6)：>=10；省(6~7)：>=5；市(8~9)：>=2；区/街道(>=10)：全部
   function zoomThreshold(zoom) {
@@ -393,16 +427,43 @@ function startMap() {
   function refreshSeries(zoom) {
     if (zoom === undefined || zoom === null) zoom = amap.getZoom();
     var th = zoomThreshold(zoom);
-    var list = currentList.filter(function(d) { return d.value[2] >= th; });
-    // 严格按阈值；只有完全空白时才逐级降，避免页面全空
+    var list = currentStyled.filter(function(d) { return d.value[2] >= th; });
     while (!list.length && th > 0) {
       th -= 1;
-      list = currentList.filter(function(d) { return d.value[2] >= th; });
+      list = currentStyled.filter(function(d) { return d.value[2] >= th; });
     }
     chart.setOption({ series: [{ data: list }] });
     pickInfo.textContent = (list.length === currentList.length)
       ? (list.length + ' 点')
       : (list.length + ' / ' + currentList.length + ' 点');
+  }
+
+  function renderLegend() {
+    var legendEl = document.getElementById('groupLegend');
+    var colorLbl = document.getElementById('colorLbl');
+    var html = '';
+    if (currentMode === 'similarity' && currentInfo) {
+      colorLbl.textContent = '颜色 = 鸟种相似组';
+      currentInfo.order.forEach(function(o, idx) {
+        var label = (currentInfo.labels && currentInfo.labels[o.i])
+          ? currentInfo.labels[o.i].join('、') : '';
+        html += '<div class="grow" title="组' + (idx + 1) + ' · ' + o.n + ' 点 · 代表：' + label + '">' +
+          '<i style="background:' + currentInfo.colorOf[o.i] + '"></i>组' + (idx + 1) + '·' + o.n + '点·' + label +
+          '</div>';
+      });
+    } else if (currentInfo) {
+      colorLbl.textContent = '颜色 = 省份';
+      var counts = {};
+      currentList.forEach(function(d) {
+        var p = d.province || '未知';
+        counts[p] = (counts[p] || 0) + 1;
+      });
+      currentInfo.provList.forEach(function(p) {
+        html += '<div class="grow" title="' + p + ' · ' + (counts[p] || 0) + ' 点">' +
+          '<i style="background:' + currentInfo.provColor[p] + '"></i>' + p + '·' + (counts[p] || 0) + '点</div>';
+      });
+    }
+    legendEl.innerHTML = html;
   }
 
   function applyFilter(keepView) {
@@ -412,7 +473,27 @@ function startMap() {
       if (city && d.city !== city) return false;
       return true;
     });
-    var opt = { series: [{ data: currentList }] };
+    computeComplement(currentList);
+
+    // 只有选定城市才做相似组聚类；全国/省按省份着色
+    currentMode = (city && currentList.length <= 1200) ? 'similarity' : 'province';
+    var groups = null;
+    if (currentMode === 'similarity') {
+      groups = computeGroups(currentList, 8);
+    }
+    var styled = styleList(currentList, groups);
+    currentStyled = styled.items;
+    currentInfo = {
+      items: styled.items,
+      order: styled.order,
+      colorOf: styled.colorOf,
+      provColor: styled.provColor,
+      provList: styled.provList,
+      labels: groups ? groups.labels : null
+    };
+    renderLegend();
+
+    var opt = { series: [{ data: currentStyled }] };
     var targetZoom = amap.getZoom();
     if (!keepView) {
       var center = [114.0579, 22.5431];
@@ -469,7 +550,6 @@ function startMap() {
   selCity.addEventListener('change', function() { applyFilter(false); });
   populateCities();
 
-  // 初始筛选：配置了默认城市且数据里存在 → 选它；否则全国 + 默认视野（深圳）
   var defaultHit = null;
   if (DEFAULT_CITY) {
     rendered.forEach(function(d) { if (d.city === DEFAULT_CITY) defaultHit = d; });
@@ -488,6 +568,8 @@ function startMap() {
     applyFilter(true);
   }
 
+  amap.on('zoomend', function() { refreshSeries(amap.getZoom()); });
+
   // ---- 面板 ----
   var panel = document.getElementById('birdPanel');
   var panelTitle = document.getElementById('panelTitle');
@@ -495,20 +577,28 @@ function startMap() {
   var panelBirds = document.getElementById('panelBirds');
 
   function showPanel(d) {
-    var typeBadge = '<span class="panel-type type-point">具体点位</span>';
-    panelTitle.innerHTML = d.name + typeBadge;
+    panelTitle.innerHTML = d.name + '<span class="panel-type type-point">具体点位</span>';
 
-    panelMeta.innerHTML =
-      '共 ' + d.value[2] + ' 种新鸟，' + d.value[3] + ' 种关注' +
-      (d.dates ? '<br/>记录时间：' + d.dates : '') +
-      '<br/><span style="color:' + d.groupColor + ';font-size:14px;">●</span> ' +
-      (PROVINCE_MODE ? '省份：' : '鸟种相似组：') + d.groupLabel;
+    var meta = '共 ' + d.value[2] + ' 种新鸟，' + d.value[3] + ' 种关注';
+    meta += '<br/>独有鸟种：' + (d.uniqueCount || 0) + ' 种';
+    meta += '<br/>互补价值：' + (d.novelty || 0);
+    if (d.coverRank) {
+      meta += '<br/>补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
+    }
+    if (d.dates) meta += '<br/>记录时间：' + d.dates;
+    meta += '<br/><span style="color:' + d.groupColor + ';font-size:14px;">●</span> ' +
+            (currentMode === 'similarity' ? '鸟种相似组：' : '省份：') + d.groupLabel;
+    panelMeta.innerHTML = meta;
 
+    var uniqueSet = {};
+    (d.uniqueBirds || []).forEach(function(n) { uniqueSet[n] = 1; });
     var list = d.birds ? d.birds.split(',') : [];
     panelBirds.innerHTML = list.map(function(b) {
       var name = b.replace('⭐', '');
       var isFocus = b.indexOf('⭐') > -1;
-      return '<span class="tag' + (isFocus ? ' focus' : '') + '">' + (isFocus ? '⭐ ' : '') + name + '</span>';
+      var isUnique = !!uniqueSet[name];
+      var cls = 'tag' + (isFocus ? ' focus' : '') + (isUnique ? ' unique' : '');
+      return '<span class="' + cls + '">' + (isFocus ? '⭐ ' : '') + (isUnique ? '◆ ' : '') + name + '</span>';
     }).join('');
 
     panel.style.display = 'block';
