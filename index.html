@@ -14,7 +14,7 @@
   #boot .tip{margin-top:22px;max-width:86vw;font-size:13px;color:#777;line-height:1.8;text-align:center;}
 
 
-  #picker,#subtitle,#missing{display:none !important;}
+  #subtitle,#missing{display:none !important;}
   #picker{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:6px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,.95);border-radius:7px;padding:6px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:12px;color:#333;max-width:calc(100vw - 24px);}
   #picker select{max-width:132px;font-size:12px;padding:2px 4px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;}
   #picker .info{color:#888;font-size:11px;white-space:nowrap;}
@@ -32,9 +32,6 @@
   #rankPanel .nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   #rankPanel .gain{color:#888;white-space:nowrap;font-size:11px;}
 
-  #toggles{position:fixed;right:12px;top:12px;z-index:9998;display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.95);border-radius:7px;padding:5px 8px;box-shadow:0 3px 12px rgba(0,0,0,.16);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11.5px;color:#333;}
-  #toggles label{display:flex;align-items:center;gap:3px;cursor:pointer;white-space:nowrap;}
-  #toggles input{width:13px;height:13px;margin:0;}
   #mapType{position:fixed;left:12px;top:12px;z-index:9998;background:rgba(255,255,255,.95);border-radius:7px;padding:5px 7px;box-shadow:0 3px 12px rgba(0,0,0,.16);}
   #mapType select{font-size:12px;padding:2px 4px;border:1px solid #ddd;border-radius:4px;background:#fff;color:#333;}
   #subtitle{position:fixed;left:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.85);border-radius:6px;padding:4px 8px;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;font-size:11px;color:#555;max-width:60vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -57,7 +54,6 @@
   @media (max-width:600px){
     #rankPanel{left:6px;right:6px;width:auto;top:104px;max-height:40vh;}
     #mapType{left:6px;top:6px;}
-    #toggles{left:6px;right:6px;top:56px;justify-content:center;padding:4px 6px;}
     #picker{left:6px;right:6px;top:6px;justify-content:center;padding:5px 6px;}
     #picker select{max-width:38vw;}
     #subtitle{left:6px;bottom:6px;max-width:40vw;}
@@ -83,14 +79,11 @@
   <select id="selProv" title="选择省份"></select>
   <select id="selCity" title="选择城市"></select>
   <select id="selBird" title="按鸟种筛选"></select>
-  <button id="btnRank" type="button">推荐</button>
-  <span class="info" id="pickInfo"></span>
-</div>
-
-<div id="toggles">
   <label title="只显示地名标注（不含路网）"><input type="checkbox" id="showLabelChk">地名</label>
   <label title="显示高德路网（自带地名）"><input type="checkbox" id="showRoadChk">路网</label>
   <label title="不按缩放隐藏点位"><input type="checkbox" id="showAll">全部</label>
+  <button id="btnRank" type="button">推荐</button>
+  <span class="info" id="pickInfo"></span>
 </div>
 
 <div id="mapType">
@@ -354,23 +347,26 @@ function startMap() {
     } catch (e) { roadnet = null; }
   }
 
-  // 纯地名图层：高德注记瓦片（style=8），不含路网；失败不影响点位
-  if (AMap && AMap.TileLayer) {
-    var opts = {
-      zIndex: 200,
-      getTileUrl: function(x, y, z) {
-        var s = ((x + y) % 4) + 1;
-        return 'https://webrd0' + s + '.is.autonavi.com/appmaptile'
-          + '?lang=zh_cn&size=1&scale=1&style=8&x=' + x + '&y=' + y + '&z=' + z;
-      }
-    };
-    try {
-      if (AMap.TileLayer.Flexible) { labelLayer = new AMap.TileLayer.Flexible(opts); }
-    } catch (e) {}
-    if (!labelLayer) {
-      try { labelLayer = new AMap.TileLayer(opts); } catch (e) {}
-    }
+  // 全部图层先加入并隐藏，之后用 show()/hide() 控制（add/remove 在部分版本不生效）
+  function addHidden(layer) {
+    if (!layer) return;
+    try { amap.add(layer); } catch (e) {}
+    try { if (layer.hide) layer.hide(); } catch (e) {}
   }
+  addHidden(satellite);
+  addHidden(roadnet);
+
+  // 纯地名图层：官方 XYZ 栅格写法（style=8 注记，不含路网）
+  if (AMap && AMap.TileLayer) {
+    try {
+      labelLayer = new AMap.TileLayer({
+        getTileUrl: 'https://wprd0{1,2,3,4}.is.autonavi.com/appmaptile'
+                  + '?x=[x]&y=[y]&z=[z]&size=1&scl=1&style=8&ltype=11',
+        zIndex: 200
+      });
+    } catch (e) { labelLayer = null; }
+  }
+  addHidden(labelLayer);
 
 
   // ---- 当前状态 ----
@@ -401,13 +397,17 @@ function startMap() {
     refreshSeries(amap.getZoom());
   });
 
-  var layerState = { sat: false, label: false, road: false };
-  function setLayer(layer, on, key) {
-    if (!layer || layerState[key] === on) return;
+  function setLayerVisible(layer, on) {
+    if (!layer) return;
     try {
-      if (on) { amap.add(layer); } else { amap.remove(layer); }
-      layerState[key] = on;
-    } catch (e) {}
+      if (on) {
+        if (layer.show) { layer.show(); } else { amap.add(layer); }
+      } else {
+        if (layer.hide) { layer.hide(); } else { amap.remove(layer); }
+      }
+    } catch (e) {
+      try { if (on) { amap.add(layer); } else { amap.remove(layer); } } catch (e2) {}
+    }
   }
 
   var MAP_STYLES = {
@@ -420,18 +420,17 @@ function startMap() {
   function applyMapType() {
     var t = selMapType.value;
     var sat = (t === 'satellite');
-    setLayer(satellite, sat, 'sat');
+    setLayerVisible(satellite, sat);
     try { amap.setMapStyle(sat ? MAP_STYLES.normal : (MAP_STYLES[t] || MAP_STYLES.normal)); } catch (e) {}
     applyLayerVisibility();
   }
 
   function applyLayerVisibility() {
-    var sat = selMapType.value === 'satellite';
     var showLabels = !!showLabelChk.checked;
     var showRoads = !!showRoadChk.checked;
-    // 地名/路网只叠加在卫星图上；矢量底图自带标注，避免重复
-    setLayer(labelLayer, sat && showLabels && !showRoads, 'label');
-    setLayer(roadnet, sat && showRoads, 'road');
+    // 路网自带地名：同时开启时只显示路网，避免文字重复
+    setLayerVisible(labelLayer, showLabels && !showRoads);
+    setLayerVisible(roadnet, showRoads);
   }
 
   showLabelChk.addEventListener('change', function() {
