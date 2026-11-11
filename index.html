@@ -89,7 +89,7 @@
     <span class="sz"><i style="width:28px;height:28px"></i>49</span>
   </div>
   <div class="sep"></div>
-  <div class="lbl" id="colorLbl">颜色 = 省份</div>
+  <div class="lbl" id="colorLbl">颜色 = 互补价值</div>
   <div class="lbl" style="color:#999;">缩小地图自动隐藏少量鸟点</div>
   <div class="groups" id="groupLegend"></div>
 </div>
@@ -183,162 +183,92 @@ function startMap() {
     return out;
   }
 
-  function computeGroups(data, K) {
-    var n = data.length;
-    var sets = data.map(function(d) {
-      var set = {};
-      uniqSpecies(d).forEach(function(k) { set[k] = 1; });
-      return set;
+  // 互补分析：按城市分组，组内计算独有种 / 互补价值 / 补点优先级
+  function computeComplement(list) {
+    var groups = {};
+    list.forEach(function(d) {
+      var c = d.city || '未知';
+      (groups[c] = groups[c] || []).push(d);
     });
 
-    var sim = [];
-    for (var i = 0; i < n; i++) { sim.push(new Array(n)); sim[i][i] = 1; }
-    for (i = 0; i < n; i++) {
-      for (var j = i + 1; j < n; j++) {
-        var a = sets[i], b = sets[j], inter = 0, uni = 0, k;
-        for (k in a) { if (b[k]) inter++; }
-        for (k in a) uni++;
-        for (k in b) { if (!a[k]) uni++; }
-        var v = uni ? inter / uni : 0;
-        sim[i][j] = v; sim[j][i] = v;
-      }
-    }
+    Object.keys(groups).forEach(function(cityKey) {
+      var group = groups[cityKey];
 
-    var clusters = [];
-    for (i = 0; i < n; i++) clusters.push({ members: [i] });
-
-    function avg(c1, c2) {
-      var s = 0, cnt = 0;
-      for (var x = 0; x < c1.members.length; x++) {
-        for (var y = 0; y < c2.members.length; y++) {
-          s += sim[c1.members[x]][c2.members[y]];
-          cnt++;
-        }
-      }
-      return cnt ? s / cnt : 0;
-    }
-
-    var target = Math.min(K, n);
-    while (clusters.length > target) {
-      var best = -1, bi = 0, bj = 1;
-      for (var p = 0; p < clusters.length; p++) {
-        for (var q = p + 1; q < clusters.length; q++) {
-          var val = avg(clusters[p], clusters[q]);
-          if (val > best) { best = val; bi = p; bj = q; }
-        }
-      }
-      var merged = { members: clusters[bi].members.concat(clusters[bj].members) };
-      clusters.splice(bj, 1);
-      clusters.splice(bi, 1);
-      clusters.push(merged);
-    }
-
-    var clusterOf = new Array(n);
-    clusters.forEach(function(c, idx) {
-      c.members.forEach(function(m) { clusterOf[m] = idx; });
-    });
-
-    var globalCount = {};
-    sets.forEach(function(s) { for (var k in s) globalCount[k] = (globalCount[k] || 0) + 1; });
-    var labels = clusters.map(function(c) {
-      var local = {};
-      c.members.forEach(function(m) {
-        for (var k in sets[m]) local[k] = (local[k] || 0) + 1;
+      var freq = {};
+      group.forEach(function(d, i) {
+        uniqSpecies(d).forEach(function(k) { (freq[k] = freq[k] || []).push(i); });
       });
-      var size = c.members.length;
-      var scored = Object.keys(local).map(function(k) {
-        var lf = local[k] / size;
-        var gf = globalCount[k] / n;
-        return { name: k, score: lf - gf * 0.7 };
-      });
-      scored.sort(function(a, b) { return b.score - a.score; });
-      return scored.slice(0, 3).map(function(x) { return x.name; });
-    });
 
-    return { clusters: clusters, clusterOf: clusterOf, labels: labels };
+      group.forEach(function(d) {
+        var names = uniqSpecies(d), unique = [], score = 0;
+        names.forEach(function(k) {
+          var f = (freq[k] || []).length || 1;
+          if (f === 1) unique.push(k);
+          score += 1.0 / f;
+        });
+        d.uniqueBirds = unique;
+        d.uniqueCount = unique.length;
+        d.novelty = Math.round(score * 100) / 100;
+        d.coverRank = null;
+        d.coverGain = null;
+      });
+
+      var remaining = {};
+      Object.keys(freq).forEach(function(k) { remaining[k] = 1; });
+      var pool = group.slice().sort(function(a, b) {
+        return (b.value[2] + b.value[3]) - (a.value[2] + a.value[3]);
+      });
+      for (var step = 0; step < 10; step++) {
+        var best = null, bestGain = 0;
+        for (var i = 0; i < pool.length; i++) {
+          var d = pool[i];
+          if (d.coverRank) continue;
+          var g = 0;
+          uniqSpecies(d).forEach(function(k) { if (remaining[k]) g++; });
+          if (g > bestGain) { bestGain = g; best = d; }
+        }
+        if (!best) break;
+        best.coverRank = step + 1;
+        best.coverGain = bestGain;
+        uniqSpecies(best).forEach(function(k) { delete remaining[k]; });
+      }
+    });
   }
 
-  // 互补分析：独有种、权重新颖度、贪心补点优先级
-  function computeComplement(list) {
-    var freq = {};
-    list.forEach(function(d, i) {
-      uniqSpecies(d).forEach(function(k) { (freq[k] = freq[k] || []).push(i); });
-    });
-    list.forEach(function(d) {
-      var names = uniqSpecies(d), unique = [], score = 0;
-      names.forEach(function(k) {
-        var f = (freq[k] || []).length || 1;
-        if (f === 1) unique.push(k);
-        score += 1.0 / f;
-      });
-      d.uniqueBirds = unique;
-      d.uniqueCount = unique.length;
-      d.novelty = Math.round(score * 100) / 100;
-      d.coverRank = null;
-      d.coverGain = null;
-    });
+  // 颜色 = 互补价值（novelty）；大小 = 新鸟种数
+  var NOVELTY_BUCKETS = [
+    { min: 3.0,  color: '#b71c1c', label: '≥3 极独特' },
+    { min: 2.0,  color: '#e53935', label: '2 ~ 3' },
+    { min: 1.0,  color: '#fb8c00', label: '1 ~ 2' },
+    { min: 0.5,  color: '#fdd835', label: '0.5 ~ 1' },
+    { min: 0.01, color: '#66bb6a', label: '<0.5' },
+    { min: 0,    color: '#9e9e9e', label: '无独有种' }
+  ];
 
-    var remaining = {};
-    Object.keys(freq).forEach(function(k) { remaining[k] = 1; });
-    var pool = list.slice().sort(function(a, b) {
-      return (b.value[2] + b.value[3]) - (a.value[2] + a.value[3]);
-    });
-    for (var step = 0; step < 10; step++) {
-      var best = null, bestGain = 0;
-      for (var i = 0; i < pool.length; i++) {
-        var d = pool[i];
-        if (d.coverRank) continue;
-        var g = 0;
-        uniqSpecies(d).forEach(function(k) { if (remaining[k]) g++; });
-        if (g > bestGain) { bestGain = g; best = d; }
-      }
-      if (!best) break;
-      best.coverRank = step + 1;
-      best.coverGain = bestGain;
-      uniqSpecies(best).forEach(function(k) { delete remaining[k]; });
+  function bucketIndex(v) {
+    for (var i = 0; i < NOVELTY_BUCKETS.length; i++) {
+      if (v >= NOVELTY_BUCKETS[i].min) return i;
     }
+    return NOVELTY_BUCKETS.length - 1;
   }
 
   function symbolSize(count) {
     return Math.max(10, 8 + Math.sqrt(count) * 4.2);
   }
 
-  // 按当前模式着色：选定城市 → 鸟种相似组；否则 → 省份
-  function styleList(list, groups) {
-    var colorOf = [], order = [], provColor = {}, provList = [];
-    if (groups) {
-      order = groups.clusters.map(function(c, i) {
-        return { i: i, n: c.members.length };
-      }).sort(function(a, b) { return b.n - a.n; });
-      order.forEach(function(o, idx) { colorOf[o.i] = palette[idx % palette.length]; });
-    } else {
-      list.forEach(function(d) {
-        var p = d.province || '未知';
-        if (!provColor[p]) { provColor[p] = 1; provList.push(p); }
-      });
-      provList.sort();
-      provList.forEach(function(p, i) { provColor[p] = palette[i % palette.length]; });
-    }
-
+  function styleList(list) {
     var showLabels = list.length <= 200;
     var factor = list.length > 3000 ? 0.55
                : list.length > 1500 ? 0.7
                : list.length > 800 ? 0.85 : 1;
-    var items = list.map(function(d, i) {
-      var color, label, ci = -1;
-      if (groups) {
-        ci = groups.clusterOf[i];
-        color = colorOf[ci];
-        label = groups.labels[ci].join('、');
-      } else {
-        color = provColor[d.province || '未知'] || '#888';
-        label = d.province || '未知';
-      }
+    return list.map(function(d) {
+      var bi = bucketIndex(d.novelty);
+      var color = NOVELTY_BUCKETS[bi].color;
       var item = {};
       for (var k in d) { item[k] = d[k]; }
-      item.clusterIdx = ci;
+      item.noveltyBucket = bi;
       item.groupColor = color;
-      item.groupLabel = label;
+      item.groupLabel = d.province || '';
       item.symbol = 'circle';
       item.symbolSize = symbolSize(d.value[2]) * factor;
       item.itemStyle = {
@@ -360,8 +290,6 @@ function startMap() {
       };
       return item;
     });
-    return { items: items, order: order, colorOf: colorOf,
-             provColor: provColor, provList: provList };
   }
 
   var chart = echarts.init(document.getElementById('map'));
@@ -395,9 +323,8 @@ function startMap() {
 
   // ---- 当前状态 ----
   var currentList = [];     // 区域过滤后的原始点位
-  var currentStyled = [];   // 带颜色/大小的点位
-  var currentInfo = null;
-  var currentMode = 'province';
+  var currentStyled = [];
+  var currentBuckets = [0, 0, 0, 0, 0, 0];
 
   var selProv = document.getElementById('selProv');
   var selCity = document.getElementById('selCity');
@@ -439,31 +366,13 @@ function startMap() {
   }
 
   function renderLegend() {
-    var legendEl = document.getElementById('groupLegend');
-    var colorLbl = document.getElementById('colorLbl');
+    document.getElementById('colorLbl').textContent = '颜色 = 互补价值';
     var html = '';
-    if (currentMode === 'similarity' && currentInfo) {
-      colorLbl.textContent = '颜色 = 鸟种相似组';
-      currentInfo.order.forEach(function(o, idx) {
-        var label = (currentInfo.labels && currentInfo.labels[o.i])
-          ? currentInfo.labels[o.i].join('、') : '';
-        html += '<div class="grow" title="组' + (idx + 1) + ' · ' + o.n + ' 点 · 代表：' + label + '">' +
-          '<i style="background:' + currentInfo.colorOf[o.i] + '"></i>组' + (idx + 1) + '·' + o.n + '点·' + label +
-          '</div>';
-      });
-    } else if (currentInfo) {
-      colorLbl.textContent = '颜色 = 省份';
-      var counts = {};
-      currentList.forEach(function(d) {
-        var p = d.province || '未知';
-        counts[p] = (counts[p] || 0) + 1;
-      });
-      currentInfo.provList.forEach(function(p) {
-        html += '<div class="grow" title="' + p + ' · ' + (counts[p] || 0) + ' 点">' +
-          '<i style="background:' + currentInfo.provColor[p] + '"></i>' + p + '·' + (counts[p] || 0) + '点</div>';
-      });
-    }
-    legendEl.innerHTML = html;
+    NOVELTY_BUCKETS.forEach(function(b, i) {
+      html += '<div class="grow"><i style="background:' + b.color + '"></i>' +
+              b.label + '·' + currentBuckets[i] + '点</div>';
+    });
+    document.getElementById('groupLegend').innerHTML = html;
   }
 
   function applyFilter(keepView) {
@@ -474,23 +383,9 @@ function startMap() {
       return true;
     });
     computeComplement(currentList);
-
-    // 只有选定城市才做相似组聚类；全国/省按省份着色
-    currentMode = (city && currentList.length <= 1200) ? 'similarity' : 'province';
-    var groups = null;
-    if (currentMode === 'similarity') {
-      groups = computeGroups(currentList, 8);
-    }
-    var styled = styleList(currentList, groups);
-    currentStyled = styled.items;
-    currentInfo = {
-      items: styled.items,
-      order: styled.order,
-      colorOf: styled.colorOf,
-      provColor: styled.provColor,
-      provList: styled.provList,
-      labels: groups ? groups.labels : null
-    };
+    currentBuckets = [0, 0, 0, 0, 0, 0];
+    currentList.forEach(function(d) { currentBuckets[bucketIndex(d.novelty)]++; });
+    currentStyled = styleList(currentList);
     renderLegend();
 
     var opt = { series: [{ data: currentStyled }] };
@@ -581,13 +476,13 @@ function startMap() {
 
     var meta = '共 ' + d.value[2] + ' 种新鸟，' + d.value[3] + ' 种关注';
     meta += '<br/>独有鸟种：' + (d.uniqueCount || 0) + ' 种';
-    meta += '<br/>互补价值：' + (d.novelty || 0);
     if (d.coverRank) {
-      meta += '<br/>补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
+      meta += '<br/>市内补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
     }
     if (d.dates) meta += '<br/>记录时间：' + d.dates;
     meta += '<br/><span style="color:' + d.groupColor + ';font-size:14px;">●</span> ' +
-            (currentMode === 'similarity' ? '鸟种相似组：' : '省份：') + d.groupLabel;
+            '颜色档位：' + NOVELTY_BUCKETS[d.noveltyBucket || 0].label +
+            ' · 省份：' + (d.province || '未知');
     panelMeta.innerHTML = meta;
 
     var uniqueSet = {};
