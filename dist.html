@@ -249,7 +249,7 @@ function startMap() {
   document.getElementById('pClose').addEventListener('click', function () { panel.style.display = 'none'; });
 
   var link = document.getElementById('modeLink');
-  link.href = /(^|\/)index\.html$/.test(location.pathname) ? 'dist.html' : '鸟讯地图_全国.html';
+  link.href = (location.protocol === 'file:') ? '鸟讯地图_全国.html' : './';
 
   render();
 }
