@@ -93,7 +93,7 @@ function startMap() {
   var option = {
     tooltip: { show: false },
     amap: {
-      center: [105.0, 36.0], zoom: 4, viewMode: '2D', resizeEnable: true,
+      center: [104.2, 35.5], zoom: 5, viewMode: '2D', resizeEnable: true,
       mapStyle: 'amap://styles/normal', showLabel: true, renderOnMoving: true,
       echartsLayerZIndex: 2019
     },
@@ -214,18 +214,7 @@ function startMap() {
     chart.setOption({ series: [{ data: out }] });
     currentPoints = out;
     info.textContent = sp[0] + ' · ' + halfLabel(h) + ' · ' + out.length + ' 个城市';
-    if (out.length) {
-      var lngs = out.map(function (d) { return d.value[0]; });
-      var lats = out.map(function (d) { return d.value[1]; });
-      var span = Math.max(Math.max.apply(null, lngs) - Math.min.apply(null, lngs),
-                          Math.max.apply(null, lats) - Math.min.apply(null, lats));
-      var zoom = span < 1 ? 9 : span < 3 ? 8 : span < 10 ? 6 : span < 30 ? 5 : 4;
-      chart.setOption({ amap: {
-        center: [(Math.min.apply(null, lngs) + Math.max.apply(null, lngs)) / 2,
-                 (Math.min.apply(null, lats) + Math.max.apply(null, lats)) / 2],
-        zoom: zoom
-      }});
-    }
+
   }
 
   input.addEventListener('change', render);
