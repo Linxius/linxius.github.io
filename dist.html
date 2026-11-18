@@ -109,6 +109,7 @@ function startMap() {
   var comp = chart.getModel().getComponent('amap');
   if (!comp) throw new Error('高德地图组件未初始化（检查 Key / 域名白名单）');
   var amap = comp.getAMap();
+  try { amap.addControl(new AMap.Scale()); } catch (e) {}
 
   var DIST = window.SPECIES_DIST || null;
   if (!DIST) {
@@ -254,7 +255,7 @@ function startMap() {
 
 <script>window._AMapSecurityConfig = {securityJsCode: "8ca7feb6b8b7b991d7c2d1729ebe2d10"};</script>
 <script src="echarts.min.js" onload="mark('e',1)" onerror="loadFallback('e','https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js')"></script>
-<script src="https://webapi.amap.com/maps?v=2.0&key=da973e365f9144e9feee0a00aa99bcdc" onload="mark('a',1)" onerror="mark('a',-1)"></script>
+<script src="https://webapi.amap.com/maps?v=2.0&key=da973e365f9144e9feee0a00aa99bcdc&plugin=AMap.Scale" onload="mark('a',1)" onerror="mark('a',-1)"></script>
 <script src="echarts-extension-amap.min.js" onload="mark('e2',1)" onerror="loadFallback('e2','https://s4.zstatic.net/npm/echarts-extension-amap@1.12.0/dist/echarts-extension-amap.min.js')"></script>
 <script src="species_dist.js" onload="mark('d',1)" onerror="mark('d',-1)"></script>
 </body>
