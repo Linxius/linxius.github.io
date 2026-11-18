@@ -19,6 +19,8 @@
   #panel select{font-size:12px;padding:3px 6px;border:1px solid #ddd;border-radius:5px;background:#fff;max-width:150px;}
   #slider{width:240px;}
   #sliderLabel{font-size:12px;color:#333;min-width:96px;}
+  #resetView{font-size:11px;padding:3px 8px;border:1px solid #ddd;border-radius:5px;background:#fff;color:#333;cursor:pointer;}
+  #resetView:hover{border-color:#999;}
   #info{font-size:11px;color:#888;}
   #modeLink{font-size:11px;color:#1565c0;text-decoration:none;}
   #modeLink:hover{text-decoration:underline;}
@@ -54,6 +56,7 @@
   </div>
   <div class="row">
     <select id="selProv" title="按省筛选"><option value="">全部省份</option></select>
+    <button id="resetView" type="button" title="回到全国视野">回到全国</button>
     <span id="info"></span>
   </div>
 </div>
@@ -133,6 +136,8 @@ function startMap() {
   var sliderLabel = document.getElementById('sliderLabel');
   var selProv = document.getElementById('selProv');
   var info = document.getElementById('info');
+  var FN_CENTER = [104.2, 35.5], FN_ZOOM = 5;
+  var resetView = document.getElementById('resetView');
   var panel = document.getElementById('birdPanel');
   var pTitle = document.getElementById('pTitle');
   var pMeta = document.getElementById('pMeta');
@@ -223,6 +228,9 @@ function startMap() {
   });
   slider.addEventListener('input', render);
   selProv.addEventListener('change', render);
+  resetView.addEventListener('click', function() {
+    chart.setOption({ amap: { center: FN_CENTER, zoom: FN_ZOOM } });
+  });
 
   chart.on('click', function (p) {
     if (p.componentType !== 'series' || !p.data) return;
