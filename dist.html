@@ -21,6 +21,8 @@
   #sliderLabel{font-size:12px;color:#333;min-width:96px;}
   #resetView{font-size:11px;padding:3px 8px;border:1px solid #ddd;border-radius:5px;background:#fff;color:#333;cursor:pointer;}
   #resetView:hover{border-color:#999;}
+  #scalebar{position:fixed;left:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.88);border-radius:5px;padding:4px 7px 3px;font-size:10px;color:#333;line-height:1.1;}
+  #scalebar .bar{height:7px;border:1px solid #333;border-top:none;box-sizing:border-box;margin-bottom:2px;}
   #info{font-size:11px;color:#888;}
   #modeLink{font-size:11px;color:#1565c0;text-decoration:none;}
   #modeLink:hover{text-decoration:underline;}
@@ -66,6 +68,8 @@
   <div class="meta" id="pMeta"></div>
 </div>
 
+<div id="scalebar"><div class="bar" id="scaleBarLine"></div><span id="scaleText">—</span></div>
+
 <div id="legend">
   <span><i class="dot" style="width:10px;height:10px;background:#90caf9"></i>少</span>
   <span><i class="dot" style="width:14px;height:14px;background:#42a5f5"></i>中</span>
@@ -109,7 +113,6 @@ function startMap() {
   var comp = chart.getModel().getComponent('amap');
   if (!comp) throw new Error('高德地图组件未初始化（检查 Key / 域名白名单）');
   var amap = comp.getAMap();
-  try { amap.addControl(new AMap.Scale()); } catch (e) {}
 
   var DIST = window.SPECIES_DIST || null;
   if (!DIST) {
@@ -137,6 +140,31 @@ function startMap() {
   var sliderLabel = document.getElementById('sliderLabel');
   var selProv = document.getElementById('selProv');
   var info = document.getElementById('info');
+  var scaleLine = document.getElementById('scaleBarLine');
+  var scaleText = document.getElementById('scaleText');
+  function havMeters(lng1, lat1, lng2) {
+    var R = 6371000, p = Math.PI / 180, dLng = (lng2 - lng1) * p;
+    var a = Math.cos(lat1 * p) * Math.cos(lat1 * p) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    return 2 * R * Math.asin(Math.sqrt(a));
+  }
+  function updateScale() {
+    try {
+      var size = amap.getSize(), b = amap.getBounds(), c = amap.getCenter();
+      if (!size || !size.width || !b || !b.northEast || !b.southWest) return;
+      var meters = havMeters(b.southWest.lng, c.lat, b.northEast.lng);
+      var mpp = meters / size.width;
+      if (!isFinite(mpp) || mpp <= 0) return;
+      var raw = mpp * 100, pow = Math.pow(10, Math.floor(Math.log10(raw)));
+      var norm = raw / pow, nice = norm >= 5 ? 5 : (norm >= 2 ? 2 : 1);
+      var dist = nice * pow, px = dist / mpp;
+      scaleLine.style.width = Math.round(px) + 'px';
+      scaleText.textContent = dist >= 1000 ? (dist / 1000) + ' km' : Math.round(dist) + ' m';
+    } catch (e) {}
+  }
+  amap.on('zoomend', updateScale);
+  amap.on('moveend', updateScale);
+  updateScale();
+
   var FN_CENTER = [104.2, 35.5], FN_ZOOM = 5;
   var resetView = document.getElementById('resetView');
   var panel = document.getElementById('birdPanel');
@@ -231,6 +259,11 @@ function startMap() {
   selProv.addEventListener('change', render);
   resetView.addEventListener('click', function() {
     chart.setOption({ amap: { center: FN_CENTER, zoom: FN_ZOOM } });
+    setTimeout(updateScale, 200);
+  });
+  window.addEventListener('resize', function() {
+    chart.resize();
+    setTimeout(updateScale, 100);
   });
 
   chart.on('click', function (p) {
@@ -255,7 +288,7 @@ function startMap() {
 
 <script>window._AMapSecurityConfig = {securityJsCode: "8ca7feb6b8b7b991d7c2d1729ebe2d10"};</script>
 <script src="echarts.min.js" onload="mark('e',1)" onerror="loadFallback('e','https://cdn.bootcdn.net/ajax/libs/echarts/5.4.3/echarts.min.js')"></script>
-<script src="https://webapi.amap.com/maps?v=2.0&key=da973e365f9144e9feee0a00aa99bcdc&plugin=AMap.Scale" onload="mark('a',1)" onerror="mark('a',-1)"></script>
+<script src="https://webapi.amap.com/maps?v=2.0&key=da973e365f9144e9feee0a00aa99bcdc" onload="mark('a',1)" onerror="mark('a',-1)"></script>
 <script src="echarts-extension-amap.min.js" onload="mark('e2',1)" onerror="loadFallback('e2','https://s4.zstatic.net/npm/echarts-extension-amap@1.12.0/dist/echarts-extension-amap.min.js')"></script>
 <script src="species_dist.js" onload="mark('d',1)" onerror="mark('d',-1)"></script>
 </body>
