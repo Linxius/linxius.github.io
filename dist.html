@@ -15,7 +15,14 @@
   #boot{position:fixed;inset:0;background:#fafafa;z-index:99999;display:flex;flex-direction:column;justify-content:center;align-items:center;color:#999;font-size:14px;}
   #panel{position:fixed;left:12px;top:12px;z-index:9998;background:rgba(255,255,255,.96);border-radius:8px;padding:8px 10px;box-shadow:0 3px 14px rgba(0,0,0,.18);display:flex;flex-direction:column;gap:7px;max-width:calc(100vw - 24px);}
   #panel .row{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
-  #panel input[type=text]{font-size:13px;padding:4px 7px;border:1px solid #ddd;border-radius:5px;width:200px;}
+  #speciesBox{position:relative;flex:0 1 200px;min-width:0;}
+  #speciesBox input{font-size:13px;padding:5px 8px;border:1px solid #ddd;border-radius:5px;width:100%;box-sizing:border-box;}
+  #speciesBox input:focus{outline:none;border-color:#90caf9;box-shadow:0 0 0 2px rgba(144,202,249,.35);}
+  #suggest{display:none;position:absolute;left:0;right:0;top:100%;margin-top:4px;background:#fff;border:1px solid #e3e3e3;border-radius:6px;box-shadow:0 8px 24px rgba(0,0,0,.16);min-width:250px;max-height:228px;overflow-y:auto;z-index:10001;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  #suggest .item{padding:7px 10px;font-size:13px;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #suggest .item.on,#suggest .item:hover{background:#e8f0fe;}
+  #suggest .item.on{color:#0b57d0;}
+  #suggest .lat{color:#aaa;font-size:11px;margin-left:6px;}
   #panel select{font-size:12px;padding:3px 6px;border:1px solid #ddd;border-radius:5px;background:#fff;max-width:150px;}
   #slider{width:240px;}
   #sliderLabel{font-size:12px;color:#333;min-width:96px;}
@@ -34,11 +41,16 @@
   #legend{position:fixed;right:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.92);border-radius:6px;padding:6px 9px;font-size:11px;color:#555;display:flex;gap:10px;align-items:center;}
   .dot{display:inline-block;border-radius:50%;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);vertical-align:middle;margin-right:3px;}
   @media (max-width:600px){
-    #panel{left:6px;right:6px;top:6px;max-width:none;}
-    #panel input[type=text]{width:140px;}
-    #slider{width:150px;}
-    #birdPanel{left:0;right:0;bottom:0;width:auto;border-radius:14px 14px 0 0;}
-    #legend{right:6px;bottom:6px;}
+    #panel{left:6px;right:6px;top:6px;max-width:none;padding:7px 8px;gap:6px;}
+    #panel .row{gap:5px;}
+    #speciesBox{flex:1 1 100%;}
+    #suggest{min-width:0;max-height:32vh;}
+    #slider{width:100%;}
+    #sliderLabel{min-width:auto;}
+    #birdPanel{left:0;right:0;bottom:0;width:auto;max-height:46vh;border-radius:14px 14px 0 0;padding:14px 16px calc(14px + env(safe-area-inset-bottom));box-shadow:0 -4px 24px rgba(0,0,0,.2);}
+    #legend{right:6px;bottom:6px;font-size:10px;gap:7px;padding:4px 7px;flex-wrap:wrap;max-width:calc(100vw - 12px);}
+    #legend .note{display:none;}
+    #scalebar{left:6px;bottom:6px;}
   }
 </style>
 </head>
@@ -48,8 +60,10 @@
 
 <div id="panel">
   <div class="row">
-    <input type="text" id="speciesInput" list="speciesList" placeholder="输入鸟种名，如 黑脸琵鹭">
-    <datalist id="speciesList"></datalist>
+    <div id="speciesBox">
+      <input type="text" id="speciesInput" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="输入鸟种名，如 黑脸琵鹭">
+      <div id="suggest"></div>
+    </div>
     <a id="modeLink" href="#">← 最近鸟讯</a>
   </div>
   <div class="row">
@@ -74,7 +88,7 @@
   <span><i class="dot" style="width:10px;height:10px;background:#90caf9"></i>少</span>
   <span><i class="dot" style="width:14px;height:14px;background:#42a5f5"></i>中</span>
   <span><i class="dot" style="width:18px;height:18px;background:#1565c0"></i>多</span>
-  <span style="color:#999">半月光滑：全部时间 → 12月下半月</span>
+  <span class="note" style="color:#999">半月光滑：全部时间 → 12月下半月</span>
 </div>
 
 <script>
@@ -106,7 +120,7 @@ function startMap() {
     },
     series: [{
       type: 'scatter', coordinateSystem: 'amap', data: [],
-      emphasis: { scale: 1.15 }
+      cursor: 'pointer', emphasis: { scale: 1.2 }
     }]
   };
   chart.setOption(option);
@@ -128,13 +142,56 @@ function startMap() {
   species.forEach(function (s) { byLatin[String(s[1]).toLowerCase()] = s; });
 
   var input = document.getElementById('speciesInput');
-  var list = document.getElementById('speciesList');
-  species.forEach(function (s) {
-    var o = document.createElement('option');
-    o.value = s[0];
-    o.label = s[1];
-    list.appendChild(o);
-  });
+  var suggestEl = document.getElementById('suggest');
+  var MAX_SUG = window.innerWidth <= 600 ? 6 : 8;
+  var sugList = [], sugIdx = -1, composing = false;
+
+  function hideSuggest() { suggestEl.style.display = 'none'; sugIdx = -1; }
+
+  function showSuggest(q) {
+    q = String(q || '').trim().toLowerCase();
+    if (!q) { hideSuggest(); return; }
+    var head = [], rest = [];
+    for (var i = 0; i < species.length; i++) {
+      var name = String(species[i][0] || ''), latin = String(species[i][1] || '');
+      var nl = name.toLowerCase(), ll = latin.toLowerCase();
+      if (nl.indexOf(q) === 0) head.push(species[i]);
+      else if (nl.indexOf(q) > -1 || ll.indexOf(q) > -1) rest.push(species[i]);
+      if (head.length >= MAX_SUG) break;
+    }
+    sugList = head.concat(rest).slice(0, MAX_SUG);
+    if (!sugList.length) { hideSuggest(); return; }
+    var html = '';
+    for (var j = 0; j < sugList.length; j++) {
+      html += '<div class="item" data-i="' + j + '">' + sugList[j][0]
+        + (sugList[j][1] ? '<span class="lat">' + sugList[j][1] + '</span>' : '')
+        + '</div>';
+    }
+    suggestEl.innerHTML = html;
+    suggestEl.style.display = 'block';
+    sugIdx = -1;
+  }
+
+  function highlightSuggest() {
+    var items = suggestEl.querySelectorAll('.item');
+    for (var i = 0; i < items.length; i++) {
+      if (i === sugIdx) {
+        items[i].className = 'item on';
+        if (items[i].scrollIntoView) items[i].scrollIntoView({ block: 'nearest' });
+      } else {
+        items[i].className = 'item';
+      }
+    }
+  }
+
+  function pickSuggest(i) {
+    var s = sugList[i];
+    if (!s) return;
+    input.value = s[0];
+    hideSuggest();
+    render();
+    try { input.blur(); } catch (e) {}   // 手机上收起输入法
+  }
 
   var slider = document.getElementById('slider');
   var sliderLabel = document.getElementById('sliderLabel');
@@ -253,7 +310,37 @@ function startMap() {
 
   input.addEventListener('change', render);
   input.addEventListener('input', function () {
+    if (composing) return;
+    showSuggest(input.value);
     if (input.value.length >= 2) render();
+  });
+  input.addEventListener('compositionstart', function () { composing = true; });
+  input.addEventListener('compositionend', function () {
+    composing = false;
+    showSuggest(input.value);
+    if (input.value.length >= 2) render();
+  });
+  input.addEventListener('keydown', function (e) {
+    var open = suggestEl.style.display === 'block';
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      if (!open) { showSuggest(input.value); return; }
+      e.preventDefault();
+      if (!sugList.length) return;
+      sugIdx = (sugIdx + (e.key === 'ArrowDown' ? 1 : -1) + sugList.length) % sugList.length;
+      highlightSuggest();
+    } else if (e.key === 'Enter') {
+      if (open && sugIdx >= 0) { e.preventDefault(); pickSuggest(sugIdx); }
+      else { hideSuggest(); render(); }
+    } else if (e.key === 'Escape') {
+      hideSuggest();
+    }
+  });
+  input.addEventListener('blur', function () { setTimeout(hideSuggest, 150); });
+  suggestEl.addEventListener('mousedown', function (e) { e.preventDefault(); });
+  suggestEl.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('.item') : null;
+    if (!el) return;
+    pickSuggest(parseInt(el.getAttribute('data-i'), 10));
   });
   slider.addEventListener('input', render);
   selProv.addEventListener('change', render);
@@ -269,12 +356,17 @@ function startMap() {
   chart.on('click', function (p) {
     if (p.componentType !== 'series' || !p.data) return;
     var d = p.data;
-    pTitle.textContent = d.city || d.name;
-    pMeta.innerHTML = '省份：' + (d.province || '未知') +
-      '<br/>鸟种：' + (resolveSpecies(input.value) || ['', ''])[0] +
-      '<br/>时间段：' + halfLabel(parseInt(slider.value, 10) || 0) +
-      '<br/>记录次数：' + d.count;
+    var sp = resolveSpecies(input.value) || ['', ''];
+    pTitle.textContent = (d.city || d.name) + (d.province ? '（' + d.province + '）' : '');
+    pMeta.innerHTML =
+      '<div>鸟种：<b>' + sp[0] + '</b>'
+      + (sp[1] ? '<br/><span style="color:#999;font-size:11px;">' + sp[1] + '</span>' : '')
+      + '</div>'
+      + '<div style="margin-top:6px;">时间段：' + halfLabel(parseInt(slider.value, 10) || 0) + '</div>'
+      + '<div>记录次数：<b>' + d.count + '</b></div>'
+      + '<div style="margin-top:10px;color:#999;font-size:11px;">点地图空白处关闭</div>';
     panel.style.display = 'block';
+    try { chart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: p.dataIndex }); } catch (e) {}
   });
   chart.getZr().on('click', function (e) { if (!e.target) panel.style.display = 'none'; });
   document.getElementById('pClose').addEventListener('click', function () { panel.style.display = 'none'; });
