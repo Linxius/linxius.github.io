@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["porzana_porzana"]=[[36,32,1],[7,16,7],[7,80,5],[7,82,1],[7,104,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["porzana_porzana"]=[[253,30,1],[562,76,1],[562,81,1],[562,89,5],[562,97,7]];

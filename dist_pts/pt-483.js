@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[483]=["台湾岛西南侧","台湾海峡东南侧","神狐海域"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[483]=["十户农庄(石河子市)","玛纳斯河河谷西岸","石河子周边"];

@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[466]=["〒321-0964日本枥木县宇都宫市驿前通1丁目2"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[466]=["海南省白马岭林场","黎母山","黎母山森林公园"];

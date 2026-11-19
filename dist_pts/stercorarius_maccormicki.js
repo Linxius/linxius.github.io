@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["stercorarius_maccormicki"]=[[352,0,10]];
+(window.__SP_PTS=window.__SP_PTS||{})["stercorarius_maccormicki"]=[[326,3,10]];

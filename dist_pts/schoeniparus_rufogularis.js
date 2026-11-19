@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["schoeniparus_rufogularis"]=[[69,42,31],[69,52,16],[69,78,11],[69,162,8],[69,79,7]];
+(window.__SP_PTS=window.__SP_PTS||{})["schoeniparus_rufogularis"]=[[512,111,8],[512,204,16],[512,206,11],[512,248,7],[512,274,31]];

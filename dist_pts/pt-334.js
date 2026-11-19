@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[334]=["山中湖","富士山山中湖"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[334]=["恒春镇白沙鼻"];

@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["asarcornis_scutulata"]=[[143,30,1],[16,6,1],[65,7,1],[123,65,1],[3,232,1],[13,222,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["asarcornis_scutulata"]=[[216,58,1],[261,272,1],[383,199,1],[397,87,1],[471,11,1],[505,29,1]];

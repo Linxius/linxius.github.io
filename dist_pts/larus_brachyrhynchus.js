@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["larus_brachyrhynchus"]=[[551,0,1],[13,376,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["larus_brachyrhynchus"]=[[96,0,1],[216,114,1]];

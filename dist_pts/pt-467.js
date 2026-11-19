@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[467]=["埃及开罗"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[467]=["万泉河峡谷","嘉积镇白石岭大道(官塘学府)","官塘","海南世界花果示范基地(琼海市)","红石滩"];

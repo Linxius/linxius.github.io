@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["phoebastria_nigripes"]=[[352,0,72],[40,53,20],[40,124,3]];
+(window.__SP_PTS=window.__SP_PTS||{})["phoebastria_nigripes"]=[[326,3,72],[442,159,20],[442,280,3]];

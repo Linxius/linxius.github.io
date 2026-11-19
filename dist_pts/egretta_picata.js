@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["egretta_picata"]=[[237,98,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["egretta_picata"]=[[271,153,1]];

@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["turnix_sylvaticus"]=[[21,379,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["turnix_sylvaticus"]=[[347,319,1]];

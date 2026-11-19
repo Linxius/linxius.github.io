@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["sula_granti"]=[[352,0,16],[23,40,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["sula_granti"]=[[320,90,1],[326,3,16]];

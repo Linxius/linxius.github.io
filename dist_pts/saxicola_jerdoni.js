@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["saxicola_jerdoni"]=[[59,177,1],[69,21,1],[9,49,1],[13,191,1],[24,228,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["saxicola_jerdoni"]=[[216,406,1],[249,221,1],[358,20,1],[464,98,1],[512,54,1]];

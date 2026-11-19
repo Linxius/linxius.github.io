@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[565]=["Sidl'Mokhtar,马拉喀什-萨菲大区,摩洛哥"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[565]=["塔克拉玛干沙漠（阿拉尔段）","塔河源景区","胜利水库","艾西曼湖-1","阿拉尔万达美华酒店(塔里木大学店)"];

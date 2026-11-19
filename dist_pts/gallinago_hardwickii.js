@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["gallinago_hardwickii"]=[[326,1,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["gallinago_hardwickii"]=[[197,1,1]];

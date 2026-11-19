@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[479]=["AngkorWat(吴哥窟)"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[479]=["大墩村","山钦湾海域","海南","蔚蓝星语16号楼"];

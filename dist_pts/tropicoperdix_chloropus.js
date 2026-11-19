@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["tropicoperdix_chloropus"]=[[430,0,1],[69,6,304],[69,29,76],[69,37,68],[69,77,41],[69,47,33]];
+(window.__SP_PTS=window.__SP_PTS||{})["tropicoperdix_chloropus"]=[[79,0,1],[512,251,41],[512,252,76],[512,258,304],[512,260,68],[512,261,33]];

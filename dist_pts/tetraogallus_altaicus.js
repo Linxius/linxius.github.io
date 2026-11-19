@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["tetraogallus_altaicus"]=[[28,47,1],[7,11,92],[7,26,34],[7,99,13],[7,226,11],[7,132,6]];
+(window.__SP_PTS=window.__SP_PTS||{})["tetraogallus_altaicus"]=[[384,31,1],[562,88,34],[562,95,11],[562,255,13],[562,258,6],[562,315,92]];

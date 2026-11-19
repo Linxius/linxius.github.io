@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["bubo_blakistoni"]=[[434,0,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["bubo_blakistoni"]=[[122,0,1]];

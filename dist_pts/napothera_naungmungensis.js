@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["napothera_naungmungensis"]=[[59,0,1],[9,0,25],[9,1,20],[9,2,11],[9,78,10],[9,26,6]];
+(window.__SP_PTS=window.__SP_PTS||{})["napothera_naungmungensis"]=[[249,352,1],[358,105,11],[358,177,10],[358,252,6],[358,254,25],[358,262,20]];

@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[493]=["UlicaVisegradska23,11000贝尔格莱德,塞尔维亚"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[493]=["-售票处","130团场","胡杨水韵旅游景区"];

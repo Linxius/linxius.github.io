@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[456]=["Padawkema"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[456]=["台湾省澎湖县白沙乡","钓鱼岛"];

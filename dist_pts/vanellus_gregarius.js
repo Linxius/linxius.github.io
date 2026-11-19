@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["vanellus_gregarius"]=[[305,73,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["vanellus_gregarius"]=[[298,54,1]];

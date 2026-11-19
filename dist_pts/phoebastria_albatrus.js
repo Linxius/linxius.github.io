@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["phoebastria_albatrus"]=[[53,198,1],[40,124,3],[352,0,23]];
+(window.__SP_PTS=window.__SP_PTS||{})["phoebastria_albatrus"]=[[280,137,1],[326,3,23],[442,280,3]];

@@ -81,6 +81,7 @@
       <div id="suggest"></div>
     </div>
     <a id="modeLink" href="#">← 最近鸟讯</a>
+    <a id="regionLink" href="#" style="font-size:11px;color:#1565c0;text-decoration:none;white-space:nowrap;">地区鸟类</a>
   </div>
   <div class="row">
     <span id="sliderLabel">全部时间</span>
@@ -544,6 +545,10 @@ function startMap() {
 
   var link = document.getElementById('modeLink');
   link.href = (location.protocol === 'file:') ? '鸟讯地图_全国.html' : './';
+  var rlink = document.getElementById('regionLink');
+  if (rlink) {
+    rlink.href = (location.protocol === 'file:') ? '地区鸟类_全国.html' : 'region.html';
+  }
 
   render();
 }

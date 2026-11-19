@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[472]=["NailMarket"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[472]=["兵团农九师一六五团八连","别斯巴斯陶","塔尔巴哈台山","老水磨"];

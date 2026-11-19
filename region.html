@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>地区鸟类 · 全国</title>
+<style>
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:#f4f6f8;color:#222;font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;-webkit-text-size-adjust:100%;}
+  header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.97);border-bottom:1px solid #e5e7ea;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .top{max-width:1080px;margin:0 auto;padding:10px 14px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .title{font-size:17px;font-weight:700;letter-spacing:.5px;}
+  .title small{font-size:11px;font-weight:400;color:#999;margin-left:6px;}
+  .links{display:flex;gap:12px;flex:none;}
+  .links a{font-size:12px;color:#1565c0;text-decoration:none;white-space:nowrap;}
+  .links a:hover{text-decoration:underline;}
+  .controls{max-width:1080px;margin:0 auto;padding:8px 14px 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px;color:#666;}
+  .controls label{display:flex;align-items:center;gap:5px;}
+  .controls select{font-size:13px;padding:4px 8px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#333;max-width:190px;}
+  .controls select:focus{outline:none;border-color:#90caf9;box-shadow:0 0 0 2px rgba(144,202,249,.3);}
+  .controls select:disabled{background:#f5f6f8;color:#b5bac0;}
+  #range{margin-left:auto;color:#aaa;font-size:11px;}
+  main{max-width:1080px;margin:0 auto;padding:14px 14px 30px;}
+  .summary{display:flex;align-items:flex-end;gap:22px;flex-wrap:wrap;background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .summary .scope{font-size:14px;font-weight:600;color:#333;margin-right:auto;align-self:center;min-width:120px;}
+  .summary .scope .per{display:block;font-size:11px;font-weight:400;color:#999;margin-top:2px;}
+  .summary .item{line-height:1.15;}
+  .summary .k{font-size:10px;color:#999;margin-bottom:2px;}
+  .summary .v{font-size:21px;font-weight:700;color:#1565c0;font-variant-numeric:tabular-nums;}
+  .summary .v.gray{color:#555;}
+  .chart{background:#fff;border-radius:10px;padding:11px 14px 7px;margin-top:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+  .chart .head{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;flex-wrap:wrap;}
+  .chart .head .h{font-weight:600;color:#333;margin-right:auto;}
+  .chip{font-size:11px;padding:2px 10px;border:1px solid #d8dde3;border-radius:999px;background:#fff;color:#666;cursor:pointer;}
+  .chip:hover{border-color:#90caf9;color:#1565c0;}
+  .chip.on{background:#1565c0;border-color:#1565c0;color:#fff;}
+  .bars{display:flex;align-items:flex-end;gap:4px;height:118px;margin-top:8px;}
+  .bar{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;min-width:0;-webkit-tap-highlight-color:transparent;}
+  .bar .col{flex:1;display:flex;align-items:flex-end;justify-content:center;}
+  .bar .fill{width:72%;max-width:34px;background:#bbdefb;border-radius:3px 3px 0 0;min-height:2px;transition:background .15s;}
+  .bar:hover .fill{background:#90caf9;}
+  .bar.on .fill{background:#1565c0;}
+  .bar .mon{height:15px;line-height:15px;text-align:center;font-size:10px;color:#999;margin-top:3px;}
+  .bar.on .mon{color:#1565c0;font-weight:600;}
+  .list-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:16px 2px 8px;}
+  .list-head .h{font-size:14px;font-weight:600;color:#333;}
+  .list-head .h b{color:#1565c0;}
+  .list-head .s{font-size:11px;color:#999;}
+  .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+  .card{background:#fff;border-radius:9px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden;}
+  .card-head{display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;}
+  .card-head:hover{background:#fafcff;}
+  .card-head .nm{font-size:14px;font-weight:600;color:#333;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .card-head .meta{margin-left:auto;font-size:11px;color:#888;white-space:nowrap;flex:none;}
+  .card-head .meta b{color:#1565c0;font-weight:600;font-variant-numeric:tabular-nums;}
+  .card-head .arrow{flex:none;color:#bbb;font-size:15px;line-height:1;transition:transform .15s;}
+  .card.open .card-head .arrow{transform:rotate(90deg);}
+  .card-body{display:none;border-top:1px solid #f0f2f4;padding:4px 13px 10px;max-height:360px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;}
+  .card.open .card-body{display:block;}
+  .sp{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;border-bottom:1px solid #f6f7f8;}
+  .sp:last-child{border-bottom:none;}
+  .sp .rk{flex:none;width:26px;text-align:right;font-size:10px;color:#b8bec6;font-variant-numeric:tabular-nums;}
+  .sp .nm{flex:0 0 34%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#333;}
+  .sp .bar{flex:1;height:6px;background:#f1f4f7;border-radius:3px;overflow:hidden;}
+  .sp .bar i{display:block;height:100%;background:#90caf9;border-radius:3px;}
+  .sp .n{flex:none;width:60px;text-align:right;color:#1565c0;font-weight:600;font-variant-numeric:tabular-nums;}
+  .sp-list{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);padding:6px 14px 10px;max-height:72vh;overflow-y:auto;}
+  .back{display:inline-block;font-size:11px;color:#1565c0;cursor:pointer;margin-bottom:4px;}
+  .back:hover{text-decoration:underline;}
+  .empty{background:#fff;border-radius:10px;padding:22px 14px;text-align:center;color:#aaa;font-size:12px;}
+  footer{max-width:1080px;margin:0 auto;padding:0 14px 26px;font-size:10px;color:#b0b6bd;line-height:1.6;}
+  .boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#f4f6f8;color:#999;font-size:13px;z-index:99;}
+  @media (max-width:700px){
+    .top{padding:9px 10px 0;}
+    .controls{padding:7px 10px 9px;gap:8px 12px;}
+    .controls select{max-width:150px;}
+    #range{margin-left:0;width:100%;font-size:10px;}
+    main{padding:10px 10px 24px;}
+    .summary{gap:14px;padding:10px 12px;}
+    .summary .scope{min-width:100%;margin-right:0;}
+    .summary .v{font-size:18px;}
+    .cards{grid-template-columns:1fr;}
+    .sp .nm{flex-basis:40%;}
+    .sp .n{width:54px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top">
+    <div class="title">地区鸟类<small>近 4.0 年记录</small></div>
+    <div class="links">
+      <a id="distLink" href="dist.html">分布地图</a>
+      <a id="recentLink" href="./">最近鸟讯</a>
+    </div>
+  </div>
+  <div class="controls">
+    <label>省份 <select id="selProv"><option value="">全部省份</option></select></label>
+    <label>城市 <select id="selCity"><option value="">全部城市</option></select></label>
+    <span id="range">2022-11-01 ~ 2026-10-31</span>
+  </div>
+</header>
+
+<main>
+  <section id="summary" class="summary"></section>
+  <section id="chart" class="chart"></section>
+  <section id="list"></section>
+</main>
+
+<footer>数据：记录中心 · 2022-11-01 ~ 2026-10-31 · 与分布地图同一口径（仅统计已解析城市）</footer>
+
+<div id="boot" class="boot">⏳ 正在加载……</div>
+
+<script src="species_dist.js"></script>
+<script>
+(function () {
+  var boot = document.getElementById('boot');
+  var DIST = window.SPECIES_DIST;
+  if (!DIST) {
+    boot.textContent = '缺少 species_dist.js（先运行 python birdseek.py map --mode dist）';
+    return;
+  }
+
+  var cities = DIST.cities || [];      // [城市, 省, lng, lat]
+  var species = DIST.species || [];    // [中文名, 学名, slug]
+  var dataMap = DIST.data || {};       // 学名 -> [[城市索引, 半月, 次数], ...]
+  var DIST_YEARS = 4.0;
+
+  document.getElementById('distLink').href =
+    (location.protocol === 'file:') ? '鸟种分布_全国.html' : 'dist.html';
+  document.getElementById('recentLink').href =
+    (location.protocol === 'file:') ? '鸟讯地图_全国.html' : './';
+
+  var nameByLatin = {};
+  species.forEach(function (s) {
+    nameByLatin[String(s[1]).toLowerCase()] = s[0];
+  });
+  function spName(latin) {
+    return nameByLatin[String(latin).toLowerCase()] || latin;
+  }
+
+  var provList = [];
+  var cityProv = [];
+  var cityIdxByProv = {};
+  cities.forEach(function (c, i) {
+    var p = c[1] || '未知';
+    cityProv[i] = p;
+    if (!cityIdxByProv[p]) { cityIdxByProv[p] = []; provList.push(p); }
+    cityIdxByProv[p].push(i);
+  });
+  provList.sort(function (a, b) { return a.localeCompare(b, 'zh'); });
+
+  // 每月记录数 + 每月出现过的鸟种集合（用于卡片统计和排序）
+  var cityMonthRec = [], cityMonthSp = [], cityTotalRec = [], cityTotalSp = [];
+  cities.forEach(function () {
+    cityMonthRec.push([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    var sets = [];
+    for (var m = 0; m < 12; m++) sets.push({});
+    cityMonthSp.push(sets);
+    cityTotalRec.push(0);
+    cityTotalSp.push({});
+  });
+  var provMonthRec = {}, provMonthSp = {}, provTotalRec = {}, provTotalSp = {};
+  provList.forEach(function (p) {
+    provMonthRec[p] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var sets = [];
+    for (var m = 0; m < 12; m++) sets.push({});
+    provMonthSp[p] = sets;
+    provTotalRec[p] = 0;
+    provTotalSp[p] = {};
+  });
+  var allMonthRec = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  var allMonthSp = [];
+  for (var am = 0; am < 12; am++) allMonthSp.push({});
+  var allTotalSp = {};
+
+  var latinKeys = Object.keys(dataMap);
+  latinKeys.forEach(function (latin) {
+    var rows = dataMap[latin] || [];
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i], ci = r[0], n = r[2] || 0;
+      var m = Math.floor(r[1] / 2);
+      if (m < 0 || m > 11 || n <= 0) continue;
+      cityMonthRec[ci][m] += n;
+      cityMonthSp[ci][m][latin] = 1;
+      cityTotalRec[ci] += n;
+      cityTotalSp[ci][latin] = 1;
+      var p = cityProv[ci];
+      provMonthRec[p][m] += n;
+      provMonthSp[p][m][latin] = 1;
+      provTotalRec[p] += n;
+      provTotalSp[p][latin] = 1;
+      allMonthRec[m] += n;
+      allMonthSp[m][latin] = 1;
+      allTotalSp[latin] = 1;
+    }
+  });
+
+  function countKeys(o) { return Object.keys(o).length; }
+  function fmtNum(n) {
+    try { return Number(n).toLocaleString('zh-CN'); } catch (e) { return String(n); }
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ---------- 状态 ----------
+  var state = { prov: '', ci: null, month: null };  // month: null=全年，0-11
+  var selProv = document.getElementById('selProv');
+  var selCity = document.getElementById('selCity');
+  var summaryEl = document.getElementById('summary');
+  var chartEl = document.getElementById('chart');
+  var listEl = document.getElementById('list');
+
+  provList.forEach(function (p) {
+    var o = document.createElement('option');
+    o.value = p; o.textContent = p;
+    selProv.appendChild(o);
+  });
+
+  function fillCities() {
+    selCity.innerHTML = '';
+    selCity.disabled = !state.prov;
+    var all = document.createElement('option');
+    all.value = ''; all.textContent = '全部城市';
+    selCity.appendChild(all);
+    if (!state.prov) return;
+    (cityIdxByProv[state.prov] || []).slice().sort(function (a, b) {
+      return cities[a][0].localeCompare(cities[b][0], 'zh');
+    }).forEach(function (ci) {
+      var o = document.createElement('option');
+      o.value = String(ci); o.textContent = cities[ci][0];
+      selCity.appendChild(o);
+    });
+  }
+
+  function scopeInfo() {
+    if (state.ci !== null) {
+      return {
+        type: 'c', key: state.ci,
+        name: cities[state.ci][0],
+        sub: cityProv[state.ci],
+        rec: cityTotalRec[state.ci],
+        monthRec: cityMonthRec[state.ci],
+        totalSp: cityTotalSp[state.ci],
+        monthSp: cityMonthSp[state.ci]
+      };
+    }
+    if (state.prov) {
+      return {
+        type: 'p', key: state.prov,
+        name: state.prov,
+        sub: '',
+        rec: provTotalRec[state.prov],
+        monthRec: provMonthRec[state.prov],
+        totalSp: provTotalSp[state.prov],
+        monthSp: provMonthSp[state.prov]
+      };
+    }
+    return {
+      type: 'all', key: '',
+      name: '全国',
+      sub: '',
+      rec: Object.keys(allTotalSp).length ? allMonthRec.reduce(function (a, b) { return a + b; }, 0) : 0,
+      monthRec: allMonthRec,
+      totalSp: allTotalSp,
+      monthSp: allMonthSp
+    };
+  }
+
+  function periodLabel() {
+    return state.month === null ? '全年' : (state.month + 1) + '月';
+  }
+
+  // ---------- 计算某区域的鸟种次数（按记录数降序） ----------
+  var speciesCache = {};
+  function computeSpecies(type, key, month) {
+    var ck = type + ':' + key + '|' + (month === null ? 'all' : month);
+    if (speciesCache[ck]) return speciesCache[ck];
+    var counts = {};
+    for (var i = 0; i < latinKeys.length; i++) {
+      var latin = latinKeys[i];
+      var rows = dataMap[latin];
+      var total = 0;
+      for (var j = 0; j < rows.length; j++) {
+        var r = rows[j];
+        if (month !== null && Math.floor(r[1] / 2) !== month) continue;
+        if (type === 'c') {
+          if (r[0] !== key) continue;
+        } else if (type === 'p') {
+          if (cityProv[r[0]] !== key) continue;
+        }
+        total += r[2] || 0;
+      }
+      if (total > 0) counts[latin] = total;
+    }
+    var arr = Object.keys(counts).map(function (latin) {
+      return [latin, counts[latin]];
+    });
+    arr.sort(function (a, b) {
+      return (b[1] - a[1]) || spName(a[0]).localeCompare(spName(b[0]), 'zh');
+    });
+    speciesCache[ck] = arr;
+    return arr;
+  }
+
+  function speciesRows(rows) {
+    if (!rows.length) return '<div class="empty" style="box-shadow:none;">该时段没有记录</div>';
+    var max = rows[0][1] || 1;
+    var denom = Math.log(max + 1) || 1;
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var n = rows[i][1];
+      var w = Math.max(2, Math.round(Math.log(n + 1) / denom * 100));
+      html += '<div class="sp" title="' + fmtNum(n) + ' 次记录">'
+        + '<span class="rk">' + (i + 1) + '</span>'
+        + '<span class="nm">' + escHtml(spName(rows[i][0])) + '</span>'
+        + '<span class="bar"><i style="width:' + w + '%"></i></span>'
+        + '<span class="n">' + fmtNum(n) + '</span>'
+        + '</div>';
+    }
+    return html;
+  }
+
+  // ---------- 顶部摘要 + 月份条形图 ----------
+  function renderSummary(sc) {
+    var rec, spCount;
+    if (state.month === null) {
+      rec = sc.rec;
+      spCount = countKeys(sc.totalSp);
+    } else {
+      rec = sc.monthRec[state.month];
+      spCount = countKeys(sc.monthSp[state.month]);
+    }
+    var scopeText = sc.name + (sc.sub && sc.type === 'c' ? '（' + sc.sub + '）' : '');
+    var html = '<div class="scope">' + escHtml(scopeText)
+      + '<span class="per">' + periodLabel() + '</span></div>';
+    html += '<div class="item"><div class="k">记录</div><div class="v">' + fmtNum(rec) + '</div></div>';
+    html += '<div class="item"><div class="k">鸟种</div><div class="v">' + fmtNum(spCount) + '</div></div>';
+    if (state.month === null) {
+      html += '<div class="item"><div class="k">年均记录</div><div class="v gray">'
+        + fmtNum(Math.round(rec / (DIST_YEARS || 4))) + '</div></div>';
+    } else {
+      html += '<div class="item"><div class="k">占全年</div><div class="v gray">'
+        + (sc.rec ? (rec / sc.rec * 100).toFixed(1) : '0') + '%</div></div>';
+    }
+    summaryEl.innerHTML = html;
+  }
+
+  function renderChart(sc) {
+    var vals = sc.monthRec;
+    var max = Math.max.apply(null, vals.concat([0]));
+    var html = '<div class="head"><span class="h">各月记录</span>'
+      + '<span class="chip' + (state.month === null ? ' on' : '') + '" data-month="all">全年</span>'
+      + '<span class="s" style="font-size:10px;color:#b5bac0;">点月份筛选</span></div>';
+    html += '<div class="bars">';
+    for (var m = 0; m < 12; m++) {
+      var h = max ? Math.max(2, Math.round(vals[m] / max * 100)) : 2;
+      html += '<div class="bar' + (state.month === m ? ' on' : '') + '" data-month="' + m
+        + '" title="' + (m + 1) + '月：' + fmtNum(vals[m]) + ' 条">'
+        + '<div class="col"><i class="fill" style="height:' + h + '%"></i></div>'
+        + '<div class="mon">' + (m + 1) + '</div></div>';
+    }
+    html += '</div>';
+    chartEl.innerHTML = html;
+  }
+
+  // ---------- 区域列表 / 鸟种列表 ----------
+  function periodSpCount(type, key) {
+    if (type === 'c') {
+      return state.month === null ? countKeys(cityTotalSp[key])
+        : countKeys(cityMonthSp[key][state.month]);
+    }
+    return state.month === null ? countKeys(provTotalSp[key])
+      : countKeys(provMonthSp[key][state.month]);
+  }
+  function periodRec(type, key) {
+    if (type === 'c') {
+      return state.month === null ? cityTotalRec[key] : cityMonthRec[key][state.month];
+    }
+    return state.month === null ? provTotalRec[key] : provMonthRec[key][state.month];
+  }
+
+  function cardHtml(type, key, name) {
+    var sp = periodSpCount(type, key), rec = periodRec(type, key);
+    return '<div class="card" data-type="' + type + '" data-key="' + key + '">'
+      + '<div class="card-head"><span class="nm">' + escHtml(name) + '</span>'
+      + '<span class="meta">鸟种 <b>' + fmtNum(sp) + '</b> · 记录 <b>' + fmtNum(rec) + '</b></span>'
+      + '<span class="arrow">›</span></div>'
+      + '<div class="card-body"></div></div>';
+  }
+
+  function renderList(sc) {
+    if (state.ci !== null) {
+      var rows = computeSpecies('c', state.ci, state.month);
+      listEl.innerHTML = '<div class="list-head"><div class="h">'
+        + escHtml(cities[state.ci][0]) + ' · <b>' + fmtNum(rows.length) + '</b> 种'
+        + '<span class="s"> · ' + periodLabel() + ' · 按记录数降序</span></div>'
+        + '<span class="back" id="backProv">← 返回' + escHtml(cityProv[state.ci]) + '</span></div>'
+        + '<div class="sp-list">' + speciesRows(rows) + '</div>';
+      var back = document.getElementById('backProv');
+      if (back) back.addEventListener('click', function () {
+        state.ci = null; selCity.value = ''; syncUrl(); render();
+      });
+      return;
+    }
+
+    var items = [];
+    if (state.prov) {
+      (cityIdxByProv[state.prov] || []).forEach(function (ci) {
+        items.push({ type: 'c', key: ci, name: cities[ci][0] });
+      });
+    } else {
+      provList.forEach(function (p) {
+        items.push({ type: 'p', key: p, name: p });
+      });
+    }
+    items.sort(function (a, b) {
+      var d = periodSpCount(b.type, b.key) - periodSpCount(a.type, a.key);
+      return d || (periodRec(b.type, b.key) - periodRec(a.type, a.key));
+    });
+
+    var head = state.prov
+      ? '<b>' + escHtml(state.prov) + '</b> · ' + items.length + ' 个城市'
+      : '全部省份 · <b>' + items.length + '</b> 个';
+    listEl.innerHTML = '<div class="list-head"><div class="h">' + head
+      + '<span class="s"> · ' + periodLabel() + ' · 按鸟种数排序</span></div>'
+      + '<span class="s">点区域展开鸟种</span></div>'
+      + '<div class="cards">'
+      + items.map(function (it) { return cardHtml(it.type, it.key, it.name); }).join('')
+      + '</div>';
+
+    var cards = listEl.querySelectorAll('.card');
+    for (var i = 0; i < cards.length; i++) {
+      cards[i].querySelector('.card-head').addEventListener('click', onCardClick);
+    }
+  }
+
+  function onCardClick(e) {
+    var card = e.currentTarget.parentNode;
+    var type = card.getAttribute('data-type');
+    var key = type === 'c' ? parseInt(card.getAttribute('data-key'), 10)
+      : card.getAttribute('data-key');
+    var open = card.classList.contains('open');
+    // 一次只展开一个，避免同时计算大量鸟种列表
+    var opened = listEl.querySelectorAll('.card.open');
+    for (var i = 0; i < opened.length; i++) {
+      opened[i].classList.remove('open');
+      opened[i].querySelector('.card-body').innerHTML = '';
+    }
+    if (open) return;
+    var body = card.querySelector('.card-body');
+    body.innerHTML = '<div class="empty" style="box-shadow:none;padding:14px 0;">计算中…</div>';
+    card.classList.add('open');
+    var rows = computeSpecies(type, key, state.month);
+    body.innerHTML = speciesRows(rows);
+  }
+
+  // ---------- 交互 ----------
+  function render() {
+    var sc = scopeInfo();
+    renderSummary(sc);
+    renderChart(sc);
+    renderList(sc);
+  }
+
+  function syncUrl() {
+    var q = [];
+    if (state.prov) q.push('prov=' + encodeURIComponent(state.prov));
+    if (state.ci !== null) q.push('city=' + encodeURIComponent(cities[state.ci][0]));
+    if (state.month !== null) q.push('m=' + (state.month + 1));
+    try {
+      var url = location.pathname + (q.length ? '?' + q.join('&') : '');
+      history.replaceState(null, '', url);
+    } catch (e) {}
+  }
+
+  selProv.addEventListener('change', function () {
+    state.prov = selProv.value;
+    state.ci = null;
+    fillCities();
+    speciesCache = {};
+    syncUrl(); render();
+  });
+  selCity.addEventListener('change', function () {
+    state.ci = selCity.value === '' ? null : parseInt(selCity.value, 10);
+    speciesCache = {};
+    syncUrl(); render();
+  });
+  chartEl.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('[data-month]') : null;
+    if (!el) return;
+    var v = el.getAttribute('data-month');
+    state.month = (v === 'all') ? null : parseInt(v, 10);
+    speciesCache = {};
+    syncUrl(); render();
+  });
+
+  // 从 URL 恢复（便于分享某个地区／月份）
+  (function restore() {
+    var q = {};
+    location.search.replace(/^\?/, '').split('&').forEach(function (kv) {
+      if (!kv) return;
+      var i = kv.indexOf('=');
+      var k = decodeURIComponent(kv.slice(0, i));
+      q[k] = decodeURIComponent(kv.slice(i + 1));
+    });
+    if (q.m) {
+      var m = parseInt(q.m, 10);
+      if (m >= 1 && m <= 12) state.month = m - 1;
+    }
+    if (q.prov && provList.indexOf(q.prov) > -1) {
+      state.prov = q.prov;
+      selProv.value = q.prov;
+    }
+    if (q.city) {
+      var pool = [];
+      if (state.prov) {
+        pool = cityIdxByProv[state.prov] || [];
+      } else {
+        for (var p = 0; p < provList.length; p++) {
+          pool = pool.concat(cityIdxByProv[provList[p]] || []);
+        }
+      }
+      for (var i = 0; i < pool.length; i++) {
+        if (cities[pool[i]][0] === q.city) {
+          state.ci = pool[i];
+          state.prov = cityProv[pool[i]];
+          selProv.value = state.prov;
+          break;
+        }
+      }
+    }
+  })();
+  fillCities();
+  if (state.ci !== null) selCity.value = String(state.ci);
+
+  boot.style.display = 'none';
+  render();
+})();
+</script>
+</body>
+</html>

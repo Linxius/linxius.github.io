@@ -1,1 +1,1 @@
-(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[385]=["台湾省新竹县","尖石乡李埔"];
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[385]=["昌江县石碌镇金波农场二队","昌江海尾湿地公园","海尾湿地公园"];

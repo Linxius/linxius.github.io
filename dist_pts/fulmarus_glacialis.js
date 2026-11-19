@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["fulmarus_glacialis"]=[[442,0,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["fulmarus_glacialis"]=[[36,0,1]];

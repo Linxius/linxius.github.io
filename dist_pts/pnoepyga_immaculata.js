@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["pnoepyga_immaculata"]=[[81,3,30],[81,2,20],[81,0,16],[81,30,13],[81,41,7]];
+(window.__SP_PTS=window.__SP_PTS||{})["pnoepyga_immaculata"]=[[381,31,30],[381,39,20],[381,45,16],[381,47,7],[381,66,13]];
