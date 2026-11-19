@@ -179,20 +179,9 @@ function startMap() {
 
   function hideSuggest() { suggestEl.style.display = 'none'; sugIdx = -1; }
 
-  function showSuggest(q) {
-    q = String(q || '').trim().toLowerCase();
-    if (!q) { hideSuggest(); return; }
-    var head = [], rest = [];
-    for (var i = 0; i < species.length; i++) {
-      var name = String(species[i][0] || ''), latin = String(species[i][1] || '');
-      var nl = name.toLowerCase(), ll = latin.toLowerCase();
-      if (nl.indexOf(q) === 0) head.push(species[i]);
-      else if (nl.indexOf(q) > -1 || ll.indexOf(q) > -1) rest.push(species[i]);
-    }
-    head.sort(byCount);
-    rest.sort(byCount);
-    sugList = head.concat(rest).slice(0, MAX_SUG);
-    if (!sugList.length) { hideSuggest(); return; }
+  function paintSuggest(items) {
+    if (!items.length) { hideSuggest(); return; }
+    sugList = items;
     var html = '';
     for (var j = 0; j < sugList.length; j++) {
       html += '<div class="item" data-i="' + j + '">' + sugList[j][0]
@@ -202,6 +191,25 @@ function startMap() {
     suggestEl.innerHTML = html;
     suggestEl.style.display = 'block';
     sugIdx = -1;
+  }
+
+  // 空输入时显示常见鸟（按全国记录数排序），仍限制条数避免遮挡输入法
+  var hotList = species.slice().sort(byCount);
+  var MAX_EMPTY = window.innerWidth <= 600 ? 10 : 20;
+
+  function showSuggest(q) {
+    q = String(q || '').trim().toLowerCase();
+    if (!q) { paintSuggest(hotList.slice(0, MAX_EMPTY)); return; }
+    var head = [], rest = [];
+    for (var i = 0; i < species.length; i++) {
+      var name = String(species[i][0] || ''), latin = String(species[i][1] || '');
+      var nl = name.toLowerCase(), ll = latin.toLowerCase();
+      if (nl.indexOf(q) === 0) head.push(species[i]);
+      else if (nl.indexOf(q) > -1 || ll.indexOf(q) > -1) rest.push(species[i]);
+    }
+    head.sort(byCount);
+    rest.sort(byCount);
+    paintSuggest(head.concat(rest).slice(0, MAX_SUG));
   }
 
   function highlightSuggest() {
@@ -341,6 +349,8 @@ function startMap() {
   }
 
   input.addEventListener('change', render);
+  input.addEventListener('focus', function () { showSuggest(input.value); });
+  input.addEventListener('click', function () { showSuggest(input.value); });
   input.addEventListener('input', function () {
     if (composing) return;
     showSuggest(input.value);
