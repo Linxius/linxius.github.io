@@ -31,6 +31,17 @@
   #scalebar{position:fixed;left:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.88);border-radius:5px;padding:4px 7px 3px;font-size:10px;color:#333;line-height:1.1;}
   #scalebar .bar{height:7px;border:1px solid #333;border-top:none;box-sizing:border-box;margin-bottom:2px;}
   #info{font-size:11px;color:#888;}
+  #stats{display:none;font-size:11px;color:#555;line-height:1.55;border-top:1px solid #eee;padding-top:7px;}
+  #stats .sum{color:#333;}
+  #stats .sum b{color:#1565c0;font-size:12px;}
+  #stats .chart{display:flex;align-items:flex-end;gap:2px;height:34px;margin:5px 0 1px;}
+  #stats .col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;}
+  #stats .col i{display:block;width:100%;background:#bbdefb;border-radius:2px 2px 0 0;min-height:2px;}
+  #stats .col.hot i{background:#1565c0;}
+  #stats .ax{display:flex;gap:2px;font-size:9px;color:#bbb;}
+  #stats .ax span{flex:1;text-align:center;}
+  #stats .line{margin-top:3px;color:#666;}
+  #stats .line b{color:#333;font-weight:600;}
   #modeLink{font-size:11px;color:#1565c0;text-decoration:none;}
   #modeLink:hover{text-decoration:underline;}
   #birdPanel{display:none;position:fixed;right:20px;bottom:20px;width:320px;max-height:60vh;overflow-y:auto;background:#fff;border-radius:10px;box-shadow:0 6px 24px rgba(0,0,0,.22);padding:16px 18px;font-size:13px;z-index:9999;}
@@ -70,6 +81,7 @@
     <span id="sliderLabel">全部时间</span>
     <input type="range" id="slider" min="0" max="24" step="1" value="0">
   </div>
+  <div id="stats"></div>
   <div class="row">
     <select id="selProv" title="按省筛选"><option value="">全部省份</option></select>
     <button id="resetView" type="button" title="回到全国视野">回到全国</button>
@@ -263,6 +275,60 @@ function startMap() {
   updateScale();
 
   var FN_CENTER = [104.2, 35.5];
+  var DIST_YEARS = 4.0;
+  var statsEl = document.getElementById('stats');
+  function fmtNum(n) {
+    try { return Number(n).toLocaleString('zh-CN'); } catch (e) { return String(n); }
+  }
+  function renderStats(sp) {
+    if (!sp || !statsEl) { if (statsEl) statsEl.style.display = 'none'; return; }
+    var rows = dataMap[sp[1]] || [];
+    var prov = selProv.value;
+    var months = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var byProv = {}, total = 0;
+    rows.forEach(function (r) {
+      var c = cities[r[0]];
+      if (!c || !r[2]) return;
+      if (prov && c[1] !== prov) return;
+      var m = Math.ceil(r[1] / 2);
+      if (m < 1 || m > 12) return;
+      months[m - 1] += r[2];
+      if (c[1]) byProv[c[1]] = (byProv[c[1]] || 0) + r[2];
+      total += r[2];
+    });
+    if (!total) { statsEl.style.display = 'none'; return; }
+    var maxM = Math.max.apply(null, months);
+    var topM = months.map(function (v, i) { return [i + 1, v]; })
+      .filter(function (x) { return x[1] > 0; })
+      .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 3);
+    var topP = Object.keys(byProv)
+      .map(function (p) { return [p, byProv[p]]; })
+      .sort(function (a, b) { return b[1] - a[1]; }).slice(0, 5);
+    var html = '<div class="sum">近 ' + DIST_YEARS + ' 年共 <b>' + fmtNum(total)
+      + '</b> 条 · 年均 <b>' + fmtNum(Math.round(total / DIST_YEARS)) + '</b> 条</div>';
+    html += '<div class="chart">';
+    for (var i = 0; i < 12; i++) {
+      var h = maxM ? Math.max(3, Math.round(months[i] / maxM * 100)) : 3;
+      var hot = (months[i] === maxM && maxM > 0) ? ' hot' : '';
+      html += '<div class="col' + hot + '" title="' + (i + 1) + '月：'
+        + fmtNum(months[i]) + ' 条"><i style="height:' + h + '%"></i></div>';
+    }
+    html += '</div><div class="ax">';
+    for (var j = 1; j <= 12; j++) html += '<span>' + j + '</span>';
+    html += '</div>';
+    if (topM.length) {
+      html += '<div class="line">旺季：' + topM.map(function (x) {
+        return x[0] + '月 <b>' + fmtNum(x[1]) + '</b>';
+      }).join(' · ') + '</div>';
+    }
+    if (topP.length) {
+      html += '<div class="line">省份：' + topP.map(function (x) {
+        return x[0] + ' <b>' + fmtNum(x[1]) + '</b>';
+      }).join(' · ') + '</div>';
+    }
+    statsEl.innerHTML = html;
+    statsEl.style.display = 'block';
+  }
   var resetView = document.getElementById('resetView');
   var panel = document.getElementById('birdPanel');
   var pTitle = document.getElementById('pTitle');
@@ -307,6 +373,7 @@ function startMap() {
 
   function render() {
     var sp = resolveSpecies(input.value);
+    renderStats(sp);
     var hv = parseInt(slider.value, 10) || 0;
     sliderLabel.textContent = halfLabel(hv);
     if (!sp) {
