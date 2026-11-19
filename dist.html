@@ -109,12 +109,32 @@ function loadFallback(key, url) {
   s.onerror = function () { mark(key, -1); };
   document.body.appendChild(s);
 }
+// 中国范围 + 按容器像素适配的缩放：电脑和手机看到的范围一致
+var CHINA_BOUNDS = { minLng: 73, maxLng: 135, minLat: 18, maxLat: 54 };
+function mercY(lat) {
+  return Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360));
+}
+function fitChinaZoom(pad) {
+  var el = document.getElementById('map');
+  var w = (el && el.clientWidth) || window.innerWidth;
+  var h = (el && el.clientHeight) || window.innerHeight;
+  var p = pad || 0.92;
+  var lngSpan = CHINA_BOUNDS.maxLng - CHINA_BOUNDS.minLng;
+  var ySpan = mercY(CHINA_BOUNDS.maxLat) - mercY(CHINA_BOUNDS.minLat);
+  // 256px 瓦片：2^z = 360*宽/(256*经度跨度)
+  var zLng = Math.log(360 * w * p / (256 * lngSpan)) / Math.LN2;
+  // 墨卡托纵向：2^z = 高*2π/(256*纬度跨度)
+  var zLat = Math.log(h * p * 2 * Math.PI / (256 * ySpan)) / Math.LN2;
+  var z = Math.min(zLng, zLat);
+  return Math.round(Math.max(2, Math.min(18, z)) * 100) / 100;
+}
+
 function startMap() {
   var chart = echarts.init(document.getElementById('map'));
   var option = {
     tooltip: { show: false },
     amap: {
-      center: [104.2, 35.5], zoom: 5, viewMode: '2D', resizeEnable: true,
+      center: [104.2, 35.5], zoom: fitChinaZoom(0.9), viewMode: '2D', resizeEnable: true,
       mapStyle: 'amap://styles/normal', showLabel: true, renderOnMoving: true,
       echartsLayerZIndex: 2019
     },
@@ -222,7 +242,7 @@ function startMap() {
   amap.on('moveend', updateScale);
   updateScale();
 
-  var FN_CENTER = [104.2, 35.5], FN_ZOOM = 5;
+  var FN_CENTER = [104.2, 35.5];
   var resetView = document.getElementById('resetView');
   var panel = document.getElementById('birdPanel');
   var pTitle = document.getElementById('pTitle');
@@ -345,7 +365,7 @@ function startMap() {
   slider.addEventListener('input', render);
   selProv.addEventListener('change', render);
   resetView.addEventListener('click', function() {
-    chart.setOption({ amap: { center: FN_CENTER, zoom: FN_ZOOM } });
+    chart.setOption({ amap: { center: FN_CENTER, zoom: fitChinaZoom(0.9) } });
     setTimeout(updateScale, 200);
   });
   window.addEventListener('resize', function() {
