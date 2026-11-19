@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[482]=["突厥斯坦市"];

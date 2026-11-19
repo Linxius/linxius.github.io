@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[396]=["23ArakRoadLane7,PhraSing,清迈,清迈50200,泰国","清迈"];

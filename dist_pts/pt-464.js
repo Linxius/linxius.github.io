@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[464]=["ulitsaStarayaOkrainka31,Gorno-Altaysk,俄罗斯,649000"];

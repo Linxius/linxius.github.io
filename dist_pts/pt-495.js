@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[495]=["苏梅岛悦榕庄大酒店,Maret,阁沙梅县,素叻他尼84310,泰国"];

@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["uria_aalge"]=[[442,0,1]];

@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["antigone_antigone"]=[[70,1,2],[70,13,1]];

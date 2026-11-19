@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[404]=["KatuwewaTemple,Samodagama,斯里兰卡"];

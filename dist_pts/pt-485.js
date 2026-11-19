@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[485]=["CarrerdelaMarquesadeVilallonga,25,08017巴塞罗那(巴塞罗那),西班牙"];

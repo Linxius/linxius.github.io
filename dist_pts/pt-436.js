@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[436]=["วิกกี้,NongHan,Muthi5,清迈50290,泰国"];

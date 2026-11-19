@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["ficedula_ruficauda"]=[[55,131,1],[39,223,1],[39,1,1],[218,1,1]];

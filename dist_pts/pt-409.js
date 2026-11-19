@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[409]=["MangroveVillage","兰卡威,吉打,马来西亚","艾姆帮-艾姆帮兰卡威雨林港酒店,07000Langkawi,吉打,马来西亚","JalanGunungRaya,KampungPadangGaong,07000UluMelaka,吉打,马来西亚","BonTonAntiqueWoodenVillas","KampungKualaMuda"];

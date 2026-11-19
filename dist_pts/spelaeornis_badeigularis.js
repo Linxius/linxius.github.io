@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["spelaeornis_badeigularis"]=[[131,8,9],[131,10,8],[131,5,7],[131,16,7],[131,6,5],[59,1,1]];

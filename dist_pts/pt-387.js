@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[387]=["〒904-1201日本冲绳县国头郡金武町金武1835-1金鎮地區兒童照顧支援中心Abutpo"];

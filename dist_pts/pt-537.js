@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[537]=["MilanovacLake,HR-53230普利特维采湖,克罗地亚"];

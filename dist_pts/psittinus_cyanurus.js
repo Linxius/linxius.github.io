@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["psittinus_cyanurus"]=[[13,44,1]];

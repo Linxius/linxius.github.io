@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["tringa_solitaria"]=[[279,23,1],[4,3,1]];

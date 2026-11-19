@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[555]=["堀端通り日本和歌山县和歌山市六番丁"];

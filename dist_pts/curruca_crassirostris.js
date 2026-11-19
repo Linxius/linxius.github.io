@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["curruca_crassirostris"]=[[414,0,1],[241,25,2]];

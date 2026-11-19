@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["tropicoperdix_chloropus"]=[[430,0,1],[69,6,304],[69,29,76],[69,37,68],[69,77,41],[69,47,33]];

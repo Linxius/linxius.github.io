@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[374]=["MellbyLillaStommen,MellbyLillaStommen,SE-53196利雪平,瑞典","ÖstraLarmgatan4B,SE-41107哥德堡,瑞典"];

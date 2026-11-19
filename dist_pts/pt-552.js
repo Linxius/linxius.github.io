@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[552]=["MizuhoBankShin-Yokohamaeki,2-100-7Shin-yokohama,Kohoku-ku,Yokohama-shi,Kanagawa222-0033,Japan"];

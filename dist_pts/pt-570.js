@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[570]=["ObalaGiordanaPaliage,HR-52210罗维尼,克罗地亚"];

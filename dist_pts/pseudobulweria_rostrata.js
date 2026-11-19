@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["pseudobulweria_rostrata"]=[[308,24,1],[352,1,1]];

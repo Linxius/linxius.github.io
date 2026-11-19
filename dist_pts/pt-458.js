@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[458]=["海南槟榔谷黎苗文化旅游区","什丁村"];

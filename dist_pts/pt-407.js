@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[407]=["24JalanIrrawadi,10400乔治市,槟城,马来西亚"];

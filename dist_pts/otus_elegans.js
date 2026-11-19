@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["otus_elegans"]=[[51,86,1],[430,0,1]];

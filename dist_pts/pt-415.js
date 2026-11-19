@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[415]=["巴尔喀什县","卡拉科尔"];

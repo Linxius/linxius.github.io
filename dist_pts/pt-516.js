@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[516]=["都道府県道305号日本神奈川县藤泽市江之岛"];

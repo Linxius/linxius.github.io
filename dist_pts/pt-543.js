@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[543]=["拉黑比亚尼环礁,马尔代夫","奈法鲁"];

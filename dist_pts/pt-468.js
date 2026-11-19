@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[468]=["特索依斯神庙,Volksgartenstraße1,1010维也纳,奥地利"];

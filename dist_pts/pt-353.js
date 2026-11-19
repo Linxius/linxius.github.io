@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[353]=["江畔酒店,Bachhauli,尼泊尔"];

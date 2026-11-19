@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["ficedula_hypoleuca"]=[[153,128,1],[295,17,1],[7,284,1]];

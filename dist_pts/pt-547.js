@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[547]=["Skeppsholmsbron,SE-11148斯德哥尔摩,瑞典"];

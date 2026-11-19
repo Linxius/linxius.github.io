@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[419]=["布拉克","Нұр-Дәурен"];

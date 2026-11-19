@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[420]=["189SukSawat52,拉布拉那县,曼谷,曼谷10140,泰国"];

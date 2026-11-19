@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[512]=["VialeVittorioEmanueleII,24121BergamoBG,意大利"];

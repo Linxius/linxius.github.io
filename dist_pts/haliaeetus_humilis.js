@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["haliaeetus_humilis"]=[[353,0,1],[1,0,1]];

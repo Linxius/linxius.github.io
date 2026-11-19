@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[435]=["Vigelandsparken(维格兰公园)","KarlJohansgate31,0159奥斯陆,挪威"];

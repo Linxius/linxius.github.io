@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["picus_vittatus"]=[[374,0,1],[35,10,1],[102,103,1]];

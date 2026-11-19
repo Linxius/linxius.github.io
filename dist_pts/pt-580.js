@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[580]=["堆沙革县,清迈,50220泰国"];

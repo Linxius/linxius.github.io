@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[378]=["马来西亚沙巴KotaKinabalu","GayaIslandResort","KotaKinabaluWetlandCentre"];

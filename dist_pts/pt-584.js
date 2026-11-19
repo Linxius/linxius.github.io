@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[584]=["SuomenlinnaC54,FI-00190Helsinki,Finland"];

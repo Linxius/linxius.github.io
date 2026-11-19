@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[361]=["ราชพฤกษ์ลานนาบูทีค,Muthi1,NongKhwai,杭东县,清迈,50230泰国","云和公寓"];

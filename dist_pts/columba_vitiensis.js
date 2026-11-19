@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["columba_vitiensis"]=[[123,65,1]];

@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[518]=["RamenHamakazeColombo,PeraheraMawatha,03科伦坡,斯里兰卡"];

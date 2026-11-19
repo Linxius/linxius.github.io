@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[586]=["5-7-3Ishiyamadera,Otsu-shi,Shiga520-0861,Japan"];

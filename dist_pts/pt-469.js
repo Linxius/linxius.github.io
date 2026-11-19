@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[469]=["AvenuedelaGare2,1800Vevey沃州,瑞士"];

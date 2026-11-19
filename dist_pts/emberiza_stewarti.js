@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["emberiza_stewarti"]=[[433,0,1],[410,0,1],[86,5,1],[395,0,1],[7,142,1]];

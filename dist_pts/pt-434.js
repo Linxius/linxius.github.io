@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[434]=["〒088-2684日本北海道标津郡中标津町养老牛518"];

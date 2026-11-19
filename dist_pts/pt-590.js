@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[590]=["CarreteradeMálaga,51,18015格拉纳达(格拉纳达),西班牙"];

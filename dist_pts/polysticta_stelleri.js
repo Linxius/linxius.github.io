@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["polysticta_stelleri"]=[[123,65,1],[51,51,1],[503,1,1]];

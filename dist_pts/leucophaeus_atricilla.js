@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["leucophaeus_atricilla"]=[[144,2,79],[144,24,5],[144,0,5],[144,21,1],[144,84,1]];

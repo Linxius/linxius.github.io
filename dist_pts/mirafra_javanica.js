@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["mirafra_javanica"]=[[37,20,1],[146,98,1],[86,190,2]];

@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["vanellus_leucurus"]=[[433,0,1],[419,0,1]];

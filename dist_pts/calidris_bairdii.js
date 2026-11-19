@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_bairdii"]=[[54,27,1],[54,57,1],[70,122,1]];

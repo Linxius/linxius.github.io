@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[569]=["창경궁로 (Changgyeonggung St), Seongbuk, Seoul, South Korea"];

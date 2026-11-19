@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[398]=["利亚纳温泉度假酒店,SalaDan,阁兰达县,甲米81150,泰国"];

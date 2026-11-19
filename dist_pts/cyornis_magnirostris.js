@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["cyornis_magnirostris"]=[[88,6,1],[131,166,2],[131,42,1]];

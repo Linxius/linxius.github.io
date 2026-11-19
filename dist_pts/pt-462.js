@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[462]=["台湾省澎湖县白沙乡","钓鱼岛"];

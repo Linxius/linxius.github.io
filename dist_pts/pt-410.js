@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[410]=["阿克苏一贾巴格利自然保护区"];

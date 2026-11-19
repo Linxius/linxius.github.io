@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_ptilocnemis"]=[[70,15,2]];

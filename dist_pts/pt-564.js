@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[564]=["Vinohradská770/11,12000布拉格,捷克"];

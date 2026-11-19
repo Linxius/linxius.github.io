@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["nyctyornis_amictus"]=[[413,1,1]];

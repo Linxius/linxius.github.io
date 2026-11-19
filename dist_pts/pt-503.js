@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[503]=["FosshotelGlacierLagoon","ONPower,Jökulsárlón,Jökulsárlón,781霍纳夫杜市,冰岛"];

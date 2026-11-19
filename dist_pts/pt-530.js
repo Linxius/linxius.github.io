@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[530]=["ChemindeCeinture-du-Lac-Inférieur,75016巴黎,法国"];

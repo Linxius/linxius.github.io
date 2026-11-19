@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[445]=["JalanRantauPanjang,46500BestariJaya,雪兰莪,马来西亚"];

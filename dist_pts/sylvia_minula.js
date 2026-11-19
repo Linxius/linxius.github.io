@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["sylvia_minula"]=[[305,119,1]];

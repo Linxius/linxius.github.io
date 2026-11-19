@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[382]=["嘉義特富野古道","台湾省嘉义县","阿里山"];

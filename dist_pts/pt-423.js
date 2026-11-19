@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[423]=["2-2,양벌리,오포읍,광주시,경기도,韩国"];

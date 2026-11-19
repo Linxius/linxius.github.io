@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[565]=["Sidl'Mokhtar,马拉喀什-萨菲大区,摩洛哥"];

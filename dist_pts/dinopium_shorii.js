@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["dinopium_shorii"]=[[353,0,1]];

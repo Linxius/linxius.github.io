@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[413]=["Kinabatangan,沙巴,马来西亚","京那巴鲁山","婆罗洲观鸟之旅","Starbucks,90000山打根,沙巴,马来西亚","BorneoCarePharmacy","婆罗洲"];

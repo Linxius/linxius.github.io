@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[450]=["〒621-0828日本京都府龟冈市筱町马堀驿前2丁目2"];

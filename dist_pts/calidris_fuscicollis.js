@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_fuscicollis"]=[[40,262,1],[253,179,1]];

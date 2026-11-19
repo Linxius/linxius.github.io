@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["alauda_leucoptera"]=[[7,236,1],[35,10,1]];

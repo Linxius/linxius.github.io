@@ -49,6 +49,11 @@
   #birdPanel .t{font-size:15px;font-weight:700;color:#222;line-height:1.35;}
   #birdPanel .x{cursor:pointer;color:#999;font-size:22px;line-height:1;padding:0 4px;}
   #birdPanel .meta{color:#666;margin-top:10px;line-height:1.8;}
+  #birdPanel .pts{margin-top:10px;padding-top:9px;border-top:1px solid #eee;line-height:1.6;}
+  #birdPanel .pts-title{color:#888;font-size:11px;margin-bottom:6px;}
+  #birdPanel .pt{display:inline-block;margin:0 6px 6px 0;padding:2px 7px;background:#f5f5f5;border-radius:4px;font-size:12px;color:#333;}
+  #birdPanel .pt b{color:#1565c0;font-weight:600;margin-left:4px;}
+  #birdPanel .loading{color:#aaa;font-size:11px;}
   #legend{position:fixed;right:12px;bottom:12px;z-index:9997;background:rgba(255,255,255,.92);border-radius:6px;padding:6px 9px;font-size:11px;color:#555;display:flex;gap:10px;align-items:center;}
   .dot{display:inline-block;border-radius:50%;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);vertical-align:middle;margin-right:3px;}
   @media (max-width:600px){
@@ -445,6 +450,12 @@ function startMap() {
     }
   });
   input.addEventListener('blur', function () { setTimeout(hideSuggest, 150); });
+  // 点击输入框和建议列表以外的任何位置（包括地图）都收起列表
+  document.addEventListener('pointerdown', function (e) {
+    if (e.target === input || suggestEl.contains(e.target)) return;
+    hideSuggest();
+    try { input.blur(); } catch (e2) {}
+  }, true);
   suggestEl.addEventListener('mousedown', function (e) { e.preventDefault(); });
   suggestEl.addEventListener('click', function (e) {
     var el = e.target && e.target.closest ? e.target.closest('.item') : null;
@@ -462,23 +473,74 @@ function startMap() {
     setTimeout(updateScale, 100);
   });
 
+  var ptToken = 0;
+  var loadedScripts = {};
+  function loadScript(src, cb) {
+    if (loadedScripts[src]) return cb();
+    loadedScripts[src] = 1;
+    var el = document.createElement('script');
+    el.src = src;
+    el.onload = function () { cb(); };
+    el.onerror = function () { cb(); };
+    document.body.appendChild(el);
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  // 点城市后按需加载：城市名 -> 该鸟种点位 -> 城市点位名
+  function fillCityPoints(city, slug, token) {
+    var box = document.getElementById('pPts');
+    if (!box) return;
+    box.innerHTML = '<span class="loading">加载点位…</span>';
+    loadScript('dist_pts/cities.js', function () {
+      var list = window.__SP_CITIES || [];
+      var ci = list.indexOf(city);
+      if (ci < 0) { box.innerHTML = ''; return; }
+      loadScript('dist_pts/' + slug + '.js', function () {
+        var rows = ((window.__SP_PTS || {})[slug] || []).filter(function (r) {
+          return r[0] === ci;
+        }).sort(function (a, b) { return b[2] - a[2]; });
+        if (!rows.length) { box.innerHTML = ''; return; }
+        loadScript('dist_pts/pt-' + ci + '.js', function () {
+          if (token !== ptToken) return;
+          var names = (window.__SP_PTS_DICT || {})[ci] || [];
+          var html = '<div class="pts-title">该市具体鸟点（按记录次数）</div>';
+          html += rows.map(function (r) {
+            return '<span class="pt">' + escHtml(names[r[1]] || '')
+              + '<b>' + r[2] + '</b></span>';
+          }).join('');
+          box.innerHTML = html;
+        });
+      });
+    });
+  }
+
   chart.on('click', function (p) {
     if (p.componentType !== 'series' || !p.data) return;
     var d = p.data;
-    var sp = resolveSpecies(input.value) || ['', ''];
+    var sp = resolveSpecies(input.value) || ['', '', ''];
+    var token = ++ptToken;
     pTitle.textContent = (d.city || d.name) + (d.province ? '（' + d.province + '）' : '');
     pMeta.innerHTML =
-      '<div>鸟种：<b>' + sp[0] + '</b>'
-      + (sp[1] ? '<br/><span style="color:#999;font-size:11px;">' + sp[1] + '</span>' : '')
+      '<div>鸟种：<b>' + escHtml(sp[0]) + '</b>'
+      + (sp[1] ? '<br/><span style="color:#999;font-size:11px;">' + escHtml(sp[1]) + '</span>' : '')
       + '</div>'
       + '<div style="margin-top:6px;">时间段：' + halfLabel(parseInt(slider.value, 10) || 0) + '</div>'
       + '<div>记录次数：<b>' + d.count + '</b></div>'
-      + '<div style="margin-top:10px;color:#999;font-size:11px;">点地图空白处关闭</div>';
+      + '<div id="pPts" class="pts"></div>'
+      + '<div style="margin-top:8px;color:#999;font-size:11px;">点地图空白处关闭</div>';
     panel.style.display = 'block';
+    if (sp[2] && d.city) fillCityPoints(d.city, sp[2], token);
     try { chart.dispatchAction({ type: 'highlight', seriesIndex: 0, dataIndex: p.dataIndex }); } catch (e) {}
   });
-  chart.getZr().on('click', function (e) { if (!e.target) panel.style.display = 'none'; });
-  document.getElementById('pClose').addEventListener('click', function () { panel.style.display = 'none'; });
+  chart.getZr().on('click', function (e) {
+    if (!e.target) { panel.style.display = 'none'; ptToken++; }
+  });
+  document.getElementById('pClose').addEventListener('click', function () {
+    panel.style.display = 'none';
+    ptToken++;
+  });
 
   var link = document.getElementById('modeLink');
   link.href = (location.protocol === 'file:') ? '鸟讯地图_全国.html' : './';

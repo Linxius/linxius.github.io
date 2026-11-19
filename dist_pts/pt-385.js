@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[385]=["台湾省新竹县","尖石乡李埔"];

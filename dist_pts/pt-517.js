@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[517]=["วันมนุษย์ทำงาน,PhraboromMahaRatchawang,帕那空县,曼谷,10200泰国","SanamChaiRoad,PhraboromMahaRatchawang,帕那空县,曼谷,10200泰国"];

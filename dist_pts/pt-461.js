@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[461]=["산5,Wolpyeong-dong,Jeju-si,Jeju-do,SouthKorea","MissYou济州岛观鸟","제6부두"];

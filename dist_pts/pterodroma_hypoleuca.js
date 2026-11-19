@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["pterodroma_hypoleuca"]=[[13,125,1],[13,126,1]];

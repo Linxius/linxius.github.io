@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[411]=["〒401-0305日本山梨县南都留郡富士河口湖町大石2585-4","〒401-0305日本山梨县南都留郡富士河口湖町大石2585-2KITCHENFUJIYAMAVIEW"];

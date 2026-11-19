@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[459]=["24JalanBerlian4B/2,44100Kerling,雪兰莪,马来西亚","JalanKualaKubuBaharu-Raub,44000Peretak,雪兰莪,马来西亚"];

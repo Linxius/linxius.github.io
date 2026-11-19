@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["chroicocephalus_novaehollandiae"]=[[465,0,1],[465,1,1],[41,30,1],[41,79,1],[577,0,1]];

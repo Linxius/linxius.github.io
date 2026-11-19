@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[460]=["NørreVoldgade23,1358KøbenhavnK,丹麦"];

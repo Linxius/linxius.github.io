@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[294]=["송파구,서울특별시,首尔,韩国"];

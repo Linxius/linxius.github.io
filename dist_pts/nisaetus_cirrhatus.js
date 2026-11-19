@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["nisaetus_cirrhatus"]=[[9,25,1],[118,1,1],[165,185,1],[165,21,1],[69,13,1]];

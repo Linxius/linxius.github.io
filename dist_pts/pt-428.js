@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[428]=["สํานักสงฆ์รัตนตรัยบูชา,泰国"];

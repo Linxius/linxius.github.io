@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[522]=["Haldenstrasse2,6006Luzern卢塞恩,瑞士"];

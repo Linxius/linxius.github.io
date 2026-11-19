@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[498]=["BANKOFAYUDHYA,SoiBandeklekSoi2,ThaPradu,罗勇,21000泰国"];

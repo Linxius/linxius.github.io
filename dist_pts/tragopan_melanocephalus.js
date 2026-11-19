@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["tragopan_melanocephalus"]=[[3,115,1],[21,288,1]];

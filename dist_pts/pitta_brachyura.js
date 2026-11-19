@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["pitta_brachyura"]=[[77,50,1],[131,24,3],[131,20,1],[71,1,1]];

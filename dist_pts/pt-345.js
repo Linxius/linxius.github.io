@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[345]=["歴史のみち日本福井县福井市大手"];

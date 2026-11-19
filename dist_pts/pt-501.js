@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[501]=["JalanTugu,PusatBandaraya,50050BandarKualaLumpur,吉隆坡联邦直辖区,马来西亚","PerdanaBotanicalGarden"];

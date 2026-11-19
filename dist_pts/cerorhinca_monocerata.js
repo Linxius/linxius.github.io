@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["cerorhinca_monocerata"]=[[87,48,2],[326,0,1],[503,1,1],[123,65,1]];

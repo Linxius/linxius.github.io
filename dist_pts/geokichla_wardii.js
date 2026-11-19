@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["geokichla_wardii"]=[[81,2,3],[81,3,1]];

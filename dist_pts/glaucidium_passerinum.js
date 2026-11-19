@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["glaucidium_passerinum"]=[[163,0,146],[163,1,64],[163,2,37],[163,3,24],[163,9,18]];

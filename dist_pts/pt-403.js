@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[403]=["班嘉琦提皇后公园","FallingRainRoad,空堤县,曼谷,曼谷10110,泰国","SamitRoad,空堤县,曼谷,10110泰国"];

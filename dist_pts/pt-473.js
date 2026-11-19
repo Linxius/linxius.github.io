@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[473]=["丹後海陸交通伊根湾めぐり日出駅"];

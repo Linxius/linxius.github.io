@@ -1,0 +1,1 @@
+(window.__SP_PTS=window.__SP_PTS||{})["aythya_affinis"]=[[159,134,1],[16,398,1]];

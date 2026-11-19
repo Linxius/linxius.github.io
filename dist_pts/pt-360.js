@@ -1,0 +1,1 @@
+(window.__SP_PTS_DICT=window.__SP_PTS_DICT||{})[360]=["GoldiSandsHotel","SamurdhiBank-Negombo","BlueOceanicBeachHotel","SeaSand"];
