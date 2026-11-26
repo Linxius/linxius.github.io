@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["egretta_novaehollandiae"]=[[181,0,1],[251,131,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["egretta_novaehollandiae"]=[[181,0,1],[251,134,1]];

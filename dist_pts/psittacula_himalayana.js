@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["psittacula_himalayana"]=[[216,26,1],[347,335,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["psittacula_himalayana"]=[[216,25,1],[347,346,1]];

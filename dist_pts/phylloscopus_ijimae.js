@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["phylloscopus_ijimae"]=[[277,42,1],[442,40,5],[442,260,1],[575,138,9]];
+(window.__SP_PTS=window.__SP_PTS||{})["phylloscopus_ijimae"]=[[277,42,1],[442,40,5],[442,259,1],[575,138,9]];

@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["picus_vittatus"]=[[195,0,1],[337,20,1],[563,187,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["picus_vittatus"]=[[195,0,1],[337,20,1],[563,171,1]];

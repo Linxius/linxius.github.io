@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["anorrhinus_austeni"]=[[512,67,4],[512,117,2],[512,136,4],[512,138,2],[512,160,2]];
+(window.__SP_PTS=window.__SP_PTS||{})["anorrhinus_austeni"]=[[512,69,4],[512,119,2],[512,139,4],[512,140,2],[512,161,2]];

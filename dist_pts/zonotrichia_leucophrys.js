@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["zonotrichia_leucophrys"]=[[14,0,1],[24,0,1],[194,0,1],[538,52,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["zonotrichia_leucophrys"]=[[14,0,1],[24,0,1],[194,0,1],[538,53,1]];

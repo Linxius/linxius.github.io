@@ -330,6 +330,7 @@ function startMap() {
       birdDates: d.birdDates || {},
       province: d.province || '',
       city: d.city || '',
+      approx: d.approx ? 1 : 0,
       src: 'records',
       uniqueBirds: [],
       uniqueCount: 0,
@@ -543,16 +544,16 @@ function startMap() {
       item.noveltyBucket = bi;
       item.groupColor = color;
       item.groupLabel = d.province || '';
-      item.symbol = 'circle';
+      item.symbol = d.approx ? 'emptyCircle' : 'circle';
       item.symbolSize = (d.src === 'ebird')
         ? Math.max(9, 7 + Math.sqrt(d.value[2]) * 2.4)
         : symbolSize(d.value[2]);
       var top = d.coverRank && d.coverRank <= RANK_MARK_LIMIT;
       item.itemStyle = {
         color: color,
-        opacity: 1,
-        borderColor: '#ffffff',
-        borderWidth: 2,
+        opacity: d.approx ? 0.85 : 1,
+        borderColor: d.approx ? color : '#ffffff',
+        borderWidth: d.approx ? 3 : 2,
         shadowBlur: 9,
         shadowColor: 'rgba(0,0,0,0.6)'
       };
@@ -1162,7 +1163,7 @@ function startMap() {
   function showPanel(d) {
     var isEbird = d.src === 'ebird';
     panelTitle.innerHTML = d.name + '<span class="panel-type type-point">'
-      + (isEbird ? 'eBird' : '具体点位') + '</span>';
+      + (isEbird ? 'eBird' : (d.approx ? '近似点位' : '具体点位')) + '</span>';
 
     var modeLabel = {mine: '我的清单外',
                      uncommon: '排除常见(全国) ' + selCommonLevel.value + '%',
@@ -1183,6 +1184,10 @@ function startMap() {
       meta += (selRankMode.value === 'count')
         ? '<br/>' + scopeLabel + '鸟种数排名：第 ' + d.coverRank + ' 位（' + d.value[2] + ' 种）'
         : '<br/>' + scopeLabel + '补点优先级：第 ' + d.coverRank + ' 位（新增 ' + d.coverGain + ' 种）';
+    }
+    if (d.approx) {
+      meta += '<br/><span style="color:#f57c00;font-size:14px;">◌</span> '
+              + '位置为高德地理编码近似值，待记录中心精确坐标更新后自动替换';
     }
     if (d.dates) meta += '<br/>记录时间：' + d.dates;
     if (isEbird) {

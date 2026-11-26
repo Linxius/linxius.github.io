@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["alauda_leucoptera"]=[[562,318,1],[563,187,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["alauda_leucoptera"]=[[562,316,1],[563,171,1]];

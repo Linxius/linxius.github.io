@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["phylloscopus_occipitalis"]=[[566,17,3]];
+(window.__SP_PTS=window.__SP_PTS||{})["phylloscopus_occipitalis"]=[[566,20,3]];

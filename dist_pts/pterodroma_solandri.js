@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["pterodroma_solandri"]=[[280,122,1],[326,3,23],[442,40,1],[442,117,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["pterodroma_solandri"]=[[280,124,1],[326,3,23],[442,40,1],[442,116,1]];

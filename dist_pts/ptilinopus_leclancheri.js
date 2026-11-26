@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["ptilinopus_leclancheri"]=[[476,185,1],[575,137,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["ptilinopus_leclancheri"]=[[476,183,1],[575,137,1]];

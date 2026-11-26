@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["acrocephalus_sorghophilus"]=[[261,410,1],[295,25,1],[382,101,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["acrocephalus_sorghophilus"]=[[261,412,1],[295,30,1],[382,99,1]];

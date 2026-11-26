@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["marmaronetta_angustirostris"]=[[347,260,1],[562,53,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["marmaronetta_angustirostris"]=[[347,261,1],[562,49,1]];

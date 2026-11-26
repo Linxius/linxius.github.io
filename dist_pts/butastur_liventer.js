@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["butastur_liventer"]=[[345,74,1],[358,27,1],[358,243,1],[358,259,2],[425,32,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["butastur_liventer"]=[[345,72,1],[358,27,1],[358,245,1],[358,262,2],[425,28,1]];

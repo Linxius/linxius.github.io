@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["dinopium_javanense"]=[[183,0,1],[512,2,1],[512,60,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["dinopium_javanense"]=[[183,0,1],[512,2,1],[512,61,1]];

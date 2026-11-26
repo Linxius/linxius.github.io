@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["antigone_antigone"]=[[476,42,1],[476,176,2]];
+(window.__SP_PTS=window.__SP_PTS||{})["antigone_antigone"]=[[476,40,1],[476,175,2]];

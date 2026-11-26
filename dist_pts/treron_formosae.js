@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["treron_formosae"]=[[62,2,1],[183,5,1],[277,37,1],[279,22,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["treron_formosae"]=[[62,2,1],[183,5,1],[277,36,1],[279,22,1]];
