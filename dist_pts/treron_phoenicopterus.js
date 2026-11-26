@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["treron_phoenicopterus"]=[[79,0,1],[152,0,1],[249,162,1],[358,78,1],[358,157,1],[381,116,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["treron_phoenicopterus"]=[[79,0,1],[152,0,1],[249,166,1],[358,74,1],[358,150,1],[381,115,1]];

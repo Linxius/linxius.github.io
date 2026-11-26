@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["pitta_brachyura"]=[[227,254,1],[399,106,1],[399,284,3],[520,197,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["pitta_brachyura"]=[[227,261,1],[399,102,1],[399,281,3],[520,206,1]];

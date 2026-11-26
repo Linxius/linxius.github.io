@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["nisaetus_cirrhatus"]=[[266,103,1],[266,192,1],[358,102,1],[390,98,1],[512,32,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["nisaetus_cirrhatus"]=[[266,100,1],[266,191,1],[358,97,1],[390,91,1],[512,31,1]];

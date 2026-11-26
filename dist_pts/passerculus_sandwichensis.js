@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["passerculus_sandwichensis"]=[[488,34,1],[520,197,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["passerculus_sandwichensis"]=[[488,35,1],[520,206,1]];

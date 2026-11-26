@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["hirundapus_celebensis"]=[[274,10,1],[274,39,2],[274,307,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["hirundapus_celebensis"]=[[274,10,1],[274,39,2],[274,309,1]];

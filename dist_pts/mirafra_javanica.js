@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["mirafra_javanica"]=[[306,145,2],[371,46,1],[432,110,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["mirafra_javanica"]=[[306,149,2],[371,47,1],[432,110,1]];

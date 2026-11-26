@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["calidris_ptilocnemis"]=[[476,145,2]];
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_ptilocnemis"]=[[476,142,2]];

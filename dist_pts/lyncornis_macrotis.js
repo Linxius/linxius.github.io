@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["lyncornis_macrotis"]=[[347,200,1],[358,112,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["lyncornis_macrotis"]=[[347,206,1],[358,106,1]];

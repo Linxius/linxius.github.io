@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["calidris_fuscicollis"]=[[417,98,1],[442,25,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_fuscicollis"]=[[417,97,1],[442,23,1]];

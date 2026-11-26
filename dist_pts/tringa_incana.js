@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["tringa_incana"]=[[216,308,1],[365,49,1],[365,79,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["tringa_incana"]=[[216,311,1],[365,52,1],[365,83,1]];

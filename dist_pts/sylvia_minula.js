@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["sylvia_minula"]=[[298,51,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["sylvia_minula"]=[[298,50,1]];

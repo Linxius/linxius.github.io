@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["gyps_bengalensis"]=[[371,92,1],[381,38,2],[468,30,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["gyps_bengalensis"]=[[371,94,1],[381,38,2],[468,29,1]];
