@@ -1,0 +1,1 @@
+window.__CHUNK_POINTS=[{"name":"澳门 澳门 莲花单车径","value":[113.556915,22.127869,0,1],"birds":"家八哥","dates":"2026-11-21","datesList":["2026-11-21"],"birdDates":{"家八哥":"2026-11-21"},"birdDateList":{"家八哥":["2026-11-21"]},"province":"澳门","city":"澳门","isRegion":false}];

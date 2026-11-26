@@ -146,7 +146,7 @@
 
 <div id="scalebar"><div class="bar" id="scaleBarLine"></div><span id="scaleText">—</span></div>
 <div id="subtitle">Loratadine · 近 15 天（11-11 ~ 11-26） · 全国 · 记录时间见点位面板</div>
-<div id="missing">185 个点位坐标未解析</div>
+<div id="missing">149 个点位坐标未解析</div>
 
 <div id="birdPanel">
   <div class="drawer-bar"></div>
@@ -218,35 +218,64 @@ setTimeout(function () {
 <script>
 (function () {
   window.__MAP_DATA_READY__ = 0;
-  var files = ["points.js", "ebird.js", "meta.js"];
-  var left = files.length;
+  window.MAP_POINTS = [];
+  window.MAP_EBIRD = [];
+  var CH = {"上海市":{"n":238,"p":"p0.js","e":"e0.js"},"云南省":{"n":277,"p":"p1.js","e":"e1.js"},"内蒙古自治区":{"n":56,"p":"p2.js","e":"e2.js"},"北京市":{"n":243,"p":"p3.js","e":"e3.js"},"台湾省":{"n":12,"p":"p4.js"},"吉林省":{"n":25,"p":"p5.js","e":"e5.js"},"四川省":{"n":218,"p":"p6.js","e":"e6.js"},"天津市":{"n":44,"p":"p7.js","e":"e7.js"},"宁夏回族自治区":{"n":23,"p":"p8.js","e":"e8.js"},"安徽省":{"n":90,"p":"p9.js","e":"e9.js"},"山东省":{"n":184,"p":"p10.js","e":"e10.js"},"山西省":{"n":46,"p":"p11.js","e":"e11.js"},"广东省":{"n":182,"p":"p12.js","e":"e12.js"},"广西壮族自治区":{"n":93,"p":"p13.js","e":"e13.js"},"新疆维吾尔自治区":{"n":29,"p":"p14.js","e":"e14.js"},"江苏省":{"n":287,"p":"p15.js","e":"e15.js"},"江西省":{"n":105,"p":"p16.js","e":"e16.js"},"河北省":{"n":45,"p":"p17.js","e":"e17.js"},"河南省":{"n":82,"p":"p18.js","e":"e18.js"},"浙江省":{"n":246,"p":"p19.js","e":"e19.js"},"海南省":{"n":67,"p":"p20.js","e":"e20.js"},"湖北省":{"n":192,"p":"p21.js","e":"e21.js"},"湖南省":{"n":109,"p":"p22.js","e":"e22.js"},"澳门":{"n":1,"p":"p23.js"},"甘肃省":{"n":20,"p":"p24.js","e":"e24.js"},"福建省":{"n":195,"p":"p25.js","e":"e25.js"},"西藏自治区":{"n":180,"p":"p26.js","e":"e26.js"},"贵州省":{"n":27,"p":"p27.js","e":"e27.js"},"辽宁省":{"n":54,"p":"p28.js","e":"e28.js"},"重庆市":{"n":47,"p":"p29.js","e":"e29.js"},"陕西省":{"n":92,"p":"p30.js","e":"e30.js"},"青海省":{"n":12,"p":"p31.js"},"香港":{"n":13,"p":"p32.js"},"黑龙江省":{"n":23,"p":"p33.js"}};
+  var BOOT = "广东省";
   var tip = document.getElementById('btip');
-  var CDN = "https://cdn.jsdelivr.net/gh/linxius/linxius.github.io@main/alert_data/";
-  function done() {
-    left--;
-    if (tip) tip.textContent = "正在加载地图数据… " + (files.length - left) + "/" + files.length;
-    if (left <= 0 && typeof tryStart === 'function') { window.__MAP_DATA_READY__ = 1; tryStart(); }
-  }
-  files.forEach(function (name) {
-    var settled = false;
-    function finish() { if (settled) return; settled = true; done(); }
-    function fromCdn() {
-      if (settled) return;
-      var c = document.createElement('script');
-      c.src = CDN + name + "?v=20261126214137";
-      c.onload = finish;
-      c.onerror = finish;
-      document.head.appendChild(c);
-    }
+  var loaded = {};
+  function setTip(t) { if (tip) tip.textContent = t; }
+  function loadOne(src, ok, fail) {
     var s = document.createElement('script');
-    s.src = 'alert_data/' + name;
-    s.onload = finish;
-    s.onerror = fromCdn;
+    s.src = 'alert_data/' + src;
+    s.onload = ok;
+    s.onerror = fail || ok;
     document.head.appendChild(s);
-    setTimeout(function () { if (!settled) fromCdn(); }, 8000);
-  });
+  }
+  function loadProv(prov, cb) {
+    if (loaded[prov]) return cb();
+    var e = CH[prov];
+    if (!e) { loaded[prov] = 1; return cb(); }
+    var left = (e.p ? 1 : 0) + (e.e ? 1 : 0);
+    if (!left) { loaded[prov] = 1; return cb(); }
+    function fin() {
+      if (--left > 0) return;
+      loaded[prov] = 1;
+      if (typeof window.__onChunkLoaded === 'function') window.__onChunkLoaded();
+      cb();
+    }
+    if (e.p) loadOne(e.p, function () {
+      window.MAP_POINTS = window.MAP_POINTS.concat(window.__CHUNK_POINTS || []);
+      fin();
+    }, fin);
+    if (e.e) loadOne(e.e, function () {
+      window.MAP_EBIRD = window.MAP_EBIRD.concat(window.__CHUNK_EBIRD || []);
+      fin();
+    }, fin);
+  }
+  window.__MAP_INDEX__ = CH;
+  window.__BOOT_PROV__ = BOOT;
+  window.__loadProv = loadProv;
+  window.__provLoaded = loaded;
+  function startNow() {
+    window.__MAP_DATA_READY__ = 1;
+    if (typeof tryStart === 'function') tryStart();
+  }
+  function boot() {
+    if (BOOT && CH[BOOT]) {
+      setTip('正在加载地图数据…');
+      loadProv(BOOT, function () { setTip(''); startNow(); });
+    } else {
+      setTip('正在加载地图数据…');
+      var ps = Object.keys(CH), i = 0;
+      function next() { if (i >= ps.length) { setTip(''); startNow(); return; } loadProv(ps[i++], next); }
+      next();
+    }
+  }
+  loadOne('meta.js', boot, boot);
 })();
 </script>
+
 <script>
 function startMap() {
   var showLabelPref = true;
@@ -254,8 +283,6 @@ function startMap() {
     showLabelPref = localStorage.getItem('birdmap_show_label') !== '0';
   } catch (e) {}
   var MD = window.MAP_META || {};
-  var allData = window.MAP_POINTS || [];
-  var ebirdAll = window.MAP_EBIRD || [];
   var RARE_SET = new Set(window.MAP_RARE || MD.rare || [] || []);
   var RARITY = MD.rarity || {} || {};
   // 排除最常见 N% 对应的全国稀有度阈值（combined_rarity，越高越少见）
@@ -282,7 +309,12 @@ function startMap() {
                  '#46f0f0', '#bcf60c', '#008080', '#9a6324', '#808000', '#800000', '#000075', '#808080'];
 
   // 原始点位（不预设颜色，按当前选择动态着色）
-  var rendered = allData.map(function(d) {
+  var rendered = [], ebirdRendered = [], renderedAll = [];
+
+  function buildRendered() {
+  var allData = window.MAP_POINTS || [];
+  var ebirdAll = window.MAP_EBIRD || [];
+  rendered = allData.map(function(d) {
     return {
       name: d.name,
       value: d.value,
@@ -303,7 +335,7 @@ function startMap() {
 
   // eBird 补充点位：显示时与记录中心合并（参与互补分析和推荐），
   // 仍用 src 区分来源，点位画成三角。
-  var ebirdRendered = (ebirdAll || []).map(function(d) {
+  ebirdRendered = (ebirdAll || []).map(function(d) {
     return {
       name: d.name,
       value: d.value,
@@ -324,7 +356,16 @@ function startMap() {
       coverGain: null
     };
   });
-  var renderedAll = rendered.concat(ebirdRendered);
+  renderedAll = rendered.concat(ebirdRendered);
+  }
+  buildRendered();
+
+  // 分省数据后台到达后合并刷新（首屏只加载默认省）
+  window.__onChunkLoaded = function () {
+    if (window.__suspendRefresh) return;
+    buildRendered();
+    applyFilter(true);
+  };
 
   // 近 N 天窗口：按鸟种最近出现日期筛点，并重算新鸟/关注数量
   function ymdLocal(dt) {
@@ -894,10 +935,40 @@ function startMap() {
     refreshSeries(targetZoom, viewSpan);
   }
 
+  var CH = window.__MAP_INDEX__ || {};
+  if (!Object.keys(CH).length) {
+    // 内联模式（单页 alert）：索引不存在，就用已加载数据现算
+    CH = {};
+    rendered.forEach(function(d) {
+      var p = d.province || '';
+      if (!p) return;
+      if (!CH[p]) CH[p] = {n: 0, c: {}};
+      CH[p].n++;
+      if (d.city) CH[p].c[d.city] = (CH[p].c[d.city] || 0) + 1;
+    });
+  }
+
+  function hasOption(sel, v) {
+    for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === v) return true;
+    return false;
+  }
+
+  function buildProvOptions() {
+    selProv.innerHTML = '';
+    var all = document.createElement('option');
+    all.value = ''; all.textContent = '全国';
+    selProv.appendChild(all);
+    Object.keys(CH).sort().forEach(function(p) {
+      var o = document.createElement('option');
+      o.value = p;
+      o.textContent = p + '（' + ((CH[p] && CH[p].n) || 0) + '）';
+      selProv.appendChild(o);
+    });
+  }
+
   function populateCities() {
-    var prov = selProv.value;
+    var prov = selProv.value, cur = selCity.value;
     selCity.innerHTML = '';
-    selCity.value = '';
     var all = document.createElement('option');
     all.value = ''; all.textContent = '全部城市';
     selCity.appendChild(all);
@@ -911,23 +982,67 @@ function startMap() {
       o.value = name; o.textContent = name + '（' + cities[name] + '）';
       selCity.appendChild(o);
     });
+    if (cur && hasOption(selCity, cur)) selCity.value = cur;
   }
 
-  var optAll = document.createElement('option');
-  optAll.value = ''; optAll.textContent = '全国';
-  selProv.appendChild(optAll);
-  var provNames = {};
-  rendered.forEach(function(d) { if (d.province) provNames[d.province] = (provNames[d.province] || 0) + 1; });
-  Object.keys(provNames).sort().forEach(function(p) {
-    var o = document.createElement('option');
-    o.value = p; o.textContent = p + '（' + provNames[p] + '）';
-    selProv.appendChild(o);
-  });
+  function loadingShow(msg) {
+    var boot = document.getElementById('boot');
+    var tip = document.getElementById('btip');
+    if (boot) boot.style.display = '';
+    if (tip) tip.textContent = msg;
+  }
+
+  function loadingHide() {
+    var boot = document.getElementById('boot');
+    if (boot) boot.style.display = 'none';
+  }
+
+  function ensureProvinces(list, cb) {
+    var loaded = window.__provLoaded || {};
+    var pending = [];
+    for (var i = 0; i < list.length; i++) if (!loaded[list[i]]) pending.push(list[i]);
+    if (!pending.length || typeof window.__loadProv !== 'function') { cb(); return; }
+    window.__suspendRefresh = true;
+    var j = 0;
+    (function next() {
+      if (j >= pending.length) {
+        window.__suspendRefresh = false;
+        window.__onChunkLoaded();
+        loadingHide();
+        cb();
+        return;
+      }
+      var prov = pending[j++];
+      loadingShow('正在加载数据… ' + j + '/' + pending.length);
+      window.__loadProv(prov, next);
+    })();
+  }
+
+  buildProvOptions();
+
+  // 恢复上次选择的省/市（没有则用默认城市）
+  var savedProv = '', savedCity = '';
+  try {
+    savedProv = localStorage.getItem('birdmap_prov') || '';
+    savedCity = localStorage.getItem('birdmap_city') || '';
+  } catch (e) {}
+  var initProv = '', initCity = '';
+  if (savedProv && hasOption(selProv, savedProv)) {
+    initProv = savedProv;
+    initCity = savedCity;
+  } else {
+    initProv = window.__BOOT_PROV__ || DEFAULT_PROV || '';
+    initCity = DEFAULT_CITY || '';
+  }
+  if (initProv) selProv.value = initProv;
 
   selProv.addEventListener('change', function() {
     try { localStorage.setItem('birdmap_prov', selProv.value); } catch (e) {}
-    populateCities();
-    applyFilter(false);
+    var prov = selProv.value;
+    ensureProvinces(prov ? [prov] : Object.keys(CH), function() {
+      populateCities();
+      applyFilter(false);
+    });
   });
   selCity.addEventListener('change', function() {
     try { localStorage.setItem('birdmap_city', selCity.value); } catch (e) {}
@@ -938,24 +1053,12 @@ function startMap() {
     try { localStorage.setItem('birdmap_days3', selDays.value); } catch (e) {}
     applyFilter(true);
   });
-  populateCities();
 
-  // 恢复上次选择的省/市（没有则用默认城市）
-  var savedProv = '', savedCity = '';
-  try {
-    savedProv = localStorage.getItem('birdmap_prov') || '';
-    savedCity = localStorage.getItem('birdmap_city') || '';
-  } catch (e) {}
-  function hasOption(sel, v) {
-    for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === v) return true;
-    return false;
-  }
-  if ((savedProv || savedCity) && (!savedProv || hasOption(selProv, savedProv))) {
-    selProv.value = savedProv;
+  ensureProvinces(selProv.value ? [selProv.value] : Object.keys(CH), function() {
     populateCities();
-    if (savedCity && hasOption(selCity, savedCity)) selCity.value = savedCity;
+    if (initCity && hasOption(selCity, initCity)) selCity.value = initCity;
     applyFilter(false);
-  }
+  });
 
   if (selEbirdMode.value === 'uncommon_local') {
     ensureLocalRarity(function() { applyFilter(true); });
@@ -1208,6 +1311,13 @@ function startMap() {
   setTimeout(syncRankTop, 0);
 }
 tryStart();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function () {});
+  });
+}
 </script>
 </body>
 </html>
