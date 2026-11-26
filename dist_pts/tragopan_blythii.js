@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["tragopan_blythii"]=[[266,24,1],[514,219,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["tragopan_blythii"]=[[266,25,1],[514,218,1]];

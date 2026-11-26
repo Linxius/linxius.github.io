@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["cyornis_magnirostris"]=[[310,239,1],[399,51,2],[399,107,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["cyornis_magnirostris"]=[[310,244,1],[399,52,2],[399,110,1]];

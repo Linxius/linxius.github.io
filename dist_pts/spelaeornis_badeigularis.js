@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["spelaeornis_badeigularis"]=[[249,173,1],[399,61,7],[399,96,7],[399,185,5],[399,214,9],[399,215,8]];
+(window.__SP_PTS=window.__SP_PTS||{})["spelaeornis_badeigularis"]=[[249,169,1],[399,64,7],[399,100,7],[399,182,5],[399,210,9],[399,211,8]];

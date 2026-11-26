@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["passer_fiaveolus"]=[[220,108,1],[347,20,1],[512,39,1],[512,271,4]];
+(window.__SP_PTS=window.__SP_PTS||{})["passer_fiaveolus"]=[[220,105,1],[347,20,1],[512,41,1],[512,276,4]];

@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["haliaeetus_humilis"]=[[126,0,1],[411,154,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["haliaeetus_humilis"]=[[126,0,1],[411,159,1]];

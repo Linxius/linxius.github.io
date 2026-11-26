@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["psilopogon_faiostrictus"]=[[261,62,1],[337,42,22],[337,148,2],[337,179,5],[337,180,6],[337,182,3]];
+(window.__SP_PTS=window.__SP_PTS||{})["psilopogon_faiostrictus"]=[[261,63,1],[337,41,22],[337,143,2],[337,175,5],[337,176,6],[337,178,3]];

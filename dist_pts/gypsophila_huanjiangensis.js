@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["gypsophila_huanjiangensis"]=[[421,59,1],[589,78,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["gypsophila_huanjiangensis"]=[[421,59,1],[589,76,1]];
