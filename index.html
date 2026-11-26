@@ -168,6 +168,7 @@ function tryStart() {
   if (started) return;
   if (ready.e !== 1 || ready.a !== 1 || ready.x !== 1) return;
   if (typeof startMap !== 'function') return;
+  if (window.__MAP_DATA_READY__ === 0) return;
   started = true;
   try {
     startMap();
@@ -213,10 +214,39 @@ setTimeout(function () {
 <script src="https://webapi.amap.com/maps?v=2.0&key=da973e365f9144e9feee0a00aa99bcdc" onload="mark('a',1)" onerror="mark('a',-1)"></script>
 <script src="echarts-extension-amap.min.js" onload="mark('x',1)" onerror="loadFallback('x','https://s4.zstatic.net/npm/echarts-extension-amap@1.12.0/dist/echarts-extension-amap.min.js')"></script>
 
-<script src="alert_data/points.js"></script>
-<script src="alert_data/ebird.js"></script>
-<script src="alert_data/meta.js"></script>
 
+<script>
+(function () {
+  window.__MAP_DATA_READY__ = 0;
+  var files = ["points.js", "ebird.js", "meta.js"];
+  var left = files.length;
+  var tip = document.getElementById('btip');
+  var CDN = "https://cdn.jsdelivr.net/gh/linxius/linxius.github.io@main/alert_data/";
+  function done() {
+    left--;
+    if (tip) tip.textContent = "正在加载地图数据… " + (files.length - left) + "/" + files.length;
+    if (left <= 0 && typeof tryStart === 'function') { window.__MAP_DATA_READY__ = 1; tryStart(); }
+  }
+  files.forEach(function (name) {
+    var settled = false;
+    function finish() { if (settled) return; settled = true; done(); }
+    function fromCdn() {
+      if (settled) return;
+      var c = document.createElement('script');
+      c.src = CDN + name + "?v=20261126214137";
+      c.onload = finish;
+      c.onerror = finish;
+      document.head.appendChild(c);
+    }
+    var s = document.createElement('script');
+    s.src = 'alert_data/' + name;
+    s.onload = finish;
+    s.onerror = fromCdn;
+    document.head.appendChild(s);
+    setTimeout(function () { if (!settled) fromCdn(); }, 8000);
+  });
+})();
+</script>
 <script>
 function startMap() {
   var showLabelPref = true;
