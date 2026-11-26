@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["leucophaeus_atricilla"]=[[564,24,1],[564,55,79],[564,83,1],[564,90,5],[564,120,5]];
+(window.__SP_PTS=window.__SP_PTS||{})["leucophaeus_atricilla"]=[[564,24,1],[564,54,79],[564,83,1],[564,91,5],[564,123,5]];

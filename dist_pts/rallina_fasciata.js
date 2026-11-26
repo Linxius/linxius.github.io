@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["rallina_fasciata"]=[[274,63,1],[274,114,2],[274,171,1],[512,5,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["rallina_fasciata"]=[[274,62,1],[274,111,2],[274,172,1],[512,3,1]];

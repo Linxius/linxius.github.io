@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["tringa_melanoleuca"]=[[476,31,4],[476,48,4],[476,117,17],[476,120,27],[476,167,2]];
+(window.__SP_PTS=window.__SP_PTS||{})["tringa_melanoleuca"]=[[476,31,4],[476,51,4],[476,114,17],[476,117,27],[476,164,2]];

@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["emberiza_variabilis"]=[[216,330,1],[288,28,1],[288,56,2],[347,341,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["emberiza_variabilis"]=[[216,327,1],[288,27,1],[288,55,2],[347,341,1]];

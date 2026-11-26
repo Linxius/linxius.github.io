@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["neophron_percnopterus"]=[[68,0,1],[216,11,1],[252,4,1],[306,22,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["neophron_percnopterus"]=[[68,0,1],[216,14,1],[252,5,1],[306,23,1]];

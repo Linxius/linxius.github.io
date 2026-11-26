@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["gyps_tenuirostris"]=[[381,48,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["gyps_tenuirostris"]=[[381,49,1]];

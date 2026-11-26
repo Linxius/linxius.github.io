@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["larvivora_ruficeps"]=[[330,96,1],[485,205,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["larvivora_ruficeps"]=[[330,97,1],[485,211,1]];

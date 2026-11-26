@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["calidris_himantopus"]=[[279,30,1],[440,157,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["calidris_himantopus"]=[[279,29,1],[440,155,1]];

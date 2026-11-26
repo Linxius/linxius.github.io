@@ -1,1 +1,1 @@
-(window.__SP_PTS=window.__SP_PTS||{})["glareola_nordmanni"]=[[68,0,1],[306,2,1],[306,31,1],[306,80,1],[451,131,1]];
+(window.__SP_PTS=window.__SP_PTS||{})["glareola_nordmanni"]=[[68,0,1],[306,2,1],[306,31,1],[306,80,1],[451,135,1]];
